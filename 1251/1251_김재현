@@ -1,0 +1,60 @@
+#include "stdafx.h"
+/*
+#include <iostream>
+#include<algorithm>
+
+using namespace std;
+
+struct locate
+{
+	int x, y;
+};
+
+int main()
+{
+	int total_case, N, E;
+	
+	cout << fixed;
+
+	cout.precision(0);
+
+	cin >> total_case;
+	int b[1000];
+	for (int i = 0; i < total_case; i++)
+	{
+		cin >> N;
+		
+		double ans = 100000000000;
+		
+		locate * a = new locate[N];
+		
+		for (int i = 0; i < N; i++)
+		{
+			cin >> a[i].x >> a[i].y;
+		}
+
+		for (int i = 0; i < N; i++)
+		{
+			b[i] = i;
+		}
+
+		cin >> E;
+
+		while (next_permutation(b, b + N))
+		{
+			double sum = 0;
+			for (int i = 0; i < N; i++)
+			{
+				sum += ((a[b[i]].x - a[b[i+1]].x)*(a[b[i]].x - a[b[i+1]].x) + (a[b[i]].y - a[b[i+1]].y)*(a[b[i]].y - a[b[i+1]].y))*E;
+			}
+			if (ans > sum)
+				ans = sum;
+		}
+
+		cout << "#" << i + 1 << " " << ans << '\n';
+
+	}
+
+	return 0;
+}
+*/
