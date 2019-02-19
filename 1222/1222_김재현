@@ -1,0 +1,41 @@
+#include "stdafx.h"
+/*
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main(void)
+{
+	int length;
+	char temp;
+	string input;
+
+	for (int case_num = 0; case_num<10; case_num++) {
+		string postfix = "";
+		int answer = 0;
+
+		cin >> length;
+		cin >> input;
+
+		for (int i = 0; i<length; i++) {
+			if (input.at(i) == '+') {
+				postfix += input.at(++i);
+				postfix += '+';
+			}
+			else {
+				postfix += input.at(i);
+			}
+		}
+
+		for (int i = 0; i<length; i++) {
+			if (postfix.at(i) != '+')
+				answer += (postfix.at(i) - '0');
+		}
+
+		cout << "#" << case_num + 1 << " " << answer << "\n";
+	}
+
+	return 0;
+}
+
+*/
