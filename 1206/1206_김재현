@@ -1,0 +1,41 @@
+#include "stdafx.h"
+/*
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	int case_num = 10;
+	for (int i = 0; i < case_num; i++)
+	{
+		int vertical;
+		int answer = 0;
+
+		cin >> vertical;
+
+		int *ver = new int [vertical];
+
+		for (int j = 0; j < vertical; j++)
+		{
+			cin >> ver[j];
+		}
+		for (int k = 2; k < vertical - 2; k++) {
+			int tmp = ver[k];
+			while (tmp--)
+			{
+				if (tmp >= ver[k - 2] && tmp >= ver[k - 1] && tmp >= ver[k + 1]  && tmp >= ver[k + 2])
+				{
+					answer++;
+				}
+				else 
+				{
+					break;
+				}
+			}
+		}
+		cout << "#" << i+1 << " " << answer << endl;
+	}
+
+	return 0;
+}
+*/
