@@ -1,0 +1,50 @@
+#include "stdafx.h"
+/*
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+struct locate 
+{
+	int x, y;
+};
+
+int b[12];
+
+int main() {
+	int total_case;
+	int cos;
+	locate a[12];
+
+	cin >> total_case;
+
+	for (int case_num = 0; case_num < total_case; case_num++) 
+	{
+		cin >> cos;
+		int ans = 2e9;
+		cin >> a[0].x >> a[0].y >> a[cos + 1].x >> a[cos + 1].y;
+
+		for (int i = 1; i < cos+1; i++)
+		{
+			cin >> a[i].x >> a[i].y;
+		}
+
+		for (int i = 1; i < cos + 2; i++)
+		{
+			b[i] = i;
+		}
+
+		while (next_permutation(b + 1, b + 1 + cos)) 
+		{
+			int sum = 0;
+			for (int i = 1; i <= cos + 1; ++i)
+				sum += abs(a[b[i]].x - a[b[i - 1]].x) + abs(a[b[i]].y - a[b[i - 1]].y);
+			ans = min(ans, sum);
+		}
+
+		cout << "#" << case_num+1 << " " << ans << '\n';
+	}
+	return 0;
+}
+
+*/
