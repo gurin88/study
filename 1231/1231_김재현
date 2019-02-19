@@ -1,0 +1,50 @@
+#include "stdafx.h"
+/*
+#include <iostream>
+using namespace std;
+
+struct Node {
+	char tree;
+	Node *left;
+	Node *right;
+};
+Node *nodes;
+
+void inorder_traverse(Node *R) {
+	if (R->left)
+		inorder_traverse(R->left);
+	cout << R->tree;
+	if (R->right)
+		inorder_traverse(R->right);
+}
+int main() {
+	int n, left, right;
+	char chr;
+	for (int tc = 0; tc<10; tc++) {
+		cin >> n;
+		nodes = new Node;
+		for (int i = 1; i<n + 1; i++) {
+			scanf("%*d %c", &chr);
+			nodes[i - 1].tree = chr;
+			if ((n % 2 == 0 && i<n / 2) || (n % 2 == 1 && i <= ((n - 1) / 2))) {
+				cin >> left >> right;
+				nodes[i - 1].left = &nodes[left - 1];
+				nodes[i - 1].right = &nodes[right - 1];
+			}
+			else if (n % 2 == 0 && i == n / 2) {
+				cin >> left;
+				nodes[i - 1].left = &nodes[left - 1];
+				nodes[i - 1].right = NULL;x
+			}
+			else {	
+				nodes[i - 1].left = NULL;
+				nodes[i - 1].right = NULL;
+			}
+		}
+		cout << "#" << tc + 1 << " ";
+		inorder_traverse(&nodes[0]);
+		cout << endl;
+		free(nodes);
+	}
+}
+*/
