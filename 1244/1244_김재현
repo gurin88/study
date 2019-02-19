@@ -1,0 +1,60 @@
+#include "stdafx.h"
+/*
+#include <iostream>
+#include <algorithm>
+#include <string>
+
+using namespace std;
+	
+
+int N, K, ans;
+
+char tmp[256];
+
+string s;
+
+
+void cal(int cnt, int now) {
+
+	if (cnt == K)
+	{
+		ans = max(ans, stoi(s));
+		return;
+	}
+
+	for (int i = now; i < s.size(); i++)
+	{
+		for (int j = i; j < s.size(); j++)
+		{
+			if (i == j)
+				continue;
+			if (s[i] <= s[j])
+			{
+				swap(s[i], s[j]);
+				cal(cnt + 1, i);
+				swap(s[i], s[j]);
+			}
+		}
+	}
+}
+
+int main() 
+{
+	int Total_case;
+	cin >> Total_case;
+
+	for (int case_num = 0; case_num < Total_case; case_num++) 
+	{
+		cin >> tmp;
+		cin >> K;
+		ans = 0;
+		s = tmp;
+
+		cal(0, 0);
+		
+		cout << "#" << case_num+1 << " " << ans << endl;
+	}
+
+	return 0;
+}
+*/
