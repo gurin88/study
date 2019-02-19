@@ -1,0 +1,68 @@
+#include "stdafx.h"
+/*
+#include <iostream>
+#include <queue>
+#include <algorithm>
+using namespace std;
+
+queue< pair<int, int> > q;
+
+int main()
+{
+	int Total_case, n;
+	int move_x[4] = { -1, 0, 0,  1 };
+	int move_y[4] = { 0, -1, 1, 0 };
+	char char_map[101][101];
+	int map[101][101];
+	int inf[101][101];
+
+	cin >> Total_case;
+
+	for (int case_num = 1; case_num <= Total_case; case_num++)
+	{
+		for (int i = 0; i < 101; i++)
+		{
+			for (int j = 0; j < 101; j++)
+				inf[i][j] = 2e9;
+		}
+
+		inf[0][0] = 0;
+
+		cin >> n;
+		for (int i = 0; i < n; i++)
+		{x`
+			for (int j = 0; j < n; j++)
+			{
+				cin >> char_map[i][j];
+				map[i][j] = char_map[i][j] - '0';
+			}
+		}
+
+		q.push(make_pair(0, 0));
+
+		while (q.size())
+		{
+			int x = q.front().first;
+			int y = q.front().second;
+
+			q.pop();
+
+			for (int i = 0; i < 4; i++)
+			{
+				int nextX = x + move_x[i];
+				int nextY = y + move_y[i];
+				if (nextX < 0 || nextX >= n || nextY < 0 || nextY >= n)
+					continue;
+				if (inf[nextX][nextY] > inf[x][y] + map[nextX][nextY])
+				{
+					inf[nextX][nextY] = inf[x][y] + map[nextX][nextY];
+					q.push(make_pair(nextX, nextY));
+				}
+			}
+		}
+
+		cout << "#" << case_num << " " << inf[n - 1][n - 1] << endl;
+	}
+	return 0;
+}
+*/
