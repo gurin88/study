@@ -1,0 +1,42 @@
+#include "stdafx.h"
+/*
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	for (int k = 1; k <= 10; k++)
+	{
+		int length, answer = 0;
+		cin >> length;
+		char map[8][9];
+		for (int i = 0; i < 8; i++)
+		{
+			for(int j = 0; j < 8; j++)
+			cin >> map[i][j];
+		}
+		for (int i = 0; i<8; i++)
+		{
+			for (int j = 0; j<8; j++)
+			{
+				if (i + length <= 8)
+				{
+					bool f = true;
+					for (int a = i, b = i + length - 1; a<i + length / 2; a++, b--)
+						if (map[a][j] != map[b][j]) f = false;
+					if (f) answer++;
+				}
+				if (j + length <= 8)
+				{
+					bool f = true;
+					for (int a = j, b = j + length - 1; a<j + length / 2; a++, b--)
+						if (map[i][a] != map[i][b]) f = false;
+					if (f) answer++;
+				}
+			}
+		}
+		cout << "#" << k << " " << answer << endl;
+	}
+	return 0;
+}
+*/
