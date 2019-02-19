@@ -1,0 +1,121 @@
+#include "stdafx.h"
+/*
+#include <iostream>
+using namespace std;
+
+struct Node 
+{
+	int num=0;
+	int depth = 0;
+	Node *parent;
+	Node *left = NULL;
+	Node *right = NULL;
+};
+
+Node *nodes;
+
+int c_num;
+
+void plus_depth(Node *R)
+{
+	if (R->left != NULL)
+	{
+		R->left->depth = R->depth + 1;
+		plus_depth(R->left);
+	}
+	if (R->right != NULL)
+	{
+		R->right->depth = R->depth + 1;
+		plus_depth(R->right);
+	}
+}
+
+void count_num(Node *R)
+{
+	if (R->left != NULL)
+	{
+		c_num += 1;
+		count_num(R->left);
+	}
+	if (R->right != NULL)
+	{
+		c_num += 1;
+		count_num(R->right);
+	}
+}
+
+int find_parent(int n1, int n2)
+{
+	Node *node1, *node2;
+	node1 = &nodes[n1-1];
+	node2 = &nodes[n2-1];
+	if (node1->depth > node2->depth)
+	{
+		node1 = node1->parent;
+		find_parent(node1->parent->num,node2->num);
+	}
+	else if (node1->depth < node2->depth)
+	{
+		node2 = node2->parent;
+		find_parent(node1->num, node2->num);
+	}
+	else if (node1->depth == node2->depth)
+	{
+		if (node1->parent->num == node2->parent->num)
+		{
+			return node1->parent->num;
+		}
+		else
+		{
+			find_parent(node1->parent->num, node2->num);
+		}
+	}
+}
+
+int main()
+{
+	int test_case;
+	cin >> test_case;
+	int V, E, n1, n2;
+	int min;
+
+	for (int case_num = 0; case_num<test_case; case_num++)
+	{
+		cin >> V >> E >> n1 >> n2;
+		c_num = 1;
+		nodes = new Node [V];
+
+		int *col1, *col2;
+		col1 = new int[E];
+		col2 = new int[E];
+
+		for (int i = 0; i<E; i++)
+		{
+			cin >> col1[i];
+
+			cin >> col2[i];
+		}
+
+		for (int j = 0; j < E; j++)
+		{
+			nodes[col1[j] - 1].num = col1[j];
+			nodes[col2[j] - 1].num = col2[j];
+			if (nodes[col1[j] - 1].left == NULL)
+			{
+				nodes[col1[j] - 1].left = &nodes[col2[j] - 1];
+			}
+			else
+			{
+				nodes[col1[j] - 1].right = &nodes[col2[j] - 1];
+			}
+			nodes[col2[j] - 1].parent = &nodes[col1[j] - 1];
+			
+		}
+		plus_depth(&nodes[0]);
+		min = find_parent(n1, n2);
+		count_num(&nodes[min-1]);
+		cout << "#" << case_num + 1 << " " << min << " " << c_num << endl;
+		free(nodes);
+	}
+}
+*/
