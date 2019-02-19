@@ -1,0 +1,140 @@
+#include "stdafx.h"
+/*
+#include<iostream>
+
+using namespace std;
+bool map[2000][2000];
+int bitTable[] = { 13, 25, 19, 61, 35, 49, 47, 59, 55, 11 };
+
+void decode(int i, int j, char c)
+{	
+	int num = c - '0';
+	if (num >= 10)
+		num = c - 'A' + 10;
+	for (int k = 0; k < 4; k++)
+		if ((1 << k) & num)
+			map[i][4 * (j + 1) - k - 1] = true;
+		else
+			map[i][4 * (j + 1) - k - 1] = false;
+}
+
+int encode(int i, int j, int len)
+{
+	int num = 0;
+	for (int k = 6; k >= 0; k--)
+		(num <<= 1) += map[i][j - k * len];
+	for (int k = 0; k <= 9; k++)
+	{
+		if (num == bitTable[k])
+			return k;
+	}
+	return -1;
+}
+
+int getSum(int *num)
+{
+	int temp = 0;
+	(temp += num[0] + num[2] + num[4] + num[6]) *= 3;
+	temp += num[1] + num[3] + num[5] + num[7];
+	if (temp % 10 == 0)
+	{
+		int ans = 0;
+		for (int k = 0; k < 8; k++)
+			ans += num[k];
+		return ans;
+	}
+	else
+		return 0;
+}
+
+int main()
+{
+	int T;
+	cin >> T;
+	for (int case_num = 1; case_num <= T; case_num++)
+	{
+		int N, M;
+		cin >> N >> M;
+		int codeNum = 0;
+		for (int i = 0; i < N; i++)
+		{
+			char s[501];
+			cin >> s;
+			bool zeros = true;
+			for (int j = 0; j < M; j++)
+			{
+				decode(i, j, s[j]);
+				if (s[j] != '0')
+					zeros = false;
+			}
+			if (!zeros)
+			{
+				if (i == 0)
+				{
+					codeNum++;
+					continue;
+				}
+				bool isSame = true;
+				for (int j = 0; j < 4 * M; j++)
+					if (map[i][j] ^ map[i - 1][j])
+					{
+						isSame = false;
+						break;
+					}
+				if (!isSame)
+				{
+					for (int j = 0; j < 4 * M; j++)
+					{
+						map[codeNum][j] = map[i][j];
+					}
+					codeNum++;
+				}
+			}
+		}
+		int ans = 0;
+		for (int i = 0; i < codeNum; i++)
+		{
+			for (int j = 4 * M - 1; j >= 0; j--)
+			{
+				if (!map[i][j])
+					continue;
+				int len, limit, jTemp, num[8];
+				len = 0;
+				limit = M / 14;
+				bool P;
+				while (len <= limit)
+				{
+					len++;
+					jTemp = j;
+					P = true;
+					for (int k = 7; k >= 0; k--)
+					{
+						num[k] = encode(i, jTemp, len);
+						if (num[k] == -1)
+						{
+							P = false;
+							break;
+						}
+						jTemp -= 7 * len;
+					}
+					if (!P)
+						continue;
+					else
+						break;
+				}
+				if (P)
+				{
+					int numTemp = 0;
+					for (int i = 0; i < 8; i++)
+					{
+							ans += num[i];
+					}
+				}
+				j = jTemp;
+			}
+		}
+		cout << "#" << case_num << " " << ans << endl;
+	}
+	return 0;
+}
+*/
