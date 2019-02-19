@@ -1,0 +1,85 @@
+#include "stdafx.h"
+#include <iostream>
+
+using namespace std;
+
+const int MAX = 505;
+char s[MAX];
+int d, N, sa[MAX], pos[MAX];
+
+int cmp(int i, int j)
+{
+	if (pos[i] != pos[j]) return pos[i] < pos[j];
+	i += d;
+	j += d;
+	return (i < N && j < N) ? (pos[i]<pos[j]) : (i>j);
+}
+void QS(int left, int right)
+{
+	int i = left;
+	int j = right;
+	int mid = sa[(i + j) / 2];
+	while (i <= j) {
+		while (cmp(sa[i], mid)) {
+			i++;
+		}
+		while (cmp(mid, sa[j])) {
+			j--;
+		}
+		if (i <= j) {
+			int te = sa[j];
+			sa[j] = sa[i];
+			sa[i] = te;
+			i++;
+			j--;
+		}
+	}
+	if (j > left)
+		QS(left, j);
+	if (i < right)
+		QS(i, right);
+}
+void SA()
+{
+	for (int i = 0; i < N; i++) {
+		sa[i] = i;
+		pos[i] = s[i] - 'a';
+	}
+	for (d = 1; ; d *= 2) {
+		QS(0, N - 1);
+		int temp[MAX] = { 0 };
+
+		for (int i = 0; i < N - 1; i++)
+			temp[i + 1] = temp[i] + cmp(sa[i], sa[i + 1]);
+
+		for (int i = 0; i < N; i++)
+			pos[sa[i]] = temp[i];
+		if (temp[N - 1] == N - 1) break;
+	}
+}
+int main(void)
+{
+	int test_case;
+	int T;
+	int k;
+
+	cin >> T;
+
+	for (test_case = 1; test_case <= T; ++test_case)
+	{
+		N = 0;
+		d = 0;
+		cin >> k;
+		cin >> s;
+		int i = 0;
+		while (s[i++] != '\0')
+			N++;
+		SA();
+		cout << "#" << test_case << " ";
+		for (int o = sa[k - 1]; o < N; o++)
+			cout << s[o];
+		cout << endl;
+
+	}
+	return 0;
+}
