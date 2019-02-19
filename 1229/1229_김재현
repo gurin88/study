@@ -1,0 +1,67 @@
+#include "stdafx.h"
+/*
+#include<iostream>
+#include<list>
+using namespace std;
+
+int main()
+{
+	int num, order_num;
+	list <int> key;
+	for (int t = 1; t <= 10; t++)
+	{
+		cin >> num;
+		for (int i = 0; i < num; i++)
+		{
+			int x;
+			cin >> x;
+			key.push_back(x);
+		}
+		cin >> order_num;
+		for (int j = 0; j < order_num; j++)
+		{
+			char a;
+			cin >> a;
+			int x, y;
+			list <int> order;
+			list <int>::iterator iter;
+			iter = key.begin();
+			cin >> x >> y;
+			if ((a == 'I'))
+			{
+				for (int i = 0; i < y; i++)
+				{
+					int s;
+					cin >> s;
+					order.push_back(s);
+				}
+
+				while (x > 0)
+				{
+					iter++;
+					x--;
+				}
+				key.splice(iter, order);
+			}
+			else if ((a == 'D'))
+			{
+				while (x > 0)
+				{
+					iter++;
+					x--;
+				}
+				for (int i = 0; i < y; i++)
+					key.erase(iter++);
+			}
+		}
+		cout << "#" << t << " ";
+		for (int i = 0; i < 10; i++)
+		{
+			cout << key.front() << ' ';
+			key.pop_front();
+		}
+		cout << '\n';
+		key.clear();
+	}
+}
+*/
