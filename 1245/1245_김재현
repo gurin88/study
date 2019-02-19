@@ -1,0 +1,60 @@
+#include "stdafx.h"
+/*
+#include <iostream>
+
+using namespace std;
+
+
+int main()
+{
+	int case_num, N;
+
+	double x[10], m[10];
+
+	cout << fixed;
+
+	cout.precision(10);
+
+	cin >> case_num;
+
+	for (int q = 1; q <= case_num; q++)
+	{
+		cin >> N;
+
+		for (int i = 0; i < N; i++)
+			cin >> x[i];
+
+		for (int i = 0; i < N; i++)
+			cin >> m[i];
+
+		for (int i = 0; i < N - 1; i++)
+		{
+			double p = x[i], n = x[i + 1], ans = 0;
+
+			for (int k = 0; k < 60; k++)
+			{
+				double  mid = (p + n) / 2;
+				double  s = 0;
+
+				for (int j = 0; j <= i; j++)
+					s += m[j] / ((mid - x[j])*(mid - x[j]));
+
+				for (int j = i + 1; j < N; j++)
+					s -= m[j] / ((mid - x[j])*(mid - x[j]));
+
+				if (s > 0)
+				{
+					p = mid;
+				}
+				else
+				{
+					ans = mid;
+					n = mid;
+				}
+			}
+			cout << "#" << q << " " << ans << endl;
+		}
+	}
+	return 0;
+}
+*/
