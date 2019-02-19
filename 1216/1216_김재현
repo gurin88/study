@@ -1,0 +1,64 @@
+#include "stdafx.h"
+/*
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+int main()
+{
+	int case_num;
+	int num;
+	case_num = 10;
+	int result, N;
+	char arr[100][100];
+	for (int q = 0; q < 10; q++)
+	{
+		cin >> num;
+		result = 1;
+		for (int i = 0; i < 100; i++)
+			for (int j = 0; j < 100; j++)
+				cin >> arr[i][j];
+		for (int k = 0; k < 100; k++)
+			for (int i = 0; i < 99; i++)
+				for (int j = i + 1; j < 100; j++)
+				{
+					int a = 1;
+					int b = j - i + 1;
+					if (arr[k][i] == arr[k][j])
+					{
+						while (1)
+						{
+							if (arr[k][i + a] != arr[k][j - a])
+								break;
+							if (b < 4)
+							{
+								result = max(result, j - i + 1);
+								break;
+							}
+							b -= 2;
+							a++;
+						}
+					}
+					int c = 1;
+					int d = j - i + 1;
+					if (arr[i][k] == arr[j][k])
+					{
+						while (1)
+						{
+							if (arr[i + c][k] != arr[j - c][k]) break;
+							if (d < 4)
+							{
+								result = max(result, j - i + 1); break;
+							}
+							d -= 2;
+							c++;
+						}
+					}
+				}
+		cout << "#" << num << " " << result << endl;
+	}
+
+	return 0;
+}
+*/
