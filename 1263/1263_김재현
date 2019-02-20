@@ -1,0 +1,92 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+int Graph[1000][1000] = { 0 };
+int N;
+
+vector<int> bfs(int r)
+{
+	bool visited[1000] = { false };
+	queue<int> q;
+	vector<int> distance(N, -1);
+	q.push(r);
+	distance[r] = 0;
+	visited[r] = true;
+
+	while (!q.empty())
+	{
+		int now = q.front();
+		q.pop();
+
+		for (int i = 0; i < N; i++)
+		{
+			if (!visited[i] && Graph[now][i])
+			{
+				visited[i] = true;
+				q.push(i);
+				distance[i] = distance[now] + 1;
+			}
+		}
+	}
+	return distance;
+}
+
+
+int bfs_find()
+{
+	int min = 2e9;
+	int ret[1000] = { 0 };
+	vector<int> v;
+	v.clear();
+	for (int i = 0; i < N; i++)
+	{
+		v = bfs(i);
+		for (int k = 0; k < N; k++)
+		{
+			ret[k] += v[k];
+		}
+	}
+
+	for (int i = 0; i < N; i++)
+	{
+		if (ret[i] < min)
+		{
+			min = ret[i];
+		}
+	}
+
+	return min;
+
+}
+
+
+
+int main()
+{
+	int total_case;
+	int val;
+
+	vector<int> d;
+
+	cin >> total_case;
+	for (int T = 1; T <= total_case; T++)
+	{
+		cin >> N;
+
+		for (int i = 0; i < N; i++)
+		{
+			for (int j = 0; j < N; j++)
+			{
+				cin >> val;
+				Graph[i][j] = val;
+			}
+		}
+		int ans = bfs_find();
+		cout << "#" << T << " " << ans << endl;	
+	}
+
+	return 0;
+}
