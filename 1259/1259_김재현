@@ -1,0 +1,80 @@
+#include "stdafx.h"
+/*
+#include<iostream>
+#include<algorithm>
+#include<vector>
+
+using namespace std;
+
+struct Screw {
+	int am, su;
+	Screw(int su, int am) :su(su), am(am) {}
+};
+int compareScrew(const Screw &a, const Screw &b)
+{
+	if (a.am == b.su)
+	{
+		return a.am < b.am;
+	}
+	return b.am > a.am;
+}
+int main()
+{
+	int tc = 0;
+	int n = 0;
+
+	cin >> tc;
+	for (int i = 1; i <= tc; i++)
+	{
+		cin >> n;
+		vector<Screw> v;
+		vector<Screw> res;
+		for (int j = 0; j < n; j++)
+		{
+			int a = 0;
+			int b = 0;
+			cin >> a;
+			cin >> b;
+			v.push_back(Screw(a, b));
+		}
+
+		for (int j = 0; j < v.size(); j++)
+		{
+			int cnt = 0;
+
+			for (int k = 0; k < v.size(); k++)
+			{
+				if (v[j].su == v[k].am)
+				{
+					cnt++;
+				}
+			}
+			if (cnt == 0)
+			{
+				res.push_back(v[j]);
+				break;
+			}
+		}
+		for (int j = 0; j< v.size(); j++)
+		{
+			for (int k = 0; k < v.size(); k++)
+			{
+				if (res[j].am == v[k].su)
+				{
+					res.push_back(v[k]);
+					break;
+				}
+			}
+		}
+		cout << '#' << i << ' ';
+		for (int j = 0; j < v.size(); j++)
+		{
+			cout << res[j].su << ' ' << res[j].am << ' ';
+		}
+		cout << '\n';
+		n = 0;
+	}
+
+	return 0;
+}
+*/
