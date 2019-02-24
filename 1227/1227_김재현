@@ -1,0 +1,62 @@
+#include "stdafx.h"
+/*
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+int miro[100][100];
+int visited[100][100];
+long long miro_temp;
+int start_point[1][2];
+int dx[] = { 0,0,1,-1 };
+int dy[] = { 1,-1,0,0 };
+int OK;
+
+void dfs(int x, int y)
+{
+	visited[x][y] = 1;
+	for (int i = 0; i < 4; i++)
+	{
+		int ax = x + dx[i];
+		int ay = y + dy[i];
+		if (miro[ax][ay] == 3)
+		{
+			OK = 1;
+		}
+		else if (miro[ax][ay] == 0 && visited[ax][ay] == 0)
+		{
+			dfs(ax, ay);
+		}
+	}
+}
+
+int main()
+{
+	int case_num;
+
+	for (int i = 1; i <= 10; i++)
+	{
+		cin >> case_num;
+		OK = 0;
+		for (int j = 0; j < 100; j++)
+		{
+			for (int k = 0; k < 100; k++)
+			{
+				char temp;
+				cin >> temp;
+				miro[j][k] = temp - '0';
+				visited[j][k] = 0;
+				if (miro[j][k] == 2)
+				{
+					start_point[0][0] = j;
+					start_point[0][1] = k;
+				}
+			}
+		}
+		dfs(start_point[0][0], start_point[0][1]);
+		cout << "#" << i << " " << OK << endl;
+	}
+	return 0;
+}*/
