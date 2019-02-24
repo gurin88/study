@@ -1,0 +1,73 @@
+#include "stdafx.h"
+/*
+#include <iostream>
+
+using namespace std;
+
+double fac(int a)
+{
+	double result = 1;
+	for (int i = 1; i <= a; i++)
+	{
+		result = result * i;
+	}
+	return result;
+}
+
+int main()
+{
+	cout << fixed;
+	cout.precision(6);
+
+	int T;
+	cin >> T;
+	for (int case_num = 1; case_num <= T; case_num++)
+	{
+		int num[7] = { 2,3,5,7,11,13,17 };
+		double c[7];
+		for (int i = 0; i < 7; i++)
+		{
+			c[i] = fac(18) / (fac(num[i]) * fac(18 - num[i]));
+		}
+		double a, b;
+		cin >> a;
+		cin >> b;
+		a = a / 100;
+		b = b / 100;
+		double ansa = 0;
+		double ansb = 0;
+
+		for (int i = 0; i < 7; i++)
+		{
+			double tempa = 1;
+			double tempb = 1;
+
+			for (int j = 0; j < num[i]; j++)
+			{
+				tempa *= a;
+				tempb *= b;
+			}
+
+			for (int j = 0; j < (18 - num[i]); j++)
+			{
+				tempa *= (1 - a);
+				tempb *= (1 - b);
+			}
+
+			tempa *= c[i];
+			tempb *= c[i];
+
+			ansa += tempa;
+			ansb += tempb;
+		}
+
+		ansa = 1 - ansa;
+		ansb = 1 - ansb;
+
+		double ans = 1 - (ansa * ansb);
+
+		cout << "#" << case_num + 1 << " " << ans << endl;
+	}
+
+	return 0;
+}*/
