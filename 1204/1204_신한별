@@ -1,0 +1,27 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int T, sel, score[1000],res[10];
+	cin >> T;	//테스트 케이스
+	for (int d = 0; d < T; d++) {
+		int count[101] = { 0 };
+		int max = 0;		//최빈도
+		cin >> sel;
+		for (int i = 0; i < 1000; i++) {	//점수 입력
+			cin >> score[i];
+			count[score[i]]++;
+		}
+		
+		for (int k = 0; k < 101; k++) {
+			if (count[k] >= max) {	//같은 경우 높은 점수
+				max = count[k];
+				res[sel - 1] = k;
+			}
+		}
+		cout << '#' << d + 1 << ' ' << res[d] << endl;
+	}
+	return 0;
+}
