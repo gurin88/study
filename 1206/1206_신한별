@@ -1,0 +1,47 @@
+#include<iostream>
+#include<stdio.h>
+#include<algorithm>
+using namespace std;
+ 
+int m[1001];
+ 
+int main(){
+ 
+     
+    int n;
+    for (int t = 1; t <= 10; t++){
+        int ans = 0;
+ 
+        cin >> n;
+ 
+        for (int i = 1; i <= n; i++){
+            cin >> m[i];
+        }
+ 
+        int a, b, c, d;
+        for (int i = 3; i <= n - 2; i++){
+            a = m[i] - m[i - 2];
+            b = m[i] - m[i - 1];
+            c = m[i] - m[i + 1];
+            d = m[i] - m[i + 2];
+ 
+            if (a >= 1 && b >= 1 && c >= 1 && d >= 1){
+                ans += min(min(min(a, b),c),d);
+            }
+ 
+        }
+ 
+        printf("#%d %d\n", t, ans);
+     
+        //clear
+        for (int i = 1; i <= n; i++){
+            m[i]=0;
+        }
+     
+         
+    }
+     
+ 
+ 
+    return 0;
+}
