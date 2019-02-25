@@ -1,0 +1,92 @@
+#include<stdio.h>
+#include<iostream>
+
+using namespace std;
+
+// 테스트 케이스 갯수 입력
+// 자성체의 갯수 입력 2~10 
+// 좌표와 질량값 입력
+
+void input(int num, int data[][10])  // 좌료, 질량값을 배열에 입력하는 함수
+{
+	for (int b = 0; b < 2; b++)
+	{
+		for (int a = 0; a < num; a++)
+		{
+			cin >> data[b][a];
+		}
+	}
+}
+
+void out(int num, int data[][10]) // 배열 출력 함수
+{
+	for (int b = 0; b < 2; b++)
+	{
+		for (int a = 0; a < num; a++)
+		{
+			cout << data[b][a] << " ";
+		}
+		cout << "\n";
+	}
+}
+
+// 소숫점 10자리까지만 출력
+void calculation(int num, int data[][10]) // 배열안에 있는 값을 토대로 위치 연산 후 리턴 
+{
+	cout << fixed;
+	cout.precision(10);
+
+	for (int i = 0; i<num - 1; i++) 
+	{
+		double left = data[0][i], right = data[0][i + 1];
+		double output = 0;
+	
+		for (int j = 0; j < 60; j++) {
+			double mid = (left + right) / 2;
+			double sum = 0.0;
+
+			for (int p = 0; p <= i; p++) {
+				sum += data[1][p] / ((mid - data[0][p])*(mid - data[0][p]));
+			}
+
+			for (int p = i + 1; p < num; p++) {
+				sum -= data[1][p] / ((data[0][p] - mid)*(data[0][p] - mid));
+			}
+
+			if (sum>0) {
+				left = mid;
+			}
+
+			else {
+				right = mid;
+				output = mid;
+			}
+		}	
+		cout << output << " ";		
+	}
+	cout << "\n";
+}
+
+int main()
+{
+	int testcase;      // 테스트 케이스 갯수
+	int num;           // 자성체 갯수 
+	int data[2][10] = { 0 };  // 좌표값과 질량값 배열
+	
+	cin >> testcase;  // 테스트 케이스 입력
+
+	for (int a = 0; a < testcase; a++)  // 테스트 케이스 갯수만큼 반복
+	{
+		cin >> num;      // 자성체의 갯수 입력
+
+		input(num, data); // 자성체의 갯수만큼 배열 입력
+
+		//out(num, data);  // 배열에 잘 들어갔는지 출력하여 확인
+
+		std::cout << "#" << a + 1 << " "; // 테스트 케이스 값 출력
+		calculation(num, data);
+	}
+
+	return 0;
+
+}
