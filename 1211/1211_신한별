@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#define T 10
+int map[100][100];
+int main() {
+	register int i, j, k;
+	int TC;
+	int N;
+
+	for (TC = 1; TC <= T; TC++) {
+		scanf("%d", &N);
+		for (i = 0; i<100; i++) {
+			for (j = 0; j<100; j++)scanf("%d", &map[i][j]);
+		}
+		int min = 99999, t, x;
+		for (k = 0; k<100; k++) {
+			if (map[0][k] == 0)continue;
+			t = 0; j = k;
+			for (i = 0; i<100; i++) {
+				if (j<99 && map[i][j + 1] == 1)
+				{
+					for (; j<99 && map[i][j + 1] == 1; j++, t++);
+				}
+				else if (j>0 && map[i][j - 1] == 1)
+				{
+					for (; j>0 && map[i][j - 1] == 1; j--, t++);
+				}
+				t++;
+			}
+			if (min >= t) { x = k; min = t; }
+		}
+
+		printf("#%d %d\n", TC, x);
+	}
+	return 0;
+}
