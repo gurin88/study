@@ -1,0 +1,55 @@
+
+#include <iostream>
+#include <algorithm>
+#include <string>
+
+using namespace std;
+
+int K;         // 교환 횟수
+char tmp[256]; // 숫자판 정보
+int ans;       // 최종값
+string s;      // 숫자판 정보
+
+
+void cal(int cnt, int now) {
+	if (cnt == K) // 교환이 모두 끝나면 두값중 큰 값 출력
+	{
+		ans = max(ans, stoi(s));
+		return;
+	}
+
+	for (int i = now; i < s.size(); i++)
+	{
+		for (int j = i; j < s.size(); j++)
+		{
+			if (i == j)
+				continue;
+			if (s[i] <= s[j])
+			{
+				swap(s[i], s[j]);
+				cal(cnt + 1, i);
+				swap(s[i], s[j]);
+			}
+		}
+	}
+}
+
+int main()
+{
+	int T;  
+	cin >> T;
+
+	for (int tc = 0; tc < T; tc++)
+	{
+		cin >> tmp;
+		cin >> K;
+		ans = 0;
+		s = tmp;
+
+		cal(0, 0);
+
+		cout << "#" << tc + 1 << " " << ans << endl;
+	}
+
+	return 0;
+}
