@@ -1,0 +1,46 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int TC;
+	int arry[100][100];
+	int x, y;
+	for (int i = 0; i < 10; i++) {
+
+		cin >> TC;
+		for (int i = 0; i < 100; i++) {
+			for (int j = 0; j < 100; j++) {
+				cin >> arry[i][j];
+				if (arry[i][j] == 2) {
+					x = i;
+					y = j;
+				}
+			}
+		}
+		while (y--) {
+			if (x == 0) {
+				while (arry[x + 1][y]) x++;
+				y--;
+			}
+			else if (x == 99) {
+				while (arry[x - 1][y]) x--;
+				y--;
+			}
+			else {
+				if (arry[x + 1][y]) {
+					while (arry[x + 1][y]) x++;
+					y--;
+				}
+				else if (arry[x - 1][y]) {
+					while (arry[x - 1][y]) x--;
+					y--;
+				}
+			}
+		}
+		cout << '#' << TC << ' ' << x-1 << endl;
+
+	}
+	return 0;
+}
