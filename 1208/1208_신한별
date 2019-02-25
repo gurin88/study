@@ -1,0 +1,21 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+	int dump, box[100];
+	for (int i = 1; i <= 10; i++) {
+		int b, s, max, min;
+		cin >> dump;
+		for (int j = 0; j < 100; j++) { cin >> box[j]; }
+		sort(box, box + 100);
+		for (int k = 0; k < dump; k++) {
+			box[0]++;
+			box[99]--;
+			sort(box, box + 100);
+		}
+		cout << '#' << i << ' ' << box[99] - box[0] << endl;
+	}
+	return 0;
+}
