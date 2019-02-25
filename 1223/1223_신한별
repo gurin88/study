@@ -1,0 +1,61 @@
+/*#include <iostream>
+#include <stack>
+#include <string>
+#define MAX 200
+using namespace std;
+
+int main()
+{
+	for (int TC = 1; TC <= 10; TC++) {
+		int len, p(0);
+		char arr[MAX];
+		char out[MAX];
+		cin >> len;
+		stack <char> s_tmp;
+		for (int i = 0; i < len; i++)
+			cin >> arr[i];
+
+		for (int i = 0; i < len; i++) {
+			if (arr[i] == '+') {
+				while (!s_tmp.empty()) {
+					out[p++] = s_tmp.top();
+					s_tmp.pop();
+				}
+				s_tmp.push(arr[i]);
+			}
+			else if(arr[i]=='*'){
+				s_tmp.push(arr[i]);
+			}
+
+			else {
+				out[p++] = arr[i];
+			}
+		}
+		while (!s_tmp.empty()) {
+			out[p++] = s_tmp.top();
+			s_tmp.pop();
+		}
+
+		stack <int> s;
+		for (int i = 0; i < p; i++) {
+			if (out[i] == '+' || out[i] == '*') {
+				int a = s.top();
+				s.pop();
+				int b = s.top();
+				s.pop();
+				if (out[i] == '+')
+					s.push(a + b);
+				else if (out[i] == '*')
+					s.push(a*b);
+			}
+			else {
+				int num = out[i] - '0';
+				s.push(num);
+			}
+		}
+		cout << '#' << TC << ' ' << s.top() << endl;
+
+	}
+	return 0;
+}
+*/
