@@ -1,38 +1,33 @@
 #include <cstdio>
-
-int main() {
-	char str[9][9];
-	for (int t = 1; t <= 10; t++) {
-		int n(100), ans = 0;
-		int tmp1, tmp2;
-		scanf("%d", &n);
-
-		for (int i = 0; i<8; i++)
-			scanf("%s", str[i]);
-
-		for (int i = 0; i<8; i++) {
-			for (int j = 0; j <= 8 - n; j++) {
-				bool ck1 = true, ck2 = true;
-				for (int k = 0; k<n / 2; k++) {
-					int tmp = j + k;
-					if (str[i][tmp] != str[i][j + n - k - 1]) {
-						ck1 = false;
-						tmp1 = n;
-					}
-					if (str[tmp][i] != str[j + n - k - 1][i]) {
-						ck2 = false;
-						tmp2 = n;
-					}
-					if (!ck1 && !ck2)
-						break;
-				}
-				if (ck1)
-					ans++;
-				if (ck2)
-					ans++;
-			}
-		}
-		printf("#%d %d\n", t, ans);
-	}
-	return 0;
+  
+int main(){
+    char str[9][9];
+    for(int t=1; t<=10; t++){
+        int n, ans=0;
+        scanf("%d", &n);
+  
+        for(int i=0; i<8; i++)
+            scanf("%s", str[i]);
+  
+        for(int i=0; i<8; i++){
+            for(int j=0; j<=8-n; j++){
+                bool ck1= true, ck2=true;
+                for(int k=0; k<n/2; k++){
+                    int tmp = j+k;
+                    if(str[i][tmp] != str[i][j+n-k-1])
+                        ck1=false;
+                    if(str[tmp][i] != str[j+n-k-1][i])
+                        ck2=false;
+                    if(!ck1 && !ck2)
+                        break;
+                }
+                if(ck1)
+                    ans++;
+                if(ck2)
+                    ans++;
+            }
+        }
+        printf("#%d %d\n", t, ans);
+    }
+     return 0;
 }
