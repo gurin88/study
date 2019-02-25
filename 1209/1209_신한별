@@ -1,0 +1,33 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+	int arry[100][100];
+	int i(1), TC, res;
+	while (i < 11) {
+		cin >> TC;
+		int a = 0, b = 0, res = 0;
+		for (int j = 0; j < 100; j++) {
+			for (int k = 0; k < 100; k++) {
+				cin >> arry[j][k];
+			}
+		}
+		for (int j = 0; j < 100; j++) {
+			int temp1 = 0, temp2 = 0;
+			for (int k = 0; k < 100; k++) {
+				temp1 += arry[j][k];
+				temp2 += arry[k][j];	
+			}
+			if (res < temp1) res = temp1;
+			if (res < temp2) res = temp2;
+			a += arry[j][j];
+			b += arry[j][100 - j];
+		}
+		cout << '#' << i << ' ' << max(res, max(a, b)) << endl;
+		i++;
+	}
+
+	return 0;
+}
