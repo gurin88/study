@@ -1,0 +1,41 @@
+#include <iostream>
+#define TRUE 1
+#define FALSE 0
+using namespace std;
+
+typedef struct arr {
+	int a=-1, b=-1;
+}arr;
+bool find(arr *s, int n);
+int main()
+{
+
+	for (int i = 1; i <= 10; i++) {
+		
+		int TC, load, x, y, tmp(-1);
+		arr s[100];
+		cin >> TC>>load;
+		for (int j = 0; j < load; j++) {
+			cin >> x>> y;
+			if (x == tmp)
+				s[x].b = y;
+			else
+				s[x].a = y;
+			tmp = x;
+		}
+		cout << '#' << TC << ' ' << find(s,0) << endl;
+	}
+
+	return 0;
+}
+bool find(arr *s, int n)
+{
+	if (n==-1)
+		return FALSE;
+	else if (s[n].a == 99 || s[n].b == 99)
+		return TRUE;
+	else 
+		return find(s, s[n].a) + find(s, s[n].b);
+}
+
+	
