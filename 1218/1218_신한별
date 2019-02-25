@@ -1,0 +1,72 @@
+#include <iostream>
+#include <string>
+#include <cassert>
+
+#define SIZE 300
+typedef char e;
+using namespace std;
+
+class Stack {
+public:
+	Stack();
+	void push(e item);
+	e pop();
+	e top();
+	bool isEmpty();
+private:
+	e stackArr[SIZE];
+	int topIndex;
+};
+
+Stack::Stack()
+{
+	topIndex = -1;
+}
+
+void Stack::push(e item)
+{
+	++topIndex;
+	assert(topIndex < SIZE);
+	stackArr[topIndex]=item;
+}
+
+e Stack::pop()
+{
+	assert(topIndex >= 0);
+	int return_index(topIndex);
+	--topIndex;
+	return stackArr[return_index];
+}
+e Stack::top()
+{
+	assert(topIndex >= 0);
+	return stackArr[topIndex];
+}
+
+bool Stack::isEmpty()
+{
+	return bool(topIndex==-1);
+}
+int main()
+{	
+	for (int i = 1; i <= 10; i++) {
+		Stack s;
+		int len;
+		cin >> len;
+		string str;
+		cin >> str;
+		for (int j = 0; j < len; j++) {
+			if (str[j] == '(' || str[j] == '{' || str[j] == '[' || str[j] == '<') {
+				s.push(str[j]);
+			}
+			else if (str[j] == ')' || str[j] == '}' || str[j] == ']' || str[j] == '>') {
+				if ((s.top() == '(' && str[j] == ')') || (s.top() == '{' && str[j] == '}')
+					|| (s.top() == '[' && str[j] == ']') || (s.top() == '<' && str[j] == '>'))
+					s.pop();
+			}
+		}
+		cout << '#' << i << ' ' << s.isEmpty() << endl;
+	}
+
+	return 0;
+}
