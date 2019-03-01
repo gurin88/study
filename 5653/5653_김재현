@@ -1,0 +1,128 @@
+#include "stdafx.h"
+/*
+#include <iostream>
+
+using namespace std;
+
+struct cell
+{
+	int stat;   // 0 : 빈공간, 1: 비활성, 2 : 활성, 3: 죽음
+	int LP;
+	int HP;     // 0 : 죽음  , stat == 1 일때 증가, 2일때 감소
+};
+
+struct cell map[23][23];
+int N, M;
+
+void breed(int j, int k)
+{
+	if (map[j][k].stat == 2 && (map[j][k].LP == map[j][k].HP) + 1)
+	{
+		if (map[j - 1][k].stat == 0 && map[j - 1][k].HP == 100) //아래
+		{
+			map[j - 1][k].stat = 1;
+			map[j - 1][k].HP = 0;
+			map[j - 1][k].LP = map[j][k].LP;
+		}
+
+		if (map[j + 1][k].stat == 0 && map[j + 1][k].HP == 100) //위
+		{
+			map[j + 1][k].stat = 1;
+			map[j + 1][k].HP = 0;
+			map[j + 1][k].LP = map[j][k].LP;
+		}
+
+		if (map[j][k + 1].stat == 0 && map[j][k + 1].HP == 100) //오른쪽
+		{
+			map[j][k + 1].stat = 1;
+			map[j][k + 1].HP = 0;
+			map[j][k + 1].LP = map[j][k].LP;
+		}
+
+		if (map[j][k - 1].stat == 0 && map[j][k - 1].HP == 100)  //왼쪽
+		{
+			map[j][k - 1].stat = 1;
+			map[j][k - 1].HP = 0;
+			map[j][k - 1].LP = map[j][k].LP;
+		}
+	}
+}
+
+int main()
+{
+	int T;
+	int ans;
+	cin >> T;
+
+
+	for (int case_num = 1; case_num <= T; case_num++)
+	{
+		for (int i = 0; i < 23; i++)
+			for (int j = 0; j < 23; j++)
+			{
+				map[i][j].stat = 0;
+				map[i][j].LP = 0;
+				map[i][j].HP = 100;
+			}
+		ans = 0;
+		int K;
+		cin >> N >> M >> K;
+		for (int i = K / 2; i < K / 2 + N; i++)
+			for (int j = K / 2; j < K / 2 + M; j++)
+			{
+				cin >> map[i][j].LP;
+				if (map[i][j].LP > 0)
+				{
+					map[i][j].stat = 1;
+					map[i][j].HP = 0;
+				}
+				else
+					map[i][j].stat = 0;
+			}
+
+		for (int i = 0; i <= K; i++)
+		{
+			for (int j = 0; j < 23; j++)
+				for (int k = 0; k < 23; k++)
+				{
+					breed(j, k);
+				}
+			for (int j = 0; j < 23; j++)
+				for (int k = 0; k < 23; k++)
+				{
+					if (map[j][k].stat == 1 && (map[j][k].LP > map[j][k].HP))        //비활성화 상태일 시 HP를 1증가시킴
+						map[j][k].HP++;
+					else if (map[j][k].stat == 1 && (map[j][k].LP == map[j][k].HP))  //비활성화 상태 cell의 HP와 LP의 값이 같아지면 활성화 된다.
+						map[j][k].stat = 2;
+					else if (map[j][k].stat == 2 && map[j][k].HP > 0)                 //활성화 상태의 cell의 HP가 0보다 클때 HP를 1감소시킨다.
+					{
+						map[j][k].HP--;
+						if (map[j][k].HP == 0)
+							map[j][k].stat = 3;
+					}
+				}
+			cout << "@@@@@@@@@@@@@@@@@ : " << i << endl;
+			for (int i = 0; i < 23; i++)
+			{
+				for (int j = 0; j < 23; j++)
+				{
+					cout << map[i][j].stat << " ";
+				}
+				cout << endl;
+			}
+			cout << endl;
+		}
+		for (int i = 0; i < 23; i++)
+		{
+			for (int j = 0; j < 23; j++)
+			{
+				if (map[i][j].stat == 1 || map[i][j].stat == 2)
+					ans++;
+			}
+		}
+		cout << "#" << case_num << " " << ans << endl;
+	}
+
+
+	return 0;
+}*/
