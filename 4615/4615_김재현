@@ -1,0 +1,95 @@
+#include "stdafx.h"
+/*
+#include <iostream>
+using namespace std;
+
+
+
+int main()
+{
+	int T;
+	cin >> T;
+	int N, M;
+	int x, y, color;
+	int map[9][9];
+	int dx[8] = { -1,-1,-1,0,1,1, 1, 0 };
+	int dy[8] = { -1, 0, 1,1,1,0,-1,-1 };
+
+	for (int case_num = 1; case_num <= T; case_num++)
+	{
+		cin >> N >> M;
+
+		for (int i = 0; i < 9; i++)
+			for (int j = 0; j < 9; j++)
+				map[i][j] = 0;									//0 : 공백 1: 검은색 2: 흰색
+
+		int black = 0, white = 0;
+
+
+		map[N / 2][N / 2] = 2;
+		map[N / 2 + 1][N / 2 + 1] = 2;
+		map[N / 2 + 1][N / 2] = 1;
+		map[N / 2][N / 2 + 1] = 1;
+		int a;
+		if (N*N - 1 >= M)
+			a = M;
+		else
+			a = N * N - 1;
+		for (int i = 0; i < a; i++)
+		{
+			cin >> x >> y >> color;
+
+			for (int j = 0; j < 8; j++)
+			{
+				int count = 0;
+				for (int k = 1; k < 9; k++)
+				{
+					if (x + dx[j] * k <= 0 || y + dy[j] * k <= 0 || x + dx[j] * k > N || y + dy[j] * k > N)   //N*N 행렬 벗어났을때
+						break;
+					if (map[x + dx[j] * k][y + dy[j] * k] == 0)                                               //이동했을때 빈칸일때
+					{
+						count = 0;
+						break;
+					}
+					else if (map[x + dx[j] * k][y + dy[j] * k] != color)                                      //이동했을때 다른색 돌을 만났을때
+					{
+						count++;
+					}
+					else if (map[x + dx[j] * k][y + dy[j] * k] == color && count != 0)                        //다른색돌 만나며 이동하다가 같은색 돌을 만났을때
+					{
+						for (int l = 0; l < count + 1; l++)
+							map[x + dx[j] * l][y + dy[j] * l] = color;
+						count = 0;
+						break;
+					}
+					else
+						break;
+				}
+			}
+			for (int j = 1; j < N + 1; j++)
+			{
+				for (int k = 1; k < N + 1; k++)
+				{
+					cout << map[j][k] << " ";
+				}
+				cout << endl;
+			}
+			cout << endl;
+		}
+
+
+
+		for (int i = 1; i < N + 1; i++)
+			for (int j = 1; j < N + 1; j++)
+			{
+				if (map[i][j] == 1)
+					black++;
+				else if (map[i][j] == 2)
+					white++;
+			}
+		cout << '#' << case_num << " " << black << " " << white << endl;
+
+	}
+
+	return 0;
+}*/
