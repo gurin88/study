@@ -1,0 +1,59 @@
+#include "stdafx.h"
+/*
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int cost[3][51];
+	char compare[] = "WBR";
+	int N, M;
+	int white_cost, blue_cost, red_cost;
+	int sum;
+	int T;
+	char input[51][51];
+	cin >> T;
+	for (int case_num = 1; case_num  <= T; case_num++)
+	{
+		N = 0, M = 0;
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 51; j++)
+			{
+				cost[i][j] = 0;
+				input[i][j] = 0;
+			}
+		}
+		white_cost = 0, blue_cost = 0, red_cost = 0;
+		sum = 2e9;
+		cin >> N >> M;
+		for (int i = 1; i <= N; i++)
+			cin >> input[i];
+
+		for (int i = 0; i<3; i++)
+		{
+			const char comp = compare[i];
+			for (int j = 1; j <= N; j++)
+				for (int k = 0; k<M; k++)
+					if (input[j][k] != comp)
+						cost[i][j]++;
+		}
+		for (int i = 1; i <= N - 2; i++)
+		{
+			white_cost += cost[0][i];
+			blue_cost = 0;
+			for (int j = 1; i + j <= N - 1; j++)
+			{
+				blue_cost += cost[1][i + j];
+				red_cost = 0;
+				for (int k = i + j + 1; k <= N; k++) 
+					red_cost += cost[2][k];
+				if (sum > white_cost + blue_cost + red_cost)
+					sum = white_cost + blue_cost + red_cost;
+			}
+		}
+		cout << "#" << case_num << " " << sum << endl;
+	}
+	return 0;
+}*/
