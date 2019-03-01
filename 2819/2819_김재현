@@ -1,0 +1,73 @@
+#include "stdafx.h"
+/*
+#include <iostream>
+#include <string>
+#include <cstring>
+#include <string.h>
+
+using namespace std;
+
+bool ans[10000000];
+
+int why = 0;
+
+int dx[] = { 0,1,0,-1 };
+int dy[] = { 1,0,-1,0 };
+
+
+int a[4][4];
+
+void dfs(string s, int x, int y, int cnt) 
+{
+
+	if (cnt == 7)
+	{
+		int answer = stoi(s);
+
+		if (ans[answer] == false)
+		{
+			why++;
+			ans[answer] = true;
+		}
+		return;
+	}
+
+	for (int k = 0; k < 4; k++)
+	{
+		int nx = x + dx[k], ny = y + dy[k];
+		if (0 <= nx && nx < 4 && 0 <= ny && ny < 4)
+		{
+			dfs(s + to_string(a[nx][ny]), nx, ny, cnt + 1);
+		}
+	}
+
+
+}
+
+int main() 
+{
+	int T= 0; 
+	cin >> T;
+	for (int case_num = 1; case_num <= T; case_num++)
+	{
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 4; j++)
+				cin >> a[i][j];
+
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 4; j++)
+				dfs(to_string(a[i][j]), i, j, 1);
+
+		int answer = 0;
+
+		cout << "#" << case_num << " " << why << endl;
+
+		why = 0;
+
+		for (int i = 0; i < 10000000; i++)
+			ans[i] = false;
+
+	}
+	return 0;
+}
+*/
