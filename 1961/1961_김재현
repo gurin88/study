@@ -1,0 +1,42 @@
+#include "stdafx.h"
+/*
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	int T, N, ans;
+	cin >> T;
+	int mat[7][7];
+	int copy[7][7];
+	for (int case_num = 1; case_num <= T; case_num++)
+	{
+		cout << "#" << case_num <<  endl;
+		for (int i = 0; i < N; i++)
+			for (int j = 0; j < N; j++)
+				mat[i][j] = 0;
+		cin >> N;
+		for (int i = 0; i < N; i++)
+			for (int j = 0; j < N; j++)
+				cin >> mat[i][j];
+
+		for (int i = 0; i<N; i++)
+		{
+			for (int j = N - 1; j >= 0; j--)
+				cout << mat[j][i];
+			cout << "";
+
+			for (int j = N - 1; j >= 0; j--)
+				cout << mat[N - i - 1][j];
+			cout << " ";
+
+			for (int j = 0; j < N; j++)
+				cout << mat[j][N - i - 1];
+			cout << '\n';
+		}
+
+		
+	}
+
+	return 0;
+}*/
