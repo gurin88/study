@@ -1,0 +1,95 @@
+#include <iostream>
+
+using namespace std;
+
+int N;
+char map[300][300];
+bool visit[300][300];
+int ans;
+int dx[8] = { -1,-1,-1,0,1,1, 1, 0 };
+int dy[8] = { -1, 0, 1,1,1,0,-1,-1 };
+
+void dfs(int x, int y)
+{
+	int nx, ny;
+	int vi = 0;
+
+	map[x][y] = 'c';
+
+	for (int i = 0; i < 8; i++)
+	{
+		nx = x + dx[i];
+		ny = y + dy[i];
+
+		if (nx >= 0 && nx < N && ny >= 0 && ny < N && map[nx][ny] == '*')
+			vi = 1;
+
+	}
+
+
+	if (vi == 0)
+	{
+		for (int i = 0; i < 8; i++)
+		{		
+			nx = x + dx[i];
+			ny = y + dy[i];
+
+			if (nx >= 0 && nx < N && ny >= 0 && ny < N && visit[nx][ny] == 0)
+			{
+				visit[nx][ny] = 1;
+				dfs(nx, ny);
+			}
+		}
+	}
+
+}
+int main()
+{
+	int T;
+	int vi;
+	cin >> T;
+	for (int case_num = 1; case_num <= T; case_num++)
+	{
+		ans = 0;
+		cin >> N;
+		for (int i = 0; i < N; i++)
+			for (int j = 0; j < N; j++)
+			{
+				cin >> map[i][j];
+				visit[i][j] = 0;
+			}
+
+		for (int i = 0; i < N; i++)
+			for (int j = 0; j < N; j++)
+			{
+				vi = 0;
+				if (map[i][j] == '.')
+				{
+					for (int k = 0; k < 8; k++)
+					{
+						int nx = i + dx[k], ny = j + dy[k];
+						if (0 <= nx && nx < N && 0 <= ny && ny < N && map[nx][ny] == '*')
+							vi = 1;
+
+					}
+					if (vi == 0)
+					{
+						visit[i][j] = 1;
+						dfs(i, j);
+						ans = ans + 1;
+					}
+				}
+			}
+		
+		for (int i = 0; i < N; i++)
+			for (int j = 0; j < N; j++)
+			{
+				if (map[i][j] == '.')
+					ans = ans + 1;
+			}
+		cout << "#" << case_num << " " << ans << endl;
+
+	}
+
+	return 0;
+}
