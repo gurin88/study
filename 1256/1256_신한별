@@ -1,0 +1,36 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+
+int main()
+{
+	int TC;
+	cin >> TC;
+	for (int i = 1; i <= TC; i++)
+	{
+		int cnt;
+		string str;
+		cin >> cnt;
+		cin >> str;
+
+		string save[500] = {"1"};
+
+		for (int j = 0; j < str.length(); j++) {
+			string tmp;
+			
+			for (int k = j; k < str.length(); k++)
+				tmp += str[k];
+
+			save[j] = tmp;
+		}
+		
+		sort(save, save + str.length());
+
+		if (save[cnt] == "1")
+			cout << '#' << i << ' ' << "none" << endl;
+		else
+			cout << '#' << i << ' ' << save[cnt-1] << endl;
+	}
+	return 0;
