@@ -1,0 +1,138 @@
+#include <iostream>
+#include <math.h>
+using namespace std;
+
+// 8개의 날 , 2개의 자성
+// 1번자석 위가 n이면 0, s이면 1점
+// 2번자석 위가 n이면 0, s이면 2점
+// 3번자석 위가 n이면 0, s이면 4점
+// 4번자석 위가 n이면 0, s이면 8점
+
+// 시계방향 1, 반시계방향 -1
+// N극 0, S극 1
+
+
+// 재귀로 
+void rotation(int rot1, int rot2, int mag[][11])  // 자석 회전 함수
+{
+	// 현재 자석의 회전의 회전값 변경
+	mag[rot1][8] = mag[rot1][8] + rot2;
+	// 현재 자석의 회전방향 입력
+	if (mag[rot1][8] > 0)     // 양의 값이면 시계방향
+		mag[rot1][9] = 1;
+	else if (mag[rot1][8] < 0) // 음의 값이면 반시계방향
+		mag[rot1][9] = -1;
+	else mag[rot1][9] = 0;     // 0이면 ㄴㄴ
+	// 현재 자석의 회전여부 입력
+	mag[rot1][10] = 1;
+
+	// 양쪽 자석의 회전여부 확인
+	for (int a = -1 ; a < 2 ; a = a + 2 ) // 왼쪽 자석(-1), 오른쪽 자석(1) 
+	{
+		// 지정된 자석과 a방향이 자석의 인접 부분이 다를 경우
+		if ( (rot1 + a < 4) && (0 <= rot1 + a) && (mag[rot1][ 4-2*a ] != mag[rot1+a][4+2*a]) && (mag[rot1+a][10]==0))
+		{	
+			if ((rot2 == -1))     // 지금이 반시계방향이면 다음 자석은 시계방향 회전
+				rotation( rot1 + a , 1 , mag );
+			else if ( (rot2 == 1)) // 지금이 시계방향이면 다음 자석은 시계방향 회전
+				rotation( rot1 + a , -1 , mag);
+		}
+	} 
+}
+
+void rotresult(int mag[][11])
+{
+	for (int a = 0; a < 4 ; a++)
+	{
+		if (mag[a][10] == 1)     // 회전 여부가 yes(1)이면, 회전 방향으로 변경 
+		{
+			int b = 0;
+			if (mag[a][9] == 1) // 시계방향이면
+			{
+				for (int c = 0 ; c < mag[a][8] ; c++)
+				{
+					b = mag[a][7];
+					mag[a][7] = mag[a][6];
+					mag[a][6] = mag[a][5];
+					mag[a][5] = mag[a][4];
+					mag[a][4] = mag[a][3];
+					mag[a][3] = mag[a][2];
+					mag[a][2] = mag[a][1];
+					mag[a][1] = mag[a][0];
+					mag[a][0] = b;
+				}				
+			}	
+			else if (mag[a][9] == -1)
+			{
+				for (int c = 0 ; c < abs( mag[a][8] ) ; c++)
+				{
+					b = mag[a][0];
+					mag[a][0] = mag[a][1];
+					mag[a][1] = mag[a][2];
+					mag[a][2] = mag[a][3];
+					mag[a][3] = mag[a][4];
+					mag[a][4] = mag[a][5];
+					mag[a][5] = mag[a][6];
+					mag[a][6] = mag[a][7];
+					mag[a][7] = b;
+				}				
+			}				
+		}
+	}
+}
+
+int sum(int mag[][11])     // 자석 정보를 읽어서 점수를 합산하는 함수
+{
+	int scoresum = 0;     // 반환할 점수 총합
+	for (int a = 0 ; a < 4 ; a++) // 1~4번 자석
+		if (mag[a][0] == 1)       // 자석의 표기부분이 s극이면
+			scoresum += (int)pow(2,a);
+	return scoresum;
+}
+
+int main()
+{
+	int T = 0;
+	cin >> T;
+	for (int a = 0 ; a < T ; a++)
+	{
+		int k;                   // 자석을 회전시키는 횟수 (1<=ㅏ<=20)
+		int mag[4][11] = { 0 };  // 자석 정보8,  회전값 , 방향, 그 당시 회전여부
+		int rot1 =  0;           // 회전할 자석 
+		int rot2 =  0;           // 회전 방향(시계 방향 1, 반시계 방향 -1)
+		int score = 0;           // 출력할 점수 변수
+
+		// 회전횟수 입력
+		cin >> k;
+		//cout << k << "\n";
+		// 자석 정보 입력
+		for (int b = 0; b < 4; b++)
+		{
+			for (int c = 0; c < 8; c++)
+			{
+				cin >> mag[b][c];
+			}
+		}
+		// 회전 횟수만큼 회전 정보를 받으면서 rotation 함수로 각각의 변경점 저장
+		for (int b = 0 ; b < k ; b++)
+		{
+			cin >> rot1 >> rot2;
+			//cout << rot1 << " " << rot2 << "\n";
+			for (int c = 0 ; c < 4 ; c++)
+			{
+				mag[c][8] = 0;
+				mag[c][9] = 0;
+				mag[c][10] = 0;
+			}
+			rotation( rot1-1 , rot2 , mag);	
+			rotresult(mag);
+		}
+		
+		
+		//sum 함수로 점수를 합산하여 score변수에 반환
+		score = sum(mag);
+		// 결과 출력			   		 
+		cout << '#' << a + 1 << " " << score << '\n';
+	}
+}
+
