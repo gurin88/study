@@ -1,0 +1,74 @@
+#include "stdafx.h"
+#include <iostream>
+
+using namespace std;
+
+int T, K, dir, mag_num;
+int red[4];
+int magnet[4][8];
+
+int main()
+{
+	cin >> T;
+	int score;
+	int i,j;
+	for (int case_num = 1; case_num <= T; case_num++)
+	{
+		score = 0;
+		cin >> K;
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 8; j++)
+				cin >> magnet[i][j];
+		for (int i = 0; i < 4 ;i++)
+			red[i] = 0;
+		for (int w = 0; w < K; w++)
+		{
+			cin >> mag_num >> dir;
+			mag_num--;
+			for (i = mag_num; i < 3; i++)
+			{
+				int temp1 = red[i] + 2;
+				int temp2 = red[i + 1] +6;
+				if (temp1 > 7)
+					temp1 -= 8;
+				if (temp2 > 7)
+					temp2 -= 8;
+				if (magnet[i][temp1] == magnet[i + 1][temp2])
+					break;
+			}
+			for (j = mag_num; j > 0; j--)
+			{
+				int temp1 = red[j] + 6;
+				int temp2 = red[j -1] + 2;
+				if (temp1 > 7)
+					temp1 -= 8;
+				if (temp2 > 7)
+					temp2 -= 8;
+				if (magnet[j][temp1] == magnet[j - 1][temp2])
+					break;
+			}
+			red[mag_num] -= dir;
+			int temp = dir;
+			for (int p = mag_num + 1; p <= i; p++)
+			{
+				red[p] += temp;
+				temp *= -1;
+			}
+			for (int p = mag_num - 1; p >= j; p--)
+			{
+				red[p] += dir;
+				dir *= -1;
+			}
+			for(int q = 0; q<4; q++)
+				if (red[q] > 7)
+					red[q] -= 8;
+				else if (red[q] < 0)
+					red[q] += 8;
+
+		}
+		score = magnet[0][red[0]] * 1 + magnet[1][red[1]] * 2 + magnet[2][red[2]] * 4 + magnet[3][red[3]] * 8;
+		
+		std::cout << "#" << case_num << " " << score << endl;
+	}
+	return 0;
+}
