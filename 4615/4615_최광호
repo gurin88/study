@@ -1,0 +1,187 @@
+#include <iostream>
+using namespace std;
+
+void setting(int n, int input[][8])
+{
+	// 4 W=[2,2],[3,3], B=[3,2],[2,3] 
+	// 6 W=[3,3],[4,4], B=[4,3],[3,4]
+	// 8 W=[4,4],[5,5], B=[4,5],[5,4]
+	input[(n / 2)-1][n / 2] = input[n / 2][(n / 2)-1] = 1;  // 흑돌
+	input[n / 2][n / 2] = input[(n / 2) - 1][(n / 2) - 1] = 2;  // 백돌
+}
+
+void othello(int x, int y, int color, int input[][8], int n)
+{
+	// 좌표에 있는 돌을 두었을 때 
+	// 가로 세로 대각선 방향으로 잡아 먹을수 있는 돌을 입력받은 색으로 바꾼다.
+	input[x][y] = color;
+
+	for (int a = 1; (x + a < n); a++)
+	{
+		if (input[x + a][y] == 0)  // 중간에 0이 있으면 종료
+			break;
+		if (input[x + a][y] == color)
+		{
+			for (int b = 1; b <= a; b++)
+			{
+				input[x + b][y] = color;
+			}
+			break;
+		}
+	}
+
+
+	for (int a = 1; 0 <= x - a; a++)
+	{
+		if (input[x - a][y] == 0)
+			break;
+		if (input[x - a][y] == color)
+		{
+			for (int b = 1; b <= a; b++)
+			{
+				input[x - b][y] = color;
+			}
+			break;
+		}
+	}
+
+	for (int a = 1; y + a < n; a++)
+	{
+		if (input[x][y + a] == 0)
+			break;
+		if (input[x][y + a] == color)
+		{
+			for (int b = 1; b <= a; b++)
+			{
+				input[x][y + b] = color;
+			}
+			break;
+		}
+	}
+
+	for (int a = 1; 0 <= y - a; a++)
+	{
+		if (input[x][y - a] == 0)
+			break;
+		if (input[x][y - a] == color)
+		{
+			for (int b = 1; b <= a; b++)
+			{
+				input[x][y - b] = color;
+			}
+			break;
+		}
+	}
+
+	/////////////////////   대각선    ////////////////////////
+
+	for (int a = 1; (x + a < n) && (y + a < n); a++)
+	{
+		if (input[x + a][y + a] == 0)
+			break;
+		if (input[x + a][y + a] == color)
+		{
+			for (int b = 1; b <= a; b++)
+			{
+				input[x + b][y + b] = color;
+			}
+			break;
+		}
+	}
+
+	for (int a = 1; (0 <= x - a) && (0 <= y - a); a++)
+	{
+		if (input[x - a][y - a] == 0)
+			break;
+		if (input[x - a][y - a] == color)
+		{
+			for (int b = 1; b <= a; b++)
+			{
+				input[x - b][y - b] = color;
+			}
+			break;
+		}
+	}
+
+	for (int a = 1; (0 <= x - a) && (y + a < n); a++)
+	{
+		if (input[x - a][y + a] == 0)
+			break;
+		if (input[x - a][y + a] == color)
+		{
+			for (int b = 1; b <= a; b++)
+			{
+				input[x - b][y + b] = color;
+			}
+			break;
+		}
+	}
+
+	for (int a = 1; (0 <= y - a)&&( x+a < n) ; a++)
+	{
+		if (input[x + a][y - a] == 0)
+			break;
+		if (input[x + a][y - a] == color)
+		{
+			for (int b = 1; b <= a; b++)
+			{
+				input[x + b][y - b] = color;
+			}
+			break;
+		}
+	}
+}
+
+void countnum(int input[][8], int output[2])
+{
+	for (int a = 0; a < 8 ; a++)
+	{
+		for (int b = 0 ; b < 8 ; b++)
+		{
+			if (input[a][b] == 1)
+				output[0]++;
+			else if (input[a][b] == 2)
+				output[1]++;
+		}
+	}
+}
+
+int main()
+{
+	int testcase = 0;
+	cin >> testcase;
+	for (int a = 0 ; a < testcase ; a++)
+	{
+		int n, m = 0;            // 보드 한변 길이, 돌 놓는 횟수
+		int input[8][8] = { 0 }; // 보드 배열
+		int x, y, color = 0;     // x,y 좌표, 돌 색깔
+		int output[2] = { 0 };   // 출력할 흑, 백돌의 갯수
+		
+		cin >> n >> m;
+		setting(n, input);		
+
+		for (int b = 0; b < m; b++)
+		{
+			cin >> x >> y >> color;
+			othello(x - 1, y - 1, color, input, n);
+			
+			/*cout << b + 1 << "번 입력 : \n";
+			for (int c = 0; c < 4 ; c++)
+			{
+				for (int d = 0; d < 4; d++)
+				{
+					cout << input[c][d];
+				}
+				cout << "\n";
+			}
+			cout << "\n";
+			cout << "\n";*/
+			
+		}
+		countnum(input, output);
+
+		// 흑돌, 백돌 순으로 갯수 출력			   		 
+		cout << '#' << a + 1 << " " << output[0] << " " << output[1]  << '\n';
+	}
+}
+
