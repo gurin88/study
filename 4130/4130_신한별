@@ -1,0 +1,100 @@
+#include <iostream>
+#include <math.h>
+using namespace std;
+
+struct GEAR{		//N : 0     S : 1
+	int pole[8];	//시계 방향 순, [0]은 빨간 화살표
+};
+
+GEAR gear[4];
+
+
+void RIGHT(int* arr)
+{
+	int last = arr[7];
+	for (int q = 6; q >= 0; q--) {
+		arr[q + 1] = arr[q];
+	}
+	arr[0] = last;
+}
+
+void LEFT(int* arr)
+{
+	int first = arr[0];
+	for (int q = 0; q < 7; q++) {
+		arr[q] = arr[q + 1];
+	}
+	arr[7] = first;
+}
+
+void rotate(int* arr, int r)	//시계방향 : 1 반시계 : -1
+{
+	if (r == 1)
+		RIGHT(arr);
+	else if (r == -1)
+		LEFT(arr);
+}
+
+int answer()
+{
+	int ans(0);
+	for (int i = 0; i < 4; i++) {
+		if (gear[i].pole[0] == 1) {
+			ans += (int)pow(2,i);
+		}
+	}
+	return ans;
+}
+
+int main()
+{
+	int TC;
+
+	cin >> TC;
+
+	for (int i = 1; i <= TC; i++) {
+		int k;
+		cin >> k;
+
+		for (int j = 0; j < 4; j++) {
+			for (int k = 0; k < 8; k++) {
+				cin >> gear[j].pole[k];
+			}
+		}
+
+		for (int a = 0; a < k; a++) {
+			int n, r;
+			int arr[4] = { 0 };		//돌릴 기어 1 아닌 기어 0
+			int sig[4] = { 0 };		//회전 방향 
+			cin >> n >> r;
+			n-=1;
+			arr[n] = 1;
+			sig[n] = r;
+			for (int q = n; q < 3; q++) {	//오른쪽
+				if (gear[q].pole[2] != gear[q + 1].pole[6]) {
+					arr[q + 1] = 1;
+					sig[q + 1] = sig[q] * (-1);
+				}
+				else
+					break;
+			}
+
+			for (int q = n; q > 0; q--) {	//왼쪽
+				if (gear[q].pole[6] != gear[q - 1].pole[2]) {
+					arr[q - 1] = 1;
+					sig[q - 1] = sig[q] * (-1);
+				}
+				else
+					break;
+			}
+			for (int q = 0; q < 4; q++) {
+				if(arr[q]==1)
+					rotate(gear[q].pole, sig[q]);
+			}
+		}
+		cout << '#' << i << ' ' << answer() << endl;
+	}
+	
+	return 0;
+
+}
