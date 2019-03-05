@@ -1,0 +1,267 @@
+#include <iostream>
+using namespace std;
+
+// 활성화 상태 변경 함수
+// 그 좌표의 세포가 생성 시간에서 생명력 수치 이후 -> 활성화(2)로    변경
+// 거기서 생명력 수치만큼 시간 이후                -> 죽은 상태(3)로 변경
+//void statechainge(int n, int m, int time[][352], int map[][352], int presenttime)
+//{
+//	for (int a = 0 ; a < 352 ; a++)      //  전 구간
+//	{
+//		for (int b = 0 ; b < 352 ; b++)
+//		{
+//			if ( presenttime == (time[a][b]) + map[a][b])            // (현재 시간)이   활성화 시간(생성 시간 + 생명력 수치) 값인 경우  
+//			{
+//				state[a][b] = 2;                                         // 활성화(2)로 변경
+//			}
+//			else if ( presenttime == (time[a][b]) + 2*map[a][b] )    // (현재 시간)이   (활성화 시간 + 생명력 수치) 값인 경우 
+//			{
+//				state[a][b] = 3;                                         // 죽음(3)으로 변경
+//			}
+//		}
+//	}
+//}
+// 번식 함수
+// 활성화가 되고 1시간 지나면 동일한 생명력을 가진 세포로 상하좌우 번식
+// 한 곳에 동시에 번식을 하면 더 높은 생명력 수치를 가지는 세포로 번식
+void breed(int n, int m, int time[][352],  int map[][352], int presenttime)
+{
+	for (int a = 0 ; a < 352 ; a++)     // 배열 전구간
+	{
+		for (int b = 0 ; b < 352; b++)
+		{
+			if ( (map[a][b]!=0) && (presenttime == time[a][b] + map[a][b] + 1) )    // 값이 들어있고 활성화 되고 1시간이 지나면    
+			{
+				for (int c = -1 ; c < 2 ; c = c + 2 )              // 상하좌우 생명력 수치 값유무를 확인하고 
+				{
+					// 비어있는 곳에 카피하고 비활성화로 변경
+					if ( map[a+c][b] == 0 )     
+					{
+						map[a + c][b]   = map[a][b];
+						time[a + c][b]  = presenttime ;
+						//state[a + c][b] = 1;
+					}
+					// 상하좌우중 현재 시간에 만들어진 세포 중 비어있지 않고 지금의 생명력 수치가 더 클경우 최신화 
+					else if ((time[a + c][b] == presenttime) && (map[a + c][b] != 0) && ( map[a + c][b] < map[a][b]) )
+					{
+						map[a + c][b] = map[a][b];
+					}					
+				}
+				for (int d = -1; d < 2; d = d + 2)
+					{
+					// 비어있는 곳에 카피하고 비활성화로 변경
+					if (map[a][b + d] == 0)
+					{
+						map[a][b + d] = map[a][b];
+						time[a][b + d] = presenttime;
+						//state[a][b + d] = 1;
+					}
+					// 상하좌우중 현재 시간에 만들어진 세포 중 비어있지 않고 지금의 생명력 수치가 더 클경우 최신화 
+					else if ( (time[a][b + d] == presenttime) && (map[a][b + d] != 0) && (map[a][b + d] < map[a][b]))
+					{
+						map[a][b + d] = map[a][b];
+					}
+				}				
+			}
+		}
+	}
+}
+
+// 카운트 함수 = 비활성화 + 활성화 값을 리턴
+int countcell(int map[][352], int time[][352], int k)
+{
+	int num = 0; // 리턴할 비활성화+활성화 세포 갯수
+	for (int a = 0 ; a < 352 ; a++)
+	{
+		for (int b = 0 ; b < 352 ; b++)
+		{
+			//if ( (state[a][b] == 1) || (state[a][b] == 2) )     // 비활성화(1) 또는 활성화(2)일 경우 num++ 
+			if( (time[a][b]<=k) && ( k< time[a][b]+2*map[a][b]) )
+			 num++;
+		}
+	}
+	return num;
+}
+int main()
+{
+	int testcase = 0;
+	cin >> testcase;
+	for (int a = 0 ; a < testcase ; a++)
+	{
+		int n, m = 0;                // 세로, 가로 크기
+		int k = 0;                   // 배양 시간
+		int map[352][352]  = { 0 };  // 상태 배열      = 생명력 수치 
+		int time[352][352] = { 0 };  // 생성 시간 배열 = ( 생성 시간 + 1 )
+		//int state[352][352] = { 0 }; // 현재 상태 배열 = [0: 미진행] [1: 비활성화] [2: 활성상태] [3: 죽은 상태]
+		int num = 0;                 // 출력할 결과값
+
+		// 입력
+		cin >> n >> m >> k;
+		
+		if ((n % 2) == 0)  //n이 짝수이면
+		{
+			for (int b = 176 - (n / 2) ; b < 176 + (n / 2); b++)
+			{
+				if ( (m%2)==0 ) //m이 짝수이면
+				{
+					for (int c = 176 - (m / 2); c < 176 + (m / 2); c++)
+					{
+						cin >> map[b][c];
+						//if (map[b][c]!=0) // 그자리에 세포가 있을 경우 (생성 시간+1)을 넣어주고 현재 상태 배열에 비활성화로 입력 
+						//{
+						//	state[b][c] = 1;
+						//}
+					}
+				}
+				else           // m이 홀수이면
+				{
+					for (int c = 176 - (m / 2); c < 177 + (m / 2); c++)
+					{
+						cin >> map[b][c];
+						//if (map[b][c] != 0) // 그자리에 세포가 있을 경우 (생성 시간+1)을 넣어주고 현재 상태 배열에 비활성화로 입력 
+						//{
+						//	state[b][c] = 1;
+						//}
+					}
+				}
+			}
+		}
+		else
+		{
+			for (int b = 176 - (n / 2); b < 177 + (n / 2); b++)
+			{
+				if ((m % 2) == 0) //m이 짝수이면
+				{
+					for (int c = 176 - (m / 2); c < 176 + (m / 2); c++)
+					{
+						cin >> map[b][c];
+						//if (map[b][c] != 0) // 그자리에 세포가 있을 경우 (생성 시간+1)을 넣어주고 현재 상태 배열에 비활성화로 입력 
+						//{
+						//	state[b][c] = 1;
+						//}
+					}
+				}
+				else              //m이 홀수이면
+				{
+					for (int c = 176 - (m / 2); c < 177 + (m / 2); c++)
+					{
+						cin >> map[b][c];
+						//if (map[b][c] != 0) // 그자리에 세포가 있을 경우 (생성 시간+1)을 넣어주고 현재 상태 배열에 비활성화로 입력 
+						//{
+						//	state[b][c] = 1;
+						//}
+					}
+				}
+			}
+		}
+		/*
+		cout << "present time : 0 \n";
+		cout << "state :        time :        map: \n ";
+		for (int b = 95; b < 105; b++)
+		{
+			for (int c = 95; c < 105; c++)
+			{
+				if (state[b][c] == 0)
+					cout << " ";
+				else
+					cout << state[b][c];
+			} 
+			cout << "   ";
+			for (int c = 95; c < 105; c++)
+			{
+				if (time[b][c] == 0)
+					cout << " ";
+				else
+					cout << time[b][c];
+			}
+			cout << "   ";
+			for (int c = 95; c < 105; c++)
+			{
+				if (map[b][c] == 0)
+					cout << " ";
+				else
+					cout << map[b][c];
+			}
+			cout << "\n";
+		}
+		*/
+
+		// k시간 동안 진행
+		// 먼저 (생성시간+생명력 수치)와 (현재 시간)을 비교해서 활성화 단계 변경
+		// 활성화시간(= 생성시간 + 생명력 수치 ) + 1이면 번식
+		for (int presenttime = 1 ; presenttime <= k ; presenttime++)  // presenttime 시간이 됬을 때의 상황으로 변경
+		{
+			breed(n, m, time, map, presenttime);               // 번식
+			/*
+			cout << "present time : " << presenttime << " \n";
+			cout << "state :        time :        map: \n ";
+			for (int b = 95; b < 105; b++)
+			{
+				for (int c = 95; c < 105; c++)
+				{
+					if (state[b][c] == 0)
+						cout << " ";
+					else
+						cout << state[b][c];
+				}
+				cout << "   ";
+				for (int c = 95; c < 105; c++)
+				{
+					if (time[b][c] == 0)
+						cout << " ";
+					else
+						cout << time[b][c];
+				}
+				cout << "   ";
+				for (int c = 95; c < 105; c++)
+				{
+					if (map[b][c] == 0)
+						cout << " ";
+					else
+						cout << map[b][c];
+				}
+				cout << "\n";
+			}
+			*/
+			
+			//statechainge(n, m, time, map, presenttime);        // 활성화 단계 변경
+			/*
+			cout << "present time : " << presenttime<<" \n";
+			cout << "state :        time :        map: \n ";
+			for (int b = 95; b < 105; b++)
+			{
+				for (int c = 95; c < 105; c++)
+				{
+					if (state[b][c] == 0)
+						cout << " ";
+					else
+						cout << state[b][c];
+				}
+				cout << "   ";
+				for (int c = 95; c < 105; c++)
+				{
+					if (time[b][c] == 0)
+						cout << " ";
+					else
+						cout << time[b][c];
+				}
+				cout << "   ";
+				for (int c = 95; c < 105; c++)
+				{
+					if (map[b][c] == 0)
+						cout << " ";
+					else
+						cout << map[b][c];
+				}
+				cout << "\n";
+			}
+			*/
+		}	
+
+		//줄기세포 갯수 카운트
+		num = countcell(map, time, k);
+
+		// 결과 출력			   		 
+		cout << '#' << a + 1 << " " << num << '\n';
+	}
+}
