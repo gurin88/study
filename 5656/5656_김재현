@@ -1,0 +1,88 @@
+#include<iostream>
+#include<queue>
+#include<algorithm>
+using namespace std;
+
+int board[15][12];	
+int N, W, H, blockNum = 0;
+int row[4] = { -1,0,1,0 }, col[4] = { 0,1,0,-1 };
+typedef struct pos{
+	int r, c;
+}pos;
+
+pos shoot(int board[15][12], int col){
+	for (int i = 0; i < H; i++) if (board[i][col] > 0) return pos{ i,col };
+	return  pos{ -1,-1 };
+}
+
+void destruction(int board[15][12], pos start){
+	queue<pos> q;
+	q.push(start);
+	while (q.empty() != true){
+		int r, c;
+		r = q.front().r;
+		c = q.front().c;
+		int range = board[r][c];
+		board[r][c] = 0;
+		q.pop();
+		for (int i = 0; i < 4; i++)
+			for (int a = 0; a < range - 1; a++){
+				int nr = row[i] * (a + 1) + r;
+				int nc = col[i] * (a + 1) + c;
+				if (nr >= 0 && nr < H && nc >= 0 && nc < W)
+					if (board[nr][nc] > 0)
+						if (board[nr][nc] == 1) board[nr][nc] = 0;
+						else q.push(pos{ nr,nc });
+			}
+	}
+	return;
+}
+
+int pushdown(int board[15][12]) {
+	int block_remain = 0;
+	int tmp[15] = { 0 };
+	for (int c = 0; c < W; c++) {
+		int cnt = 0;
+		for (int r = 0; r < H; r++)
+			if (board[r][c] > 0) {
+				tmp[cnt] = board[r][c];
+				cnt++;
+				board[r][c] = 0;
+				block_remain++;
+			}
+		for (int a = 0; a < cnt; a++) board[H - a - 1][c] = tmp[cnt - a - 1];
+	}
+	return block_remain;
+}
+
+int test(int board_tmp[15][12], int n, int remain){
+	if (n == 0) return remain;
+	int board_tmp2[15][12];
+	for (int i = 0; i < H; i++) for (int j = 0; j < W; j++) board_tmp2[i][j] = board_tmp[i][j];
+	for (int i = 0; i < W; i++) {
+		pos start = shoot(board_tmp, i);
+		if (start.r == -1) continue;
+		destruction(board_tmp, start);
+		int remain_tmp = pushdown(board_tmp);
+		remain = min(remain, test(board_tmp, n - 1, remain_tmp));
+		for (int i = 0; i < H; i++) for (int j = 0; j < W; j++)	board_tmp[i][j] = board_tmp2[i][j];
+	}
+	return remain;
+}
+
+int main() {
+	int test_case;
+	int T;
+	cin >> T;
+	for (test_case = 1; test_case <= T; test_case++) {
+		cin >> N >> W >> H;
+		blockNum = 0;
+		for (int i = 0; i < H; i++) 
+			for (int j = 0; j < W; j++){
+				cin >> board[i][j];
+				if (board[i][j] > 0) blockNum++;
+			}
+		cout << "#" << test_case << " " << test(board, N, blockNum) << endl;
+	}
+	return 0;
+}
