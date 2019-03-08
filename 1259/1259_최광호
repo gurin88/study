@@ -1,0 +1,87 @@
+#include <iostream>
+using namespace std;
+
+int ans = 0;                  // 찾은 최장연결 길이
+
+void dfs(int prev, int length, int *path, int screwnum, int screwdata[][21], int visited[21], int ansarr[21])
+{
+	int check = 0;  // 다음으로 연결될 나사가 있는지의 여부 판단 변수
+
+	for (int b = 0; b < screwnum; b++)
+	{
+		// 전 단계의 암나사와 지금 연결할 숫나사 크기가 같고 방문 경험이 없으면
+		if ((screwdata[1][prev] == screwdata[0][b]) && visited[b] == 0)
+		{
+			visited[b] = 1;
+			path[length] = b;
+
+			//cout <<"b : "<< b <<" path["<<length<<"] : " << path[length] << "\n";
+
+			dfs(b, length + 1, path, screwnum, screwdata, visited, ansarr);
+
+			visited[b] = 0;
+			path[length] = 0;
+
+			check = 1;
+		}
+	}
+	//연결할 수 있는 나사가 없으면 길이를 비교하고 최신화
+	if (check == 0)
+	{
+		if (length > ans) {
+			//cout << "1. length : " << length << "  ans : " << ans << "\n";
+			for (int b = 0; b < 21; b++)
+				ansarr[b] = path[b];
+			//cout << "ok\n";
+			ans = length;
+			//cout << "2. length : " << length << "  ans : " << ans << "\n";
+		}
+	}
+}
+
+int main(int argc, char** argv)
+{
+	int testcase = 0;
+	cin >> testcase;
+	for (int a = 0; a < testcase; a++)
+	{
+		int screwnum = 0;             // 입력받은 나사의 갯수
+		int screwdata[2][21] = { 0 }; // 입력받은 숫나사, 암나사 크기
+		int visited[21] = { 0 }; // 방문 여부
+		int ansarr[21] = { 0 }; // 찾은 최장길이 연결 나사 좌표
+		int path[21] = { 0 }; // 현재의 연결 나사 정보
+
+		// 입력
+		cin >> screwnum;
+		for (int b = 0; b < screwnum; b++)
+			cin >> screwdata[0][b] >> screwdata[1][b];
+		ans = 0;
+
+		//for (int b = 0; b < screwnum; b++)
+		//	cout << screwdata[0][b] << " "<< screwdata[1][b] << "\n";
+
+		for (int b = 0; b < screwnum; b++)  // 처음 나사 
+		{
+			visited[b] = 1;
+			path[0] = b;
+
+			//cout << "##b : "<< b << " path[0] : " << path[0] << "\n";
+			dfs(b, 1, path, screwnum, screwdata, visited, ansarr);
+
+			// 연결 정보 초기화
+			visited[b] = 0;
+			path[0] = 0;
+		}
+		//cout << "ans : " << ans << "\n";
+
+		//for (int b = 0 ; b < ans ; b++)
+		//	cout << ansarr[b] << " "<< ansarr[b] << "\n";
+
+		//결과 출력
+		cout << '#' << a + 1 << " ";
+		for (int b = 0; b < ans; b++) {
+			cout << screwdata[0][ansarr[b]] << " " << screwdata[1][ansarr[b]] << " ";
+		}
+		cout << '\n';
+	}
+}
