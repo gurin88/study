@@ -1,0 +1,183 @@
+#include <iostream>
+using namespace std;
+
+// 0을 누르면 그 0과 연속적으로 연결된 0과 그와 1칸의 거리의 숫자가 표기됨
+
+// 문자열 배열을 읽어서 char형 배열에 저장 
+// char형 배열에서 '*'이 있으면 9, '.'이 있으면 1칸거리에 있는 '*'의 갯수를 int형 배열에 입력  
+void intconvert(int n, char** data, int intdata[][300])
+{
+	for (int a = 0; a < n ; a++)
+	{
+		for (int b = 0; b < n; b++)
+		{
+			if (data[a][b] == '*')       // 지뢰를 찾으면 9로 표기
+				intdata[a][b] = 9;
+			else if (data[a][b] == '.')  // 1칸간격의 지뢰 갯수를 카운트 하여 입력 
+			{
+				int num = 0;                 // 주변의 지뢰갯수 카운트용 변수
+				if ((0 <= a - 1) && (data[a - 1][b] == '*')) // 왼쪽
+					num++;
+				if ((a + 1 < n) && (data[a + 1][b] == '*'))  // 오른쪽
+					num++;
+				if ((0 <= b - 1) && (data[a][b - 1] == '*')) // 위쪽
+					num++;
+				if ((b + 1 < n) && (data[a][b + 1] == '*'))  // 아래쪽
+					num++;
+				if ((0 <= a - 1) && (0 <= b - 1) && (data[a - 1][b - 1] == '*'))  // 왼위쪽
+					num++;
+				if ((a + 1 < n) && (0 <= b - 1) && (data[a + 1][b - 1] == '*'))   // 오른위쪽
+					num++;
+				if ((0 <= a - 1) && (b + 1 < n) && (data[a - 1][b + 1] == '*'))  // 왼아래쪽
+					num++;
+				if ((a + 1 < n) && (b + 1 < n) && (data[a + 1][b + 1] == '*'))  // 오른아래쪽
+					num++;
+				intdata[a][b] = num;
+			}
+		}
+	}
+}
+
+void chainge(int a, int b, int n, int intdata[][300])
+{
+	if ((0 <= a - 1) && (intdata[a - 1][b] == 0)) // 0이면 10으로 변환후 좌표 이동
+	{
+		intdata[a - 1][b] = 10;
+		chainge(a - 1, b, n, intdata);
+	}
+	else if ((0 <= a - 1) && (intdata[a - 1][b] != 0) && (intdata[a - 1][b] != 9) && (intdata[a - 1][b] != 10)) // 1~8이면 11로 값만 변환
+		intdata[a - 1][b] = 11;
+	
+	if ((a + 1 < n) && (intdata[a + 1][b] == 0))  // 오른쪽
+	{
+		intdata[a + 1][b] = 10;
+		chainge(a + 1, b, n, intdata);
+	}
+	else if ((a + 1 < n) && (intdata[a + 1][b] != 0) && (intdata[a + 1][b] != 9) && (intdata[a + 1][b] != 10)) // 1~8이면 11로 값만 변환
+		intdata[a + 1][b] = 11;
+
+	if ((0 <= b - 1) && (intdata[a][b - 1] == 0)) // 위쪽
+	{
+		intdata[a][b - 1] = 10;
+		chainge(a, b-1, n, intdata);
+	}
+	else if ((0 <= b-1) && (intdata[a][b-1] != 0) && (intdata[a][b-1] != 9) && (intdata[a][b-1] != 10)) // 1~8이면 11로 값만 변환
+		intdata[a][b-1] = 11;
+
+	if ((b + 1 < n) && (intdata[a][b + 1] == 0))  // 아래쪽
+	{
+		intdata[a][b+1] = 10;
+		chainge(a , b+1, n, intdata);
+	}
+	else if ((b + 1 < n) && (intdata[a][b+1] != 0) && (intdata[a][b+1] != 9) && (intdata[a][b+1] != 10)) // 1~8이면 11로 값만 변환
+		intdata[a][b+1] = 11;
+
+	if ((0 <= a - 1) && (0 <= b - 1) && (intdata[a - 1][b - 1] == 0))  // 왼위쪽
+	{
+		intdata[a - 1][b - 1] = 10;
+		chainge(a - 1, b - 1, n, intdata);
+	}
+	else if ((0 <= a - 1) && (0 <= b - 1) && (intdata[a - 1][b - 1] != 0) && (intdata[a - 1][b-1] != 9) && (intdata[a -1 ][b-1] != 10)) // 1~8이면 11로 값만 변환
+		intdata[a - 1][b-1] = 11;
+	
+	if ((a + 1 < n) && (0 <= b - 1) && (intdata[a + 1][b - 1] == 0))   // 오른위쪽
+	{
+		intdata[a + 1][b - 1] = 10;
+		chainge(a + 1, b - 1, n, intdata);
+	}
+	else if ((a + 1 < n) && (0 <= b - 1) && (intdata[a + 1][b-1] != 0) && (intdata[a + 1][b-1] != 9) && (intdata[a + 1][b-1] != 10)) // 1~8이면 11로 값만 변환
+		intdata[a + 1][b - 1] = 11;
+	
+	if ((0 <= a - 1) && (b + 1 < n) && (intdata[a - 1][b + 1] == 0))  // 왼아래쪽
+	{
+		intdata[a - 1][b + 1] = 10;
+		chainge(a - 1, b + 1, n, intdata);
+	}
+	else if ((0 <= a - 1) && (b + 1<n) && (intdata[a - 1][b+1] != 0) && (intdata[a - 1][b+1] != 9) && (intdata[a - 1][b+1] != 10)) // 1~8이면 11로 값만 변환
+		intdata[a - 1][b + 1] = 11;
+
+	if ((a + 1 < n) && (b + 1 < n) && (intdata[a + 1][b + 1] == 0))  // 오른아래쪽
+	{
+		intdata[a + 1][b + 1] = 10;
+		chainge(a + 1, b + 1, n, intdata);
+	}
+	else if ((a + 1 < n) && ( b + 1 < n) && (intdata[a + 1][b+1] != 0) && (intdata[a + 1][b+1] != 9) && (intdata[a + 1][b+1] != 10)) // 1~8이면 11로 값만 변환
+		intdata[a + 1][b + 1] = 11;
+}
+
+// 연결되어있는 0그룹 갯수 숫자
+// 0  : 아직 확인이 안된 근처에 지뢰가 없는 좌표
+// 10 :      확인이 된   근처에 지뢰가 없는 좌표
+// 1~8 : 아직 확인이 안된 근처에 지뢰가 있는 좌표
+// 11 :       확인이 된   근처에 지뢰가 있는 좌표
+// 9 : 지뢰가 있는 좌표
+int check(int n, int intdata[][300])
+{
+	int output = 0;
+
+	for (int a = 0 ; a < n ; a++)
+	{
+		for (int b = 0 ; b < n ; b++)
+		{
+			if (intdata[a][b] == 0) // 전구간을 검색하다 0이 나오면 1간격 위치의 값을 확인해서 0이 아니면 9로 변환
+			{
+				intdata[a][b] = 10;
+				chainge(a,b,n,intdata);
+				output++;
+			}
+		}
+	}
+	// 전구간 이동해서 아직 1~8의 값을 가지는 좌표의 갯수만큼 output++
+	for (int a = 0; a < n; a++)
+		for (int b = 0; b < n; b++)
+			//if(intdata[a][b]<9)
+				if ((intdata[a][b] != 0) && (intdata[a][b] != 9) && (intdata[a][b] != 10) && (intdata[a][b] != 11))
+					output++;
+	return output;
+}
+
+
+
+int main()
+{
+	int testcase = 0;
+	cin >> testcase;
+	for (int a = 0 ; a < testcase ; a++)
+	{
+		int n;                 //지뢰찾기 배열 한 변의 길이( 1<= n<= 300 )
+		int intdata[300][300] = { 0 };
+		int output = 0;
+		cin >> n;
+
+		char** data;
+		data = new char*[301];
+		for (int b = 0; b < 301; b++)
+			data[b] = new char[301];
+		for (int b = 0; b < n ; b++)
+			for (int c = 0; c < n ; c++)
+				cin >> data[b][c];		
+		intconvert(n, data, intdata); // int형 배열에 변한 입력
+		for (int b = 0; b < b; b++)   // 배열 동적할당 해제
+			delete[] data[b];
+		delete[] data;
+
+		output = check(n, intdata);
+
+		/*for (int b = 0; b < n; b++)
+		{
+			for (int c = 0; c < n; c++)
+				cout << intdata[b][c] << " ";
+			cout << endl;
+		}*/
+		cout << '#' << a + 1 << " "  <<  output << '\n';
+	}
+}
+
+/*for (int b = 0; b < n ; b++)
+		{
+			for (int c = 0; c < n; c++)
+			{
+				cout << intdata[b][c] << " ";
+			}
+			cout << "\n";
+		}*/
