@@ -1,0 +1,167 @@
+#include <iostream>
+using namespace std;
+
+// 배열 데이터를 입력받아서 그룹에 따라 
+// 추출한 sub matrix의 총 개수와 가로세로를 곱의 크기가 작은 순으로 출력
+// 곱의크기가 같을 때 줄(세로)이 작은 게 먼저임 ㅎ
+
+// 직사각형이니 왼위, 오른위, 왼아래, 오른아래 좌표 구분하여 검색( ex] 왼위는 왼쪽과 오른쪽이 0 )
+// 가로, 세로 중 하나라도 같은 좌표 중 작은 값을 다른 꼭지점으로 판단
+
+
+// 각 좌표 정리
+void checkmatrix(int matrix[][102],int aa[][20], int bb[][20], int cc[][20], int submatrix)
+{
+	int c = 0;
+
+	for (int a = 1 ; a < submatrix+1 ; a++)
+	{
+		for (int b = 1 ; b < submatrix+1 ; b++)
+		{
+			if ( (matrix[a][b]!=0) && (matrix[a-1][b] == 0) && (matrix[a][b-1] == 0))
+			{
+				aa[0][c] = a;
+				aa[1][c] = b;
+				c++;
+			}
+		}
+	}
+	c = 0;
+	for (int a = 1; a < submatrix + 1; a++)
+	{
+		for (int b = 1; b < submatrix + 1; b++)
+		{
+			if ((matrix[a][b] != 0) && (matrix[a-1][b] == 0) && (matrix[a][b+1] == 0))
+			{
+				bb[0][c] = a;
+				bb[1][c] = b;
+				c++;
+			}
+		}
+	}
+	c = 0;
+	for (int b = 1; b < submatrix + 1; b++)
+	{
+		for (int a = 1; a < submatrix + 1; a++)
+		{
+			if ((matrix[a][b] != 0) && (matrix[a+1][b] == 0) && (matrix[a][b-1] == 0))
+			{
+				cc[0][c] = a;
+				cc[1][c] = b;
+				c++;
+			}
+		}
+	}
+}
+
+// sub matrix 갯수 확인해서 반환
+int submatrixnumcheck(int aa[][20])
+{
+	int a = 0;
+	for (a = 0 ; a < 20 ; a++)
+	{
+		if ( (aa[0][a] == 0) && (aa[1][a] == 0) )
+			break;
+	}
+	return a;
+}
+
+void asdf(int matrix[][102], int aa[][20], int bb[][20], int cc[][20], int submatrix, int output[][20], int submatrixnum)
+{
+	for (int a = 0 ; a < submatrixnum; a++)
+	{
+		output[0][a] = bb[1][a] - aa[1][a] + 1 ;
+
+		int aaa = 0;
+		aaa = bb[0][a];
+
+		for (int b = 0; b < 100; b++)  // 오른위에서 아래로 한칸씩 이동했을때 0이 나오면 그곳이 오른 아래
+		{
+			if (matrix[aaa + b][bb[1][a]] == 0)
+			{
+				output[1][a] = b;
+				break;
+			}
+		}
+	}	
+	for (int a = 0 ; a < submatrixnum ; a++)  // 크기 연산
+	{
+		output[2][a] = output[0][a] * output[1][a];
+	}
+}
+
+// 크기- 행크기 순으로 정렬
+void sort(int output[][20], int submatrixnum)
+{
+	for (int a = 0 ; a < submatrixnum ; a++)
+	{
+		for (int b = (a+1) ; b < submatrixnum ; b++)
+		{
+			// 앞의 값이 크거나 값은 같은데 뒤의 행이 더 길면 스왑
+			if ( (output[2][a] > output[2][b]) || ((output[2][a] == output[2][b]) && (output[0][a] < output[0][b])) )
+			{
+				int c = 0;
+
+				c = output[0][a];
+				output[0][a] = output[0][b];
+				output[0][b] = c;
+
+				c = output[1][a];
+				output[1][a] = output[1][b];
+				output[1][b] = c;
+
+				c = output[2][a];
+				output[2][a] = output[2][b];
+				output[2][b] = c;
+			}
+		}
+	}
+}
+
+int main()
+{
+	int testcase = 0;
+
+	cin >> testcase;
+
+	for (int a = 0; a < testcase; a++)
+	{
+		int submatrix;                  // 배열 크기
+		int matrix[102][102] = { 0 };   // 입력받을 배열 데이터
+		int aa[2][20] = { 0 };          // 왼위 
+		int bb[2][20] = { 0 };          // 오위
+		int cc[2][20] = { 0 };          // 왼아
+		int output[3][20] = { 0 };      // 행 길이, 열 길이, 크기 
+		int submatrixnum = 0;           // sub matrix 갯수
+
+		for (int b = 0; b < 3; b++)
+		{
+			for (int c = 0; c < 20 ; c++)
+			{
+				output[b][c] = 100;
+			}
+		}
+
+		cin >> submatrix;
+		
+		for (int b = 1 ; b < submatrix+1 ; b++)
+		{
+			for (int c = 1 ; c < submatrix+1 ; c++)
+			{
+				cin >> matrix[b][c];
+			}			
+		}
+		
+		checkmatrix(matrix, aa, bb, cc, submatrix);
+		submatrixnum = submatrixnumcheck(aa);
+		asdf(matrix, aa, bb, cc, submatrix, output, submatrixnum);
+		sort(output, submatrixnum);
+
+		cout << '#' << a + 1 << " " << submatrixnum  << " ";
+		for (int b = 0 ; b < submatrixnum ; b++)
+		{
+			cout << output[1][b] << " " << output[0][b] << " "; 
+		} 
+		cout << '\n';
+	}
+}
