@@ -1,0 +1,47 @@
+#include<cstdio>
+#define MAX_SIZE 100
+struct matrix {
+	int r;
+	int c;
+	int comp;
+};
+int T, N, CNT;
+int arr[MAX_SIZE][MAX_SIZE];
+matrix M[MAX_SIZE*MAX_SIZE];
+int main() {
+	scanf("%d ", &T);
+	for (int tc = 0; tc < T; tc++) {
+		CNT = 0;
+		scanf("%d ", &N);
+		for (int r = 0; r < N; r++) {
+			for (int c = 0; c < N; c++) {
+				scanf("%d ", arr[r] + c);
+			}
+		}
+		for (int r = 0; r < N; r++) {
+			for (int c = 0; c < N; c++) {
+				if (arr[r][c] && !(r && arr[r - 1][c])) {
+					int nr = r, nc = c;
+					while (nr<N && arr[++nr][c]);
+					while (nc<N && arr[r][++nc]);
+					M[CNT].r = (nr - r);
+					M[CNT].c = (nc - c);
+					M[CNT].comp = M[CNT].r * M[CNT].c * 101 + M[CNT++].r;
+					c = nc - 1;
+				}
+			}
+		}
+		printf("#%d %d ", tc + 1, CNT);
+		for (int i = 0; i < CNT; i++) {
+			int minidx = i;
+			for (int j = i; j < CNT; j++) {
+				if (M[minidx].comp > M[j].comp)
+					minidx = j;
+			}
+			printf("%d %d ", M[minidx].r, M[minidx].c);
+			M[minidx] = M[i];
+		}
+		puts("");
+	}
+	return 0;
+}
