@@ -1,0 +1,86 @@
+#include "stdafx.h"
+#include <iostream>
+
+using namespace std;
+int N;
+int num;
+int map[102][102];
+int dx[] = { 0,1,0,-1 };
+int dy[] = { 1,0,-1,0 };  //아래0 오른쪽1 위2 왼쪽3
+int change[6][5] = { {0, 1, 2, 3},    //0
+					 {1, 3, 0, 2},    //1
+					 {2, 3, 1, 0},    //2
+					 {2, 0, 3, 1},    //3
+					 {3, 2, 0, 1},    //4
+					 {2, 3, 0, 1} };  //5
+void dfs(int x, int y, int d)
+{
+	int cnt = 0;;
+	while (1)
+	{
+		int nx = x + dx[d], ny = y + dy[d];
+		if (map[nx][ny] == -1)
+			if (num < cnt)
+			{
+				num = cnt;
+				return;
+			}
+		if (map[nx][ny])
+		{
+			if (map[nx][ny] < 6)
+			{
+				d = change[map[nx][ny]][d];
+				cnt++;
+			}
+			else if (map[nx][ny] >= 6)
+			{
+				for (int i = 0; i < N; i++)
+					for (int j = 0; j < N; j++)
+						if (nx != x && ny != y && map[i][j] == 6)
+						{
+							nx = i;
+							ny = j;
+						}
+			}
+		}
+	}
+}
+void first()
+{
+	num = 0;
+	for (int i = 0; i <= N + 1; i++)
+			map[0][i] = 5;
+	for (int i = 0; i <= N + 1; i++)
+		map[N][i] = 5;
+	for (int i = 1; i <= N ; i++)
+		map[i][0] = 5;
+	for (int i = 1; i <= N; i++)
+		map[N][0] = 5;
+	for(int i = 0; i<N; i++)
+		for (int j = 0; j < N; j++)
+		{
+			if (map[i][j] == 0)
+				continue;
+			for (int d = 0; d < 4; d++)
+				dfs(i, j, d);
+		}
+}
+int main()
+{
+	int T;
+	cin >> T;
+
+	for (int case_num = 1; case_num <= T; case_num++)
+	{
+		cin >> N;
+		
+		for (int i = 1; i <= N; i++)
+			for (int j = 1; j <= N; j++) 
+			{
+				cin >> map[i][j];
+				first();
+			}
+		cout << "#" << case_num << " " << num << endl;
+	}
+	return 0;
+}
