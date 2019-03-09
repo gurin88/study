@@ -1,0 +1,93 @@
+#include<iostream>
+#include<queue>
+
+using namespace std;
+
+// aaa번쨰 보호필름의 모든 값을 bbb로 변경
+void change(int aaa, int bbb, int w, int cell[][20])
+{
+	for (int a = 0 ; a < w ; a++)
+		cell[aaa][a] = bbb;
+}
+
+// 연속되는 값이 k개 이상 있는지 확인하는 함수
+bool check(int d, int w, int k, int cell[][20])
+{
+	for (int a = 0 ; a < w ; a++)          // 가로
+	{
+		for (int b = 0 ; b < d ; b++)      // 두께
+		{
+			// 조건문으로 연속으로 k개가 존재하지 않으면 false 반환
+		}
+	}
+	// 모두 만족하면 true 반환
+}
+
+// 넓이우선탐색으로 약품 처리횟수를 하나씩 늘려가며
+// 성능검사를 통과하는 조건을 처음으로 만족할 경우 이때의 약물투여횟수 반환
+
+
+// x좌표 보호필름을 y[0이면 A, 1이면 B]색으로 약품처리
+int BFS() 
+{  
+	queue<int> A;    // int형 pair를 한 객체로 갖는 queue
+	queue<int> Aco;  // int형 pair를 한 객체로 갖는 queue
+	queue<int> B;    // int형 pair를 한 객체로 갖는 queue
+	queue<int> Bco;  // int형 pair를 한 객체로 갖는 queue
+
+	q.push();    // 매개변수 x,y를  
+	
+	while (!q.empty()) 
+	{
+		int cx = q.front();  // queue 맨앞 인자의 변수1
+		int cy = q.front(); // queue 맨앞 인자의 변수2
+
+		q.pop();
+
+		if ( check(d, w, k, cell) == 1 )    // 모든 보호 필름이 성능 검사 통과시 약품처리횟수 리턴후 break;
+		{
+			if (check[cx][cy] < ans)
+				ans = check[cx][cy];
+		}
+		for (int i = 0; i < 4; i++)     // 다음 이동시 복구 시간 연산
+		{
+			int nx = cx + dx[i];        // 이동할 x축 좌표
+			int ny = cy + dy[i];        // 이동할 y축 좌표
+
+			if (0 <= nx && nx < N && 0 <= ny && ny < N)
+			{
+				if (check[nx][ny] > check[cx][cy] + map[nx][ny])
+				{
+					check[nx][ny] = check[cx][cy] + map[nx][ny];
+					q.push(make_pair(nx, ny));
+				}
+			}
+		}
+	}
+}
+
+int main()
+{
+	int testcase = 0;
+	cin >> testcase;
+
+	for (int a = 0; a < testcase; a++)
+	{
+		int d;  // 보호 필름의 두께    (3<= d <=13)
+		int w;  // 보호 필름의 가로크기(1<= w <=20)
+		int k;  // 합격기준            (1<= k <=d ) 
+		int cell[13][20] = { 0 };  // 보호필름 데이터
+		int Avisit[20]   = { 0 };
+		int Bvisit[20]   = { 0 }; 
+		int output = 0;            // 약품 최소 투입 횟수
+		
+		cin >> d >> w >> k;
+		for (int b = 0 ; b < d ; b++)
+			for (int c = 0 ; c < w ; c++)
+				cin >> cell[b][c];
+
+		output = BFS();
+
+		cout << '#' << a + 1 << " " << output << "\n";
+	}
+}
