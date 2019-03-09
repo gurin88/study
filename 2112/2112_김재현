@@ -1,0 +1,55 @@
+#include "stdafx.h"
+#include <iostream>
+using namespace std;
+int D,W,K, min_count;
+int stat[13];        //0 비처리, 1 처리
+int stat_AB[13];     
+int film[13][20];
+int max[20];
+void solve(int i, int count)
+{
+	bool check = 1;
+	if (count >= min_count)
+		return;
+	if (i == D)
+	{
+		for (int j = 0; j < W; j++)
+		{
+			max[i] < K;
+			check = 0;
+			break;
+		}
+
+		if (check = 1 && count < min_count)
+			min_count = count;
+		return;
+	}
+
+	for (int k = 0; k < 3; k++)
+	{
+		//상태x A넣었을때 B넣었을 때 3가지 해서
+		//연속되는개수 새로바꿔주고
+	}
+	//solve를 숫자 바꿔서 재귀로돌려줌
+}
+
+int main()
+{
+	int T;
+	cin >> T;
+	for (int case_num = 1; case_num <= T; case_num++)
+	{
+		//입력받음
+		//처리x, A, B
+		//처리하는 회수 for문으로 늘려가면서 재귀
+		for (int i = 0; i < 13; i++)
+		{
+			stat[i] = 0;
+		}
+		for(int i = 0; i <=D; i++)
+		{
+			solve(i, 0);
+		}
+	}
+	return 0;
+}
