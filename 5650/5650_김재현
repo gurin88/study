@@ -52,16 +52,7 @@ void dfs(int x, int y, int d)
 
 void first()
 {
-	num = 0;
-	for (int i = 0; i <= N + 1; i++)
-		map[i][0] = map[i][N + 1] = map[0][i] = map[N + 1][i] = 5;
-	for(int i = 0; i<N; i++)
-		for (int j = 0; j < N; j++)
-		{
-			if (map[i][j] == 0)
-				for (int d = 0; d < 4; d++)
-					dfs(i, j, d);
-		}
+	
 }
 
 int main()
@@ -78,7 +69,18 @@ int main()
 				cin >> map[i][j];
 		for (int i = 1; i <= N; i++)
 			for (int j = 1; j <= N; j++)
-				first();
+			{
+				num = 0;
+				for (int k = 0; k <= N + 1; k++)
+					map[k][0] = map[k][N + 1] = map[0][k] = map[N + 1][k] = 5;
+				for (int k = 0; k<N; k++)
+					for (int l = 0; j < N; l++)
+					{
+						if (map[k][l] == 0)
+							for (int d = 0; d < 4; d++)
+								dfs(k, l, d);
+					}
+			}
 		cout << "#" << case_num << " " << num << endl;
 	}
 	return 0;
