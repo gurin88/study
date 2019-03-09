@@ -1,0 +1,69 @@
+#include <iostream>
+
+using namespace std;
+
+// w : 가로 크기(1~20)	 D : 세로 크기 (3~13)	 K : 연속 특성 (1~D)
+
+bool check(int (*arr)[20], int D ,int W, int K)	//합격 조건 부합하느냐?
+{
+	int sA(0), sB(0);
+	for (int i = 0; i < W; i++) {
+		for (int j = 0; j < D; j++) {
+			if (arr[j][i] == 0)
+				sA++;
+			if (arr[j][i] == 1)
+				sB++;
+		}
+	}
+	if(sA>=K && sB>=K)
+		return 1;
+	else
+		return 0;
+}
+
+void inject(int (*arr)[20], int n, int kind, int W, int K, int cnt1)	//약물 주입
+{
+	int k = K;
+	//kind는 약물 종류
+	while (k) {
+		if (kind == 0) {
+			for (int i = 0; i < W; i++)
+				arr[n][i] = 0;
+		}
+		else if (kind == 1) {
+
+			for (int i = 0; i < W; i++)
+				arr[n][i] = 1;
+
+		}
+		/*
+			재귀함수를 통해 check조건을 만족하는 최소 주입 횟수(cnt) ㄱㄱ
+			약물 A,B 넣는 경우의 수 고려할 것
+		*/
+		k--;
+	}
+}
+
+int main()
+{
+	int TC, D, W, K;
+	int arr[13][20] = { -1 };
+	for (int t = 1; t <= TC; t++) {
+		int cnt1(0), cnt2(0);
+		cin >> D >> W >> K;
+
+		for (int i = 0; i < D; i++) {
+			for (int j = 0; j < W; j++) {
+				cin >> arr[i][j];
+			}
+		}
+		/////////////최소값 구하기//////////////
+		inject(arr, 0, 0, W, K, cnt1);
+		inject(arr, 0, 1, W, K, cnt2);
+		
+		//cnt1, cnt2 대소 비교 후 출력
+	
+	}
+
+	return 0;
+}
