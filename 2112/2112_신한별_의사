@@ -3,8 +3,11 @@
 using namespace std;
 
 // w : 가로 크기(1~20)	 D : 세로 크기 (3~13)	 K : 연속 특성 (1~D)
+int arr[13][20] = { -1 };
 
-bool check(int (*arr)[20], int D ,int W, int K)	//합격 조건 부합하느냐?
+int inject[13];		//주입한 열
+
+int check(int D ,int W, int K)	//합격 조건 부합하느냐?
 {
 	int sA(0), sB(0);
 	for (int i = 0; i < W; i++) {
@@ -16,16 +19,16 @@ bool check(int (*arr)[20], int D ,int W, int K)	//합격 조건 부합하느냐?
 		}
 	}
 	if(sA>=K && sB>=K)
-		return 1;
+		return 1;		// 적합
 	else
-		return 0;
+		return 0;		//부적합
 }
 
-void inject(int (*arr)[20], int n, int kind, int W, int K, int cnt1)	//약물 주입
+int test(int n, int kind, int D, int W, int K, int cnt)	//약물 주입  //수정 필요
 {
-	int k = K;
-	//kind는 약물 종류
-	while (k) {
+	int C = 14;
+	if (!check(D, W, K)) {
+		cnt++;
 		if (kind == 0) {
 			for (int i = 0; i < W; i++)
 				arr[n][i] = 0;
@@ -36,20 +39,26 @@ void inject(int (*arr)[20], int n, int kind, int W, int K, int cnt1)	//약물 �
 				arr[n][i] = 1;
 
 		}
+		if (cnt < C) C = cnt;
 		/*
-			재귀함수를 통해 check조건을 만족하는 최소 주입 횟수(cnt) ㄱㄱ
-			약물 A,B 넣는 경우의 수 고려할 것
+		재귀함수를 통해 check조건을 만족하는 최소 주입 횟수(cnt) ㄱㄱ
+		약물 A,B 넣는 경우의 수 고려할 것
 		*/
-		k--;
+		for (int j = 0; j < D; j++) {
+			if (j == n) j++;
+
+		}
 	}
+	else
+		return C;
 }
 
 int main()
 {
 	int TC, D, W, K;
-	int arr[13][20] = { -1 };
+	cin >> TC;
 	for (int t = 1; t <= TC; t++) {
-		int cnt1(0), cnt2(0);
+		int res, cnt1(0), cnt2(0);
 		cin >> D >> W >> K;
 
 		for (int i = 0; i < D; i++) {
@@ -57,12 +66,16 @@ int main()
 				cin >> arr[i][j];
 			}
 		}
-		/////////////최소값 구하기//////////////
-		inject(arr, 0, 0, W, K, cnt1);
-		inject(arr, 0, 1, W, K, cnt2);
+		if (!check(D, W, K)) {
 		
-		//cnt1, cnt2 대소 비교 후 출력
-	
+			
+			
+			/////////////최소값 구하기//////////////
+		}
+		else
+			res = 0;
+
+		cout << '#' << t << ' ' << res << endl;
 	}
 
 	return 0;
