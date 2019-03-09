@@ -1,0 +1,100 @@
+#include <iostream>
+
+#define MAX 100
+using namespace std;
+
+int score;
+
+struct POS {
+	int x;
+	int y;
+	int chk = 0;
+};
+
+struct WORM {
+	int x1, x2;
+	int y1, y2;
+	int chk = 0;
+};
+
+int dx[] = { 0,1,0,-1 }, dy[] = { 1,0,-1,0 };	//0 위쪽, 1 오른쪽, 2 아래쪽, 3 왼쪽
+
+int meet_block(int** arr)
+{
+	/*
+	**만나는 방향 중요
+
+		1. 블럭과 만났을 경우 :	(1~5) -> score ++
+
+		return 방향
+	*/
+}
+
+int worm_hole(int**arr, int x, int y, WORM* worm)
+{
+	int _x = x;
+	int _y = y;
+	//worm 의 x,y 들과 _x,_y를 비교하여 쌍이 되는 좌표로 이동한다
+}
+
+void gogo(int** arr, int x, int y) 
+{
+	while(arr[y][x]!=0){
+
+		//블럭 만날 때까지 해당 방향으로 계속 움직임
+
+	}
+	//블럭인 경우 -> meet_block()
+	//웜홀인 경우 -> worm_hole()
+	//블랙홀 -> 끝!!
+}
+int main()
+{
+	int TC;
+	for (int t = 1; t <= MAX; t++)
+	{
+		int N, k(0);
+		score = 0;
+		int arr[MAX][MAX];
+		POS start[MAX];	//스타트 가능 위치
+		WORM worm[MAX / 2];	//웜홀 위치 쌍쌍
+
+		cin >> N;
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++) {
+				cin >> arr[i][j];
+				if (arr[i][j] == 0) {
+					start[k].x = j;
+					start[k].y = i;
+					start[k].chk = 1;
+					k++;
+				}
+				else if (arr[i][j] >= 6 && arr[i][j] <= 10) {
+					int w = arr[i][j];
+					if (worm[w].chk == 0) {
+						worm[w].x1 = j;
+						worm[w].y1 = i;
+						worm[w].chk = 1;
+					}
+					else {
+						worm[w].x2 = j;
+						worm[w].y2 = i;
+					}
+				}
+			}
+
+			for (int f = 0; f < k; f++) {
+				/*
+						저장된 시작위치 ( start.x[k] , start.y[k]를 가지고 돌려서 최대 점수를 구한다
+				*/
+			}
+
+
+
+			// 정답 출력
+		}
+
+		
+		return 0;
+	}
+}
