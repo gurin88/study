@@ -62,14 +62,14 @@ int main()
 		cin >> N;
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
-				cin >> arr[i][j];
-				if (arr[i][j] == 0) {
+				cin >> arr[i][j];			//배열 초기화
+				if (arr[i][j] == 0) {		//스타트 가능 좌표 초기화
 					start[k].x = j;
 					start[k].y = i;
 					start[k].chk = 1;
 					k++;
 				}
-				else if (arr[i][j] >= 6 && arr[i][j] <= 10) {
+				else if (arr[i][j] >= 6 && arr[i][j] <= 10) {	//웜홀 좌표
 					int w = arr[i][j];
 					if (worm[w].chk == 0) {
 						worm[w].x1 = j;
