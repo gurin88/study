@@ -21,7 +21,7 @@ void dfs(int x, int y, int d)
 	while (1)
 	{
 		int nx = x + dx[d], ny = y + dy[d];
-		if ((sx==x && sy==y)||map[nx][ny] == -1)
+		if ((sx==nx && sy==ny)||map[nx][ny] == -1)
 			if (num < cnt)
 			{
 				num = cnt;
@@ -45,6 +45,8 @@ void dfs(int x, int y, int d)
 						}
 			}
 		}
+		x = nx;
+		y = ny;
 	}
 }
 
@@ -57,9 +59,8 @@ void first()
 		for (int j = 0; j < N; j++)
 		{
 			if (map[i][j] == 0)
-				continue;
-			for (int d = 0; d < 4; d++)
-				dfs(i, j, d);
+				for (int d = 0; d < 4; d++)
+					dfs(i, j, d);
 		}
 }
 
