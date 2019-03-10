@@ -1,54 +1,120 @@
 #include "stdafx.h"
 #include <iostream>
+#include <algorithm>
+
 using namespace std;
-int D,W,K, min_count;
-int stat[13];        //0 비처리, 1 처리
-int stat_AB[13];     
-int film[13][20];
-int max[20];
-void solve(int i, int count)
+
+int D, W, K;
+int film[15][25];
+int m[15][2];
+int MIN;
+
+
+int calculator()
 {
-	bool check = 1;
-	if (count >= min_count)
-		return;
-	if (i == D)
+	int ans = 0;
+	int temp = 0;
+	int count = 1;
+	int ccnt = 0;
+	int flag = 0;
+	for (int i = 1; i <= W; i++)
 	{
-		for (int j = 0; j < W; j++)
+		temp = film[1][i];
+		flag = 0;
+		count = 1;
+
+		int j;
+
+		for (j = 2; j <= D; j++)
 		{
-			max[i] < K;
-			check = 0;
-			break;
+			if (temp == film[j][i])
+				count++;
+			else
+			{
+				if (count >= K)
+				{
+					flag = 1;
+					break;
+				}
+				temp = film[j][i];
+				count = 1;
+			}
 		}
 
-		if (check = 1 && count < min_count)
-			min_count = count;
-		return;
+		if (j == D + 1)
+		{
+			if (count >= K)
+				flag = 1;
+		}
+
+		if (flag == 0)
+			return 0;
+	}
+	return 1;
+}
+
+int process(int k, int hei, int target)
+{
+	if (k == target)
+	{
+		if (calculator())
+			return k;
+		return -1;
 	}
 
-	for (int k = 0; k < 3; k++)
+	if (hei > D)
+		return -1;
+
+	int temp[25];
+	int min = 20;
+
+	for (int i = 1; i <= W; i++)
+		temp[i] = film[hei][i];
+
+	for (int i = 0; i < 2; i++)
 	{
-		//상태x A넣었을때 B넣었을 때 3가지 해서
-		//연속되는개수 새로바꿔주고
+		for (int j = 1; j <= W; j++)
+			film[hei][j] = i;
+
+		int ans = process(k + 1, hei + 1, target);
+
+		for (int j = 1; j <= W; j++)
+			film[hei][j] = temp[j];
+
+		if (ans != -1)
+			return ans;
 	}
-	//solve를 숫자 바꿔서 재귀로돌려줌
+	process(k, hei + 1, target);
 }
 
 int main()
 {
 	int T;
 	cin >> T;
+
 	for (int case_num = 1; case_num <= T; case_num++)
 	{
-		//입력받음
-		//처리x, A, B
-		//처리하는 회수 for문으로 늘려가면서 재귀
-		for (int i = 0; i < 13; i++)
+		MIN = 15;
+		cin >> D >> W >> K;
+
+		for (int i = 1; i <= D; i++)
+			for (int j = 1; j <= W; j++)
+				cin >> film[i][j];
+
+		int ans;
+		for (int i = 0; i < K; i++)
 		{
-			stat[i] = 0;
+			ans = process(0, 1, i);
+
+			if (ans != -1)
+			{
+				cout << "#" << case_num << " " << ans << endl;
+					break;
+			}
 		}
-		for(int i = 0; i <=D; i++)
+		if (ans == -1)
 		{
-			solve(i, 0);
+			cout << "#" << case_num << " " << K << endl;
 		}
 	}
 	return 0;
