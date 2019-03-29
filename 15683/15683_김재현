@@ -8,9 +8,9 @@ struct pos {
 	int c;
 	int cas;
 };
-int dr[4] = {-1,0,1,0};    //북동남서
-int dc[4] = {0,1,0,-1};
-int N, M,a;
+int dr[4] = { -1,0,1,0 };    //북동남서
+int dc[4] = { 0,1,0,-1 };
+int N, M;
 int ans = 987654321;
 int map[8][8];
 int check[8][8] = { 0 };
@@ -26,7 +26,7 @@ int cnt()
 	return temp;
 }
 
-void move(int r,int c, int dir)
+void move(int r, int c, int dir)
 {
 	int nr = r + dr[dir];
 	int nc = c + dc[dir];
@@ -38,8 +38,19 @@ void move(int r,int c, int dir)
 	}
 }
 
-void b(int r, int c, int cas, int num)
+
+void dfs(int num)
 {
+	if (num == v.size())
+	{
+		if (cnt() < ans)
+			ans = cnt();
+		//memset(check, 0, sizeof(check));
+		return;
+	}
+	int r = v[num].r;
+	int c = v[num].c;
+	int cas = v[num].cas;
 	for (int i = 0; i < 4; i++)
 	{
 		if (cas == 1)
@@ -67,25 +78,8 @@ void b(int r, int c, int cas, int num)
 			move(r, c, 2);
 			move(r, c, 3);
 		}
+		dfs(num + 1);
 	}
-}
-
-void dfs(int num)
-{
-
-	
-	if (num == v.size())
-	{
-		if (cnt() < ans)
-			ans = cnt();
-		//memset(check, 0, sizeof(check));
-		return;
-	}
-	int r = v[num].r;
-	int c = v[num].c;
-	int cas = v[num].cas;
-	for (int i = 0; i < num i++)
-		b(r,c, cas, i);
 }
 
 int main()
@@ -96,12 +90,9 @@ int main()
 		{
 			cin >> map[i][j];
 			if (map[i][j] >= 1 && map[i][j] <= 5)
-			{
 				v.push_back({ i,j,map[i][j] });
-				a++;
-			}
 		}
-	dfs(a);
+	dfs(0);
 	cout << ans;
 	return 0;
 }
