@@ -2,7 +2,7 @@
 using namespace std;
 
 int N;
-int arr[20][20] = { -1 };
+int arr[20][20] = { 0 };
 int res=0;
 
 void push_up()
@@ -117,8 +117,8 @@ int find_max()
 
 void dfs(int max)			//재귀함수 매개변수 : 언제 멈추냐
 {
-	if (max == 5) {
-		if (find_max() > res)
+	if (max == 4) {
+		if (find_max() >= res)
 		res = find_max();
 		return;
 	}
