@@ -1,0 +1,226 @@
+#include <iostream>
+#define MAX 8
+
+using namespace std;
+int N, M;
+//int dir1[] = { -1,1,0,0 };		// 상 하 좌 우
+//int dir2[] = { 0,0,1,-1 };
+int arr[8][8];
+int temp[8][8];
+int orin[8][8];
+
+struct cctv {
+	int kind;
+	int x;
+	int y;
+};
+cctv cc[8];
+
+void dir(int t,int x, int y)	//case는 상 하 좌 우 순서
+{
+	switch (t) {
+	case 0://상
+	{
+		int q = y-1;
+		while (q + 1) {
+			if (temp[q][x] == 6)
+				break;
+			temp[q][x] = 7;
+			q--;
+		}
+	}break;
+
+	case 1://하
+	{
+		int q = y + 1;
+		while (q != N) {
+			if (temp[q][x] == 6)
+				break;
+			temp[q][x] = 7;
+			q++;
+		}
+	}break;
+
+	case 2://좌
+	{
+		int q = x - 1;
+		while (q + 1) {
+			if (temp[y][q] == 6)
+				break;
+			temp[y][q] = 7;
+			q--;
+		}
+	}break;
+
+	case 3://우
+	{
+		int q = x + 1;
+		while (q != M) {
+			if (temp[y][q] == 6)
+				break;
+			temp[y][q] = 7;
+			q++;
+		}
+	}break;
+	}
+}
+void type(int _type, int t, int x, int y)	//t : 상0 하1 좌2 우3 순서
+{
+	switch (_type) {
+	case 1:	//0 1 2 3
+	{
+		dir(t, x, y);
+	}break;
+	
+	case 2://01 23		t=0 or 1 -> 01 t= 2 or 3  ->  23
+	{
+		if (t == 0 || t == 1) {
+			dir(0, x, y);
+			dir(1, x, y);
+		}
+		else if (t == 2 || t == 3) {
+			dir(2, x, y);
+			dir(3, x, y);
+		}
+	}break;
+
+	case 3://03 13 12 02
+	{
+		if (t == 0) {
+			dir(0, x, y);
+			dir(3, x, y);
+		}
+
+		else if (t == 1) {
+			dir(1, x, y);
+			dir(3, x, y);
+		}
+
+		else if (t == 2) {
+			dir(1, x, y);
+			dir(2, x, y);
+		}
+
+		else if (t == 3) {
+			dir(0, x, y);
+			dir(2, x, y);
+		}
+	}break;
+
+	case 4: //012 013 123 023
+	{
+		if (t == 0) {
+			dir(0, x, y);
+			dir(1, x, y);
+			dir(2, x, y);
+		}
+
+		else if (t == 1) {
+			dir(0, x, y);
+			dir(1, x, y);
+			dir(3, x, y);
+		}
+
+		else if (t == 2) {
+			dir(1, x, y);
+			dir(2, x, y);
+			dir(3, x, y);
+		}
+
+		else if (t == 3) {
+			dir(0, x, y);
+			dir(2, x, y);
+			dir(3, x, y);
+		}
+	}break;
+
+	case 5: //0123
+	{
+		dir(0, x, y);
+		dir(1, x, y);
+		dir(2, x, y);
+		dir(3, x, y);
+	}break;
+	}
+}
+
+int count()
+{
+	int c=0;
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < M; j++) {
+			if (temp[i][j] == 0)
+				c++;
+		}
+	}
+	return c;
+}
+
+void copy1()
+{
+	for (int i = 0; i < N; i++)
+		for (int j = 0; j < M; j++)
+			temp[i][j] = arr[i][j];
+}
+
+void copy2()
+{
+	for (int i = 0; i < N; i++)
+		for (int j = 0; j < M; j++)
+			arr[i][j] = temp[i][j];
+}
+
+void copy3()
+{
+	for (int i = 0; i < N; i++)
+		for (int j = 0; j < M; j++)
+			arr[i][j] = orin[i][j];
+}
+
+int find_less(int cnt)	
+{			
+	int min=N*M;
+	//함수 재귀 사용
+	//cc[0]~cc[cnt]까지 재귀한다
+	//cctv 타입에 따른 모든 행위 반복해야함
+	//cctv 하나 들어갔을 때 상하좌우 한번씩 한다.
+	if (cnt >= 0) {
+		for (int i = 0; i < 4; i++) {
+			type(cc[cnt].kind, i, cc[cnt].x, cc[cnt].y);	//temp에다 했음
+			copy2();
+			if (min > count()) {
+				min = count();
+			}
+			find_less(cnt--);
+			copy1();
+		}
+
+	}
+	else
+		return min;
+}
+
+
+int main()
+{
+	
+	cin >> N >> M;
+	int cnt=0;
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < M; j++) {
+			cin >> arr[i][j];
+			temp[i][j] = arr[i][j];
+			orin[i][j] = arr[i][j];
+			if (arr[i][j] != 0 && arr[i][j] != 6){
+				cc[cnt].kind == arr[i][j];
+				cc[cnt].x = j;	cc[cnt].y = i;
+				cnt++;
+			}
+		}
+	}
+	cout << find_less(cnt) << endl;
+
+
+
+	return 0;
+}
