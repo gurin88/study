@@ -1,0 +1,107 @@
+#include"stdafx.h"
+#include<iostream>
+#include<vector>
+
+using namespace std;
+struct pos {
+	int r;
+	int c;
+	int cas;
+};
+int dr[4] = {-1,0,1,0};    //북동남서
+int dc[4] = {0,1,0,-1};
+int N, M,a;
+int ans = 987654321;
+int map[8][8];
+int check[8][8] = { 0 };
+int cctv_num = 0;
+vector<pos> v;
+int cnt()
+{
+	int temp = 0;
+	for (int i = 0; i < N; i++)
+		for (int j = 0; j < M; j++)
+			if (check[i][j] == 0 && !map[i][j])
+				temp++;
+	return temp;
+}
+
+void move(int r,int c, int dir)
+{
+	int nr = r + dr[dir];
+	int nc = c + dc[dir];
+	while (!map[nr][nc] && nr >= 0 && nr < N && nc >= 0 && nc < M)
+	{
+		check[nr][nc] = 1;
+		nr += dr[dir];
+		nc += dc[dir];
+	}
+}
+
+void b(int r, int c, int cas, int num)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		if (cas == 1)
+			move(r, c, i);
+		else if (cas == 2)
+		{
+			move(r, c, i);
+			move(r, c, (i + 2) % 4);
+		}
+		else if (cas == 3)
+		{
+			move(r, c, i);
+			move(r, c, (i + 1) % 4);
+		}
+		else if (cas == 4)
+		{
+			move(r, c, i);
+			move(r, c, (i + 1) % 4);
+			move(r, c, (i + 2) % 4);
+		}
+		else if (cas == 5)
+		{
+			move(r, c, 0);
+			move(r, c, 1);
+			move(r, c, 2);
+			move(r, c, 3);
+		}
+	}
+}
+
+void dfs(int num)
+{
+
+	
+	if (num == v.size())
+	{
+		if (cnt() < ans)
+			ans = cnt();
+		//memset(check, 0, sizeof(check));
+		return;
+	}
+	int r = v[num].r;
+	int c = v[num].c;
+	int cas = v[num].cas;
+	for (int i = 0; i < num i++)
+		b(r,c, cas, i);
+}
+
+int main()
+{
+	cin >> N >> M;
+	for (int i = 0; i < N; i++)
+		for (int j = 0; j < N; j++)
+		{
+			cin >> map[i][j];
+			if (map[i][j] >= 1 && map[i][j] <= 5)
+			{
+				v.push_back({ i,j,map[i][j] });
+				a++;
+			}
+		}
+	dfs(a);
+	cout << ans;
+	return 0;
+}
