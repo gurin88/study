@@ -1,0 +1,172 @@
+#include <iostream>
+using namespace std;
+
+int N;
+int arr[20][20] = { -1 };
+int res=0;
+
+void push_up()
+{
+	for (int i = 1; i < N; i++) {		//한쪽으로 몰기
+		for (int j = 0; j < N; j++) {
+			if (arr[i - 1][j] == 0) {
+				arr[i - 1][j] = arr[i][j];
+				arr[i][j] = 0;
+			}
+		}
+	}
+}
+void up(){
+	push_up();
+	for (int j = 0; j < N; j++) {
+		for (int i = 0; i < N; i++) {
+			if (arr[i][j] == arr[i + 1][j]) {
+				arr[i][j] += arr[i + 1][j];
+				arr[i + 1][j] = 0;
+				push_up();
+			}
+		}
+	}
+}
+
+void push_down()
+{
+	for (int i = N - 1; i > 0; i--) {
+		for (int j = 0; j < N; j++) {
+			if (arr[i][j] == 0) {
+				arr[i][j] = arr[i - 1][j];
+				arr[i - 1][j] = 0;
+			}
+		}
+	}
+}
+void down(){
+	push_down();
+	for (int j = 0; j < N; j++) {
+		for (int i = N - 1; i > 0; i--) {
+			if (arr[i][j] == arr[i - 1][j]) {
+				arr[i][j] += arr[i - 1][j];
+				arr[i - 1][j] = 0;
+				push_down();
+			}
+		}
+	}
+}
+
+void push_left()
+{
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			if (arr[i][j] == 0) {
+				arr[i][j] = arr[i][j + 1];
+				arr[i][j + 1] = 0;
+			}
+		}
+	}
+}
+
+void left() 
+{
+	push_left();
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			if (arr[i][j] == arr[i][j + 1]) {
+				arr[i][j] += arr[i][j + 1];
+				arr[i][j + 1] = 0;
+				push_left();
+			}
+		}
+	}
+}
+
+void push_right()
+{
+	for (int i = 0; i < N; i++) {
+		for (int j = N - 1; j > 0; j--) {
+			if (arr[i][j] == 0) {
+				arr[i][j] = arr[i][j - 1];
+				arr[i][j - 1] = 0;
+			}
+		}
+	}
+}
+
+void right()
+{
+	push_right();
+	for (int i = 0; i < N; i++) {
+		for (int j = N - 1; j > 0; j--) {
+			if (arr[i][j] == arr[i][j - 1]) {
+				arr[i][j] += arr[i][j - 1];
+				arr[i][j - 1] = 0;
+				push_right();
+			}
+		}
+	}
+}
+int find_max()
+{
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			if (arr[i][j] > res)
+				res = arr[i][j];
+		}
+	}
+	return res;
+}
+
+void dfs(int max)			//재귀함수 매개변수 : 언제 멈추냐
+{
+	if (max == 5) {
+		if (find_max() > res)
+		res = find_max();
+		return;
+	}
+	int arr_copy[20][20];
+
+	for (int i = 0; i < N; i++)
+		for (int j = 0; j < N; j++)
+			arr_copy[i][j] = arr[i][j];
+
+	for (int i = 0; i < 4; i++) {
+
+		if (i == 0)
+			up();
+		else if (i == 1)
+			down();
+		else if (i == 2)
+			left();
+		else if (i == 3)
+			right();
+
+		dfs(max + 1);
+
+		for (int i = 0; i < N; i++)
+			for (int j = 0; j < N; j++)
+				arr[i][j] = arr_copy[i][j];
+	}
+
+}
+
+int main()
+{
+	int arr_copy[20][20];
+	cin >> N;
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			cin >> arr[i][j];
+		}
+	}
+	for (int i = 0; i < N; i++)
+		for (int j = 0; j < N; j++)
+			arr_copy[i][j] = arr[i][j];
+
+	dfs(0);
+
+	for (int i = 0; i < N; i++)
+		for (int j = 0; j < N; j++)
+			arr[i][j] = arr_copy[i][j];
+
+	cout << res;
+	return 0;
+}
