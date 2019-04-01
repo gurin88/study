@@ -1,0 +1,22 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+	int lim, cnt = 0;
+	cin >> lim;
+	if (lim > 99)
+		cnt += 99;
+	else
+		cnt += lim;
+	for (int i = 100; i <= lim; i++)
+	{
+		int n1, n2, n3;
+		n1 = i / 100;
+		n2 = (i / 10) % 10;
+		n3 = i % 10;
+		if ((n2 - n1) == (n3 - n2))
+			cnt++;
+	}
+	cout << cnt;
+	return 0;
+}
