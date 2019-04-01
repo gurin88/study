@@ -1,0 +1,25 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+	bool a[10000] = { false };
+	int n, num;
+	for (int j = 1; j < 10000; j++)
+	{
+		num = j;
+		n = j;
+		for (int i = 0; i < 4; i++)
+		{
+			num += n % 10;
+			if (n / 10 == 0)
+				break;
+			n /= 10;
+		}
+		if(num<=10000)
+			a[num] = true;
+	}
+	for (int j = 1; j < 10000; j++)
+		if (a[j] == false)
+			cout << j << endl;
+	return 0;
+}
