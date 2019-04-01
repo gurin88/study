@@ -1,0 +1,25 @@
+#include <iostream>
+using namespace std;
+int main()
+{
+	int ori, num, cnt = 0;
+
+	cin >> ori;
+	num = ori;
+
+	while (1)
+	{
+		int i = (num % 10 + num / 10)%10;
+		num = (num % 10) * 10 + i;
+
+		cnt++;
+
+		if (num == ori)
+		{
+			cout << cnt;
+			break;
+		}
+	}
+
+	return 0;
+}
