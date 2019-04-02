@@ -1,0 +1,58 @@
+#include "stdafx.h"
+#include <iostream>
+#include <stack>
+#include <cstring>
+using namespace std;
+int main()
+{
+	char str[33];
+	int score = 1, result = 0;
+	bool check = false;
+	stack<char> s;
+	cin >> str;
+	for (int i = 0; i < strlen(str); i++)
+	{
+		if (str[i] == '(')
+		{
+			score *= 2;
+			s.push(str[i]);
+		}
+		else if (str[i] == '[')
+		{
+			score *= 3;
+			s.push(str[i]);
+		}
+		else if (str[i] == ')')
+		{
+			if (str[i - 1] == '(')
+				result += score;
+			if (s.empty())
+			{
+				check = true;
+				break;
+			}
+			if (s.top() == '(')
+				s.pop();
+			score /= 2;
+		}
+		else
+		{
+			if (str[i - 1] == '[')
+				result += score;
+			if (s.empty())
+			{
+				check = true;
+				break;
+			}
+			if (s.top() == '[')
+				s.pop();
+			score /= 3;
+		}
+	}
+
+	if (!s.empty() || check)
+		cout << "0" << endl;
+	else
+		cout << result << endl;
+	return 0;
+}
