@@ -1,0 +1,47 @@
+#include <iostream>
+#include <vector>
+#include<algorithm>
+using namespace std;
+
+
+bool cmp(const pair<int, int>& a, const pair<int, int>& b)
+{
+	return (abs(a.first - a.second) < abs(b.first - b.second));
+}
+
+void eratos(int n)
+{
+	vector<bool> prime(n + 1, true);
+	vector<pair<int, int>> v;
+	prime[1] = false;
+
+	for (int i = 2; i*i <= n; ++i) 
+		if (prime[i] == true) 
+			for (int j = i * i; j <= n; j += i)
+				prime[j] = false;
+
+	for (int i = 2; i <= (n / 2); ++i) 
+		if (prime[i] == true)
+			if (prime[n - i] == true) 
+				v.push_back(make_pair(i, n - i));
+
+	if (v.size() != 0)
+	{
+		sort(v.begin(), v.end(), cmp);
+		cout << v[0].first << " " << v[0].second <<'\n';
+	}
+
+}
+
+
+int main(void)
+{
+	int N, x;
+	cin >> N;
+
+	while (N--)
+	{
+		cin >> x;
+		eratos(x);
+	}
+}
