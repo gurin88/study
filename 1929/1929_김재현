@@ -1,0 +1,24 @@
+#include<iostream>
+#include<math.h>
+using namespace std;
+int main()
+{
+	cin.tie(NULL);
+	ios::sync_with_stdio(false);
+	int M, N, ans = 0, j;
+	cin >> M >> N;
+	for (int i = M; i <= N; i++)
+	{
+		if (i >= 2)
+		{
+			for (j = (int)sqrt(i); j > 1; j--)
+				if (i%j == 0)
+					break;
+			if (j == 1)
+			{
+				cout << i << '\n';
+			}
+		}
+	}
+	return 0;
+}
