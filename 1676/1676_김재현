@@ -1,0 +1,16 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	int k;
+	int num = 0;
+	cin >> k;
+	while (k >= 5 && k <= 500)
+	{
+		num += k / 5;
+		k /= 5;
+	}
+	cout << num;
+	return 0;
+}
