@@ -1,0 +1,19 @@
+#include<iostream>
+#include<string>
+#include<algorithm>
+using namespace std;
+bool cmp(char a, char b)
+{
+	if (a > b)
+		return true;
+	else return false;
+}
+int main()
+{
+	string str;
+	cin >> str;
+	
+	sort(str.begin(),str.end(),cmp);
+	cout << str;
+	return 0;
+}
