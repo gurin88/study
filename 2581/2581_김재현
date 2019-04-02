@@ -1,0 +1,34 @@
+#include<iostream>
+#include<math.h>
+using namespace std;
+int main()
+{
+	int M, N, ans = 0,j;
+	bool flag = true;
+	bool flag2 = true;
+	cin >> M >> N;
+	int ans2 = N;
+	for (int i = M; i <= N; i++)
+	{
+		if (i >= 2)
+		{
+			for (j = (int)sqrt(i); j > 1; j--)
+				if (i%j == 0)
+					break;
+			if (j == 1)
+			{
+				ans += i;
+				if (i < ans2)
+					ans2 = i;
+			}
+		}
+	}
+	if (ans != 0)
+	{
+		cout << ans << endl;
+		cout << ans2;
+	}
+	else
+		cout << "-1";
+	return 0;
+}
