@@ -1,0 +1,24 @@
+#include <iostream>
+using namespace std;
+long long int map[1001][1001];
+
+void memo()
+{
+	map[0][0] = 1;
+	for (int i = 1; i <1001; i++)
+	{
+		map[i][0] = 1;
+		for (int j = 1; j <= i; j++)
+			map[i][j] = (map[i - 1][j] + map[i - 1][j - 1]) % 10007;
+	}
+}
+
+int main() 
+{
+	cin.tie(NULL);
+	int n, k;
+	memo();
+	cin >> n >> k;
+	cout << map[n][k];
+	return 0;
+}
