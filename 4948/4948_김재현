@@ -1,0 +1,56 @@
+#include"stdafx.h"
+#include<iostream>
+#include<cstring>
+using namespace std;
+
+int N;
+bool SoSoo[246913];
+
+void Input()
+{
+	cin >> N;
+	if (N == 0) exit(0);
+}
+
+void Solution()
+{
+	int Cnt = 0;
+	for (int i = N + 1; i <= 2 * N; i++)
+	{
+		if (SoSoo[i] == true) Cnt++;
+	}
+	cout << Cnt << '\n';
+}
+
+void Eratos()
+{
+	memset(SoSoo, true, sizeof(SoSoo));
+	SoSoo[0] = SoSoo[1] = false;
+	for (int i = 2; i < 246913; i++)
+	{
+		for (int j = 2; j *i < 246913; j++)
+		{
+			SoSoo[i*j] = false;
+		}
+	}
+}
+
+void Solve()
+{
+	Eratos();
+	while (1)
+	{
+		Input();
+		Solution();
+	}
+}
+
+int main(void)
+{
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	Solve();
+
+	return 0;
+}
