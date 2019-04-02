@@ -1,0 +1,29 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+	int arr[100];
+	int n,num, cnt = 0;
+	cin >> n;
+	for (int i = 0; i < n; i++)
+		cin >> arr[i];
+
+	for (int i = 0; i < n; i++)
+	{
+		if (arr[i] == 1)
+		{
+			cnt++;
+			i++;
+		}
+		for (int j = 2; j <= arr[i] / 2; j++)
+		{
+			if (arr[i] % j == 0)
+			{
+				cnt++;
+				break;
+			}
+		}
+	}
+	cout << n-cnt;
+	return 0;
+}
