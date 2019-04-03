@@ -1,0 +1,14 @@
+#include <iostream>
+
+using namespace std;
+int main()
+{
+	cout << fixed;
+	cout.precision(6);
+	double pi = 3.14159265359;
+	double R;
+	cin >> R;
+	cout << R * R * pi << '\n';
+	cout << 2 * R * R;
+	return 0;
+}
