@@ -72,7 +72,6 @@ int main()
 			int rm = 0;
 			int bm = 0;
 
-
 			while (map[nrx][nry] != '#')          //빨간공을 먼저 이동시켜봄
 			{
 				rm++;                             //rm = 빨간공이동거리
