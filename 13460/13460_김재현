@@ -3,7 +3,7 @@
 
 using namespace std;
 
-struct ball 
+struct ball
 {
 	int time;
 	int rx;
@@ -17,7 +17,7 @@ char map[10][10];
 int dx[4] = { -1, 1, 0, 0 };
 int dy[4] = { 0, 0, -1, 1 };
 
-int main() 
+int main()
 {
 	int n, m;
 
@@ -60,20 +60,18 @@ int main()
 
 		for (int i = 0; i < 4; i++)
 		{
-			int rex = 0;
+			int nrx = rx + dx[i];
+			int nry = ry + dy[i];
+			int nbx = bx + dx[i];
+			int nby = by + dy[i];
+
+			int rck = 0;
+			bool bck = false;
 			int blue = 0;
+			bool red = false;
 			int rm = 0;
 			int bm = 0;
-			int nrx, nry;
-			int nbx, nby;
 
-			bool bex = false;
-			bool red = false;
-
-			nbx = bx + dx[i];
-			nby = by + dy[i];
-			nrx = rx + dx[i];
-			nry = ry + dy[i];
 
 			while (map[nrx][nry] != '#')          //빨간공을 먼저 이동시켜봄
 			{
@@ -83,7 +81,7 @@ int main()
 					blue = rm;                    //빨간공 가는 길에 파란공 있으면 파란공위치 체크
 
 				if (map[nrx][nry] == 'O')         //구멍있으면 구멍위치 체크
-					rex = rm;
+					rck = rm;
 
 				nrx += dx[i];
 				nry += dy[i];
@@ -92,12 +90,12 @@ int main()
 			while (map[nbx][nby] != '#')         //파란공이동
 			{
 				bm++;                            //bm = 파란공이동거리
-				 
+
 				if (nbx == rx && nby == ry)      //파란공가는길에 빨간공있으면 체크
 					red = true;
 
 				if (map[nbx][nby] == 'O')        //구멍있으면 체크
-					bex = true;
+					bck = true;
 
 				nbx += dx[i];
 				nby += dy[i];
@@ -105,37 +103,37 @@ int main()
 
 			if (!blue && !red)         //서로 일진선상에없을때
 			{
-				if (rex)               //빨간공 들어가면 정답바꿔줌
+				if (rck)               //빨간공 들어가면 정답바꿔줌
 					ans = cnt;
-				else if (bex)          //파란공 들어가면 continue
+				else if (bck)          //파란공 들어가면 continue
 					continue;
 				else                   //아무것도안들어가면 위치 push
-					if(cnt+1 <ans)
+					if (cnt + 1 <ans)
 						q.push({ cnt + 1, nrx, nry, nbx, nby });
 			}
 			else if (blue)             //빨간공가는길에 파란공이 있을 때
 			{
-				if (rex)               //빨간공이 구멍에 들어갔을 때
+				if (rck)               //빨간공이 구멍에 들어갔을 때
 				{
-					if (rex < blue)    //파란공이 구멍보다 뒤에있을때만 정답바꿔줌
+					if (rck < blue)    //파란공이 구멍보다 뒤에있을때만 정답바꿔줌
 						ans = cnt;
 					continue;          //파란공이 구멍보다 앞에있으면 그냥 컨티뉴
 				}
-				else                   
+				else
 					if (cnt + 1 <ans)  //빨간공이 구멍에 안들어갔을때 파란공 전칸에 빨간공놔줌
 						q.push({ cnt + 1, nbx - dx[i], nby - dy[i], nbx, nby });
 			}
 			else                       //파란공이가는길에 빨간공있을때
 			{
-				if (rex)               //빨간공이 구멍에들어가버리면 파란공도 들어가므로 continue
+				if (rck)               //빨간공이 구멍에들어가버리면 파란공도 들어가므로 continue
 					continue;
-				else                   
+				else
 					if (cnt + 1 <ans)  //빨간공 전칸에 파란공놔줌
 						q.push({ cnt + 1, nrx, nry, nrx - dx[i], nry - dy[i] });
 			}
 		}
 	}
-	if(ans == 11)
+	if (ans == 11)
 		cout << "-1";
 	else
 		cout << ans;
