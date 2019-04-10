@@ -1,0 +1,103 @@
+#include "stdafx.h"
+#include <iostream>
+#include <deque>
+
+using namespace std;
+
+int board[101][101];
+int n,k,l,ans = 0;
+
+struct Pos
+{
+	int r;
+	int c;
+};
+
+deque<Pos> snake;
+
+int dr[4] = { -1,0,1,0 };
+int dc[4] = { 0,1,0,-1 };
+
+
+int main()
+{
+	int x;
+	int temp = 0;
+	int hr = 0;
+	int hc = 0;
+	int dir = 1;
+	int tr = 0;
+	int tc = 0;
+	char c;
+	cin >> n;
+	cin >> k;
+	board[0][0] = 2;
+	snake.push_back({ 0, 0 });
+	for (int i = 0; i < k; i++)
+	{
+		int a, b;
+		cin >> a>> b;
+		board[a - 1][b - 1] = 1;
+	}
+
+	cin >> l;
+
+	for (int i = 0; i < l+1; i++)
+	{
+		if(i <l)
+			cin >> x >> c;
+		int temp2 = x;
+		x -= temp;
+		temp = temp2;
+		while (x)
+		{
+			int nr = hr + dr[dir];
+			int nc = hc + dc[dir];
+
+			if (0 <= nr && nr < n && 0 <= nc && nc < n)
+			{
+				if (board[nr][nc] == 2)
+				{
+					ans++;
+					std::cout << ans;
+					return 0;
+				}
+				else if (board[nr][nc] == 0)
+				{
+					ans++;
+					snake.push_back({ nr, nc });
+					board[tr][tc] = 0;
+					snake.pop_front();
+					tr = snake.front().r;
+					tc = snake.front().c;
+					hr = nr;
+					hc = nc;
+					board[nr][nc] = 2;
+				}
+				else if (board[nr][nc] == 1)
+				{
+					ans++;
+					snake.push_back({ nr,nc });
+					hr = nr;
+					hc = nc;
+					board[nr][nc] = 2;
+				}
+			}
+			else
+			{
+				ans++;
+				std::cout << ans;
+				return 0;
+			}
+			x--;
+		}
+		if (c == 'D')
+			dir = (dir + 1) % 4;
+		else if(c == 'L')
+			dir = (dir + 3) % 4;
+	}
+
+	std::cout << ans << endl;
+
+	return 0;
+}
