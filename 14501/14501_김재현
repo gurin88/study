@@ -1,7 +1,6 @@
 #include <iostream>
 using namespace std;
-int N;
-int ans = 0;
+int N,ans = 0;
 int table[2][16] = { 0 };
 
 void solve(int x, int sum)
