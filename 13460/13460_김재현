@@ -13,7 +13,7 @@ struct ball
 };
 
 int ans = 11;
-char map[10][11];
+char map[10][10];
 int dx[4] = { -1, 1, 0, 0 };
 int dy[4] = { 0, 0, -1, 1 };
 
@@ -25,7 +25,7 @@ int main()
 
 	int rrx, rry, bbx, bby;
 
-	for (int i = 0; i<n; i++)             //데이터 넣으면서 공 위치 체크해줌
+	for (int i = 0; i < n; i++)             //데이터 넣으면서 공 위치 체크해줌
 		for (int j = 0; j < m; j++)
 		{
 			cin >> map[i][j];
@@ -36,7 +36,8 @@ int main()
 			}
 			else if (map[i][j] == 'B')
 			{
-				bbx = i, bby = j;
+				bbx = i;
+				bby = j;
 			}
 		}
 
