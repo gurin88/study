@@ -111,7 +111,7 @@ int main()
 					continue;
 				else                   //아무것도안들어가면 위치 push
 					if(cnt+1 <ans)
-						q.push({ cnt + 1, rx + dx[i] * rm, ry + dy[i] * rm, bx + dx[i] * bm, by + dy[i] * bm });
+						q.push({ cnt + 1, nrx, nry, nbx, nby });
 			}
 			else if (blue)             //빨간공가는길에 파란공이 있을 때
 			{
@@ -123,7 +123,7 @@ int main()
 				}
 				else                   
 					if (cnt + 1 <ans)  //빨간공이 구멍에 안들어갔을때 파란공 전칸에 빨간공놔줌
-						q.push({ cnt + 1, bx + dx[i] * bm - dx[i], by + dy[i] * bm - dy[i], bx + dx[i] * bm, by + dy[i] * bm });
+						q.push({ cnt + 1, nbx - dx[i], nby - dy[i], nbx, nby });
 			}
 			else                       //파란공이가는길에 빨간공있을때
 			{
@@ -131,7 +131,7 @@ int main()
 					continue;
 				else                   
 					if (cnt + 1 <ans)  //빨간공 전칸에 파란공놔줌
-						q.push({ cnt + 1, rx + dx[i] * rm, ry + dy[i] * rm, rx + dx[i] * rm - dx[i], ry + dy[i] * rm - dy[i] });
+						q.push({ cnt + 1, nrx, nry, nrx - dx[i], nry - dy[i] });
 			}
 		}
 	}
