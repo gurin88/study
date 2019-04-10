@@ -1,0 +1,227 @@
+#include <iostream>
+#include <queue>
+using namespace std;
+
+//. 빈칸, # 벽, O 구멍, R 빨간공, B 파란공
+// 빨강 나가면 성공
+// 파랑 나가면 실패
+
+int N, M;              // 세로 가로 길이
+int des[2][3] = {0};   // 처음 도착지, 빨간공, 파란공 위치
+int dir[4][2] = { {1,0},{-1,0 },{0,1},{0,-1} };  // 하, 좌, 우, 상 방향
+char map[10][10];      // 처음 입력받은 맵 배열
+
+// 빨간 공과 파란 공의 좌표를 매개변수로 받아서
+// 입력받은 방향으로 계속 이동해서 멈출 때의 위치
+void function01(int a, int  RR[2], int  BB[2])
+{
+	int b = 1;  // 빨간공이 먼저일때는 1, 파란공이 먼저일때는 -1
+	// 두 공의 좌표 중에서 a방향 값이 먼저 큰 공먼저 이동
+	if (RR[1] == BB[1])       // 가로 좌표가 같을 때
+		if ( (a == 0 && RR[0] > BB[0]) || (a == 3 && RR[0] < BB[0]))
+			b = 0 - b;
+	else if (RR[0] == BB[0])  // 세로 좌표가 같을 때
+		if ((a == 1 && RR[1] > BB[1]) || (a == 2 && RR[1] < BB[1]))
+			b = 0 - b;
+	// 벽이나 다른 공이 있을때까지 a방향으로 이동
+	while (true)  // 선두 공 이동 
+	{
+		if (b==1)  // 빨간공 먼저 움직이는 경우
+		{
+			// 다음칸이 벽이거나 지금 도착점이면 종료
+			if ((map[RR[0] + dir[a][0]][RR[1] + dir[a][1]] == '#') || (RR[0] == des[0][0] && RR[1] == des[1][0]))
+			{
+				break;
+			}
+			else
+			{
+				RR[0] += dir[a][0];
+				RR[1] += dir[a][1];
+			}
+		}
+		else  // 파란공 먼저 움직이는 경우
+		{
+			// 다음칸이 벽이거나 지금 도착점이면 종료
+			if ((map[BB[0] + dir[a][0]][BB[1] + dir[a][1]] == '#') || (BB[0] == des[0][0] && BB[1] == des[1][0]))
+			{
+				break;
+			}
+			else
+			{
+				BB[0] += dir[a][0];
+				BB[1] += dir[a][1];
+			}
+		}
+	}
+	while (true)  // 다음 공 이동 
+	{
+		if (b == 1)  // 빨간공 먼저 움직이는 경우
+		{
+			// 다음칸이 벽 또는 다른공 이거나 지금 도착점이면 종료
+			if ((map[BB[0] + dir[a][0]][BB[1] + dir[a][1]] == '#') || (BB[0] + dir[a][0] == des[0][1] && BB[1] + dir[a][1] == des[1][1]) ||(BB[0] == des[0][0] && BB[1] == des[1][0]))
+			{
+				break;				
+			}
+			else
+			{
+				BB[0] += dir[a][0];
+				BB[1] += dir[a][1];
+			}			
+		}
+		else  // 파란공 먼저 움직이는 경우
+		{
+			// 다음칸이 벽 또는 다른공 이거나 지금 도착점이면 종료
+			if ((map[RR[0] + dir[a][0]][RR[1] + dir[a][1]] == '#') || (RR[0] + dir[a][0] == des[0][2] && RR[1] + dir[a][1] == des[1][2]) || (RR[0] == des[0][0] && RR[1] == des[1][0]))
+			{
+				break;
+			}
+			else
+			{
+				RR[0] += dir[a][0];
+				RR[1] += dir[a][1];
+			}
+		}
+	}	
+}
+
+// 너비우선 탐색으로 10번 내에 탈출하면 이동횟수 출력
+// 내에 못하면 -1 출력
+void function02()
+{
+	queue<pair<int,int>> R;  // 빨간공 위치
+	queue<pair<int,int>> B;  // 파란공 위치
+	queue<int> num;          // 실행횟수
+
+	// 처음 빨간공, 파란공의 좌표를 각 큐에 push한다.
+	pair<int, int> r = make_pair(des[0][1], des[1][1]);  // 처음 빨간공의 좌표
+	pair<int, int> b = make_pair(des[0][2], des[1][2]);  // 처음 파란공의 좌표
+	R.push(r); // 처음 좌표 넣어줌
+	B.push(b);
+	num.push(0);
+
+	while (!R.empty())  // queue가 필때까지 반복
+	{
+		// 꺼낸 값을 저장하기 위한 변수
+		int  RR[2] = { 0 };   // 빨간공 좌표
+		int  BB[2] = { 0 };   // 파란공 좌표
+		int  numnum = 0;      // 실행 횟수
+		// queue에서 맨 앞의 값을 꺼냄
+		RR[0] = R.front().first;
+		RR[1] = R.front().second;
+		BB[0] = B.front().first;
+		BB[1] = B.front().second;
+		numnum = num.front();
+		R.pop();
+		B.pop();
+		num.pop();
+		
+		// 꺼낸값이 11이상인 경우 -1 출력하고 break;
+		if (numnum>=11)
+		{
+			cout << "-1";
+			break;
+		}
+		// 꺼낸 값에서 빨간공의 좌표와 도착지의 좌표가 동일하면 num을 출력하고 break;
+		else if (RR[0]==des[0][0] && RR[1] == des[1][0])
+		{
+			cout << numnum;
+			break;
+		}
+		// 꺼낸 좌표에 대해서 상,하,좌,우로 이동했을때를 push
+		// 파란 공이 도착점에 간경우에는 상하좌우 하지 않음
+		else if (BB[0] != des[0][0] || BB[1] != des[1][0])
+		{
+			// 각각의 좌표 백업
+			int c, d, e, f;
+			c = RR[0];
+			d = RR[1];
+			e = BB[0];
+			f = BB[1];
+
+			numnum += 1;
+			
+			// 상하좌우 이동 함수
+			for (int a = 0 ; a < 4; a++)
+			{
+				// a방향으로 움직여서 각각의 좌표 이동
+				function01(a, RR, BB);
+				
+				/*cout << numnum << "번쨰에 " << a << "방향으로 이동했을때\n";
+				cout << "빨간 공 위치\n";
+				cout << RR[0] << "," << RR[1] << "\n";
+				cout << "파란 공 위치\n";
+				cout << BB[0] << "," << BB[1] << "\n";*/
+
+				// 받은 각각의 좌표에 대하여 numnum+1 값으로 push
+				pair<int, int> rr = make_pair(RR[0], RR[1]);  // 처음 빨간공의 좌표
+				pair<int, int> bb = make_pair(BB[0], BB[1]);  // 처음 파란공의 좌표
+				R.push(rr); // 처음 좌표 넣어줌
+				B.push(bb);
+				num.push(numnum);
+				// 좌표 원상 복구
+				RR[0] = c;
+				RR[1] = d;
+				BB[0] = e;
+				BB[1] = f;
+			}
+			
+		}		
+	}
+}
+
+int main()
+{
+	char aaa;
+	cin >> N >> M;
+	/*cout << "세로, 가로 크기\n";
+	cout << N << ", "<< M << "\n";*/
+	// 맵 배열을 입력받을때 
+	// 도착지, 빨간공, 파란공의 위치를 저장하고
+	// 이를 제외한 맵 데이터를 배열에 넣는다
+	for (int a = 0 ; a < N ; a++)
+	{
+		for (int b = 0; b < M; b++)
+		{
+			cin >> aaa;
+			if (aaa == 'O')
+			{
+				des[0][0] = a;
+				des[1][0] = b;
+				map[a][b] = '.';
+			}
+			else if (aaa == 'R')
+			{
+				des[0][1] = a;
+				des[1][1] = b;
+				map[a][b] = '.';
+			}
+			else if (aaa == 'B')
+			{
+				des[0][2] = a;
+				des[1][2] = b;
+				map[a][b] = '.';
+			}
+			else
+			{
+				map[a][b]=aaa;
+			}
+		}
+	}	
+	/*cout << "맵 배열 출력\n";
+	for (int a = 0; a < N; a++)
+	{
+		for (int b = 0 ; b < M; b++)
+		{
+			cout << map[a][b];
+		}
+		cout << "\n";
+	}
+	cout << "도착지 좌표\n";
+	cout << des[0][0] << ", " << des[1][0] << "\n";
+	cout << "빨간공 좌표\n";
+	cout << des[0][1] << ", " << des[1][1] << "\n";
+	cout << "파란공 좌표\n";
+	cout << des[0][2] << ", " << des[1][2] << "\n";*/
+	
+	function02();
+}
