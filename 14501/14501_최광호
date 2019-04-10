@@ -1,0 +1,34 @@
+#include <iostream>
+using namespace std;
+int N;
+int map[2][15] = { 0 };
+int output = 0;
+
+// 지금 보는 일차, 누적 금액, 
+void function01(int num, int sumpay)
+{
+	// 기간을 넘어서면 종료
+	if ( N < num )
+	{
+		if (output < sumpay)
+			output = sumpay;
+		return;
+	}
+	// 남은 기한내에 지금 보는 일차를 수행할때 재귀
+	if (num + map[0][num - 1] - 1 <= N)
+		function01(num + map[0][num - 1], sumpay + map[1][num - 1]);
+	// 수행 안 할떄 재귀
+	function01(num + 1, sumpay);
+}
+
+int main()
+{
+	cin >> N;
+	for (int a = 0; a < N; a++)
+		for (int b = 0; b < 2; b++)
+			cin >> map[b][a];
+	
+	function01(1, 0);
+
+	cout << output;
+}
