@@ -1,0 +1,42 @@
+#include <iostream>
+
+using namespace std;
+
+int N,P,MAX(0);
+int arr[16][2];
+
+void cal(int i)
+{
+	if ((i + arr[i][0]) >= N+1) {
+		if (i + arr[i][0] == N + 1)
+			P += arr[i][1];
+		if (MAX < P)
+			MAX = P;
+		return;
+	}
+		else {
+			P += arr[i][1];
+			int temp = P;
+			for (int j = i + arr[i][0]; j <= N; j++) {
+				cal(j);
+				P = temp;
+			}
+		}
+}
+
+int main()
+{
+	cin >> N;
+	for (int i = 1; i <= N; i++)
+		for (int j = 0; j < 2; j++)
+			cin >> arr[i][j];
+	
+	for (int k = 1; k <= N; k++) {
+		P = 0;
+		cal(k);
+	}
+
+	cout << MAX << endl;
+
+	return 0;
+}
