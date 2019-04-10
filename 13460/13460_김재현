@@ -106,7 +106,7 @@ int main()
 			if (!blue && !red)         //서로 일진선상에없을때
 			{
 				if (rex)               //빨간공 들어가면 정답바꿔줌
-					ans = cnt + 1;
+					ans = cnt;
 				else if (bex)          //파란공 들어가면 continue
 					continue;
 				else                   //아무것도안들어가면 위치 push
@@ -118,7 +118,7 @@ int main()
 				if (rex)               //빨간공이 구멍에 들어갔을 때
 				{
 					if (rex < blue)    //파란공이 구멍보다 뒤에있을때만 정답바꿔줌
-						ans = cnt + 1;
+						ans = cnt;
 					continue;          //파란공이 구멍보다 앞에있으면 그냥 컨티뉴
 				}
 				else                   
@@ -138,6 +138,6 @@ int main()
 	if(ans == 11)
 		cout << "-1";
 	else
-		cout << ans-1;
+		cout << ans;
 	return 0;
 }
