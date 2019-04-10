@@ -1,0 +1,86 @@
+#include"stdafx.h"
+#include<iostream>
+#include<queue>
+#include<vector>
+using namespace std;
+struct pos
+{
+	int r;
+	int c;
+};
+int dr[4] = {-1,0,1,0};
+int dc[4] = {0,1,0,-1};
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	queue<pos> q;
+	vector<pos> v;
+	vector<pos> v2;
+	int map[9][9];
+	int copy[9][9];
+	int N, M;
+	int max = 0;
+	cin >> N >> M;
+	for (int i = 0; i < N; i++)
+		for (int j = 0; j < M; j++)
+		{
+			cin >> map[i][j];
+			if (map[i][j] == 2)
+				v2.push_back({ i,j });
+			else if (map[i][j] == 0)
+			{
+				v.push_back({ i,j });
+			}
+		}
+
+	for (int i = 0; i < N; i++)
+		for (int j = 0; j < M; j++)
+			copy[i][j] = map[i][j];
+	for(int a = 0; a<v.size();a++)
+		for (int b = a+1; b<v.size(); b++)
+			for (int c = b + 1; c < v.size(); c++)
+			{
+				for (int i = 0; i < N; i++)
+					for (int j = 0; j < M; j++)
+						map[i][j] = copy[i][j];
+				map[v[a].r][v[a].c] = map[v[b].r][v[b].c] = map[v[c].r][v[c].c] = 1;
+				for (int i = 0; i < v2.size(); i++)
+					q.push({ v2[i].r,v2[i].c });
+				while (!q.empty())
+				{
+					int r = q.front().r;
+					int c = q.front().c;
+					q.pop();
+					for (int i = 0; i < 4; i++)
+					{
+						int nr = r + dr[i];
+						int nc = c + dc[i];
+						if(nr>=0&& nr <N &&nc >=0&&nc<M)
+							if (map[nr][nc] == 0)
+							{
+								map[nr][nc] = 2;
+								q.push({ nr,nc });
+							}
+					}
+				}
+
+				
+				int cnt = 0;
+
+				for (int i = 0; i < N; i++)
+				{
+					for (int j = 0; j < M; j++)
+					{
+						if (map[i][j] == 0)
+							cnt++;
+					}
+				}
+				if (cnt > max)
+					max = cnt;
+				map[v[a].r][v[a].c] = map[v[b].r][v[b].c] = map[v[c].r][v[c].c] = 0;
+			}
+	std::cout << max;
+	return 0;
+}
