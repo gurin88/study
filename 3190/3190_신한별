@@ -1,0 +1,120 @@
+#include <iostream>
+
+using namespace std;
+/*
+NxN 보드 주변 벽 뱀은 1,1에서 시작 길이 1
+머리 다음칸에 위치됨
+
+사과가 있으면 길어짐(꼬리위치 고정)
+사과 없으면 꼬리 이동(몸길이 고정)
+
+이동경로 주어지면 몇초에 끝나는가?
+입력 : 보드 크기 N : 2~100, 사과 개수 K
+
+K개 줄 x,y 좌표
+
+L번의 방향 전환
+
+L개 줄에 뱀의 방향 변환 정보 X초 후에 왼쪽 L/오른쪽 D
+
+*/
+int N, K, L;
+int arr[102][102] = { 1 }; // x=0 / y=0 / x=N-1 / y=N-1
+int dx[] = { -1,1,0,0 };
+int dy[] = { 0,0,-1,1 };	//0 : 좌 1 : 우 2: 하 3: 상
+int dir_log[100];
+struct POS {
+	int x;
+	int y;
+};
+struct COND {
+	int s;
+	char d;
+};
+							//0->3 1->2 2->0 3->1
+int DIR(char d, int dir) //L이면 좌->하 우->상 하->우 상->좌
+{						 //R이면 좌->상 우->하 하->좌 상->우
+	if (d == 'L') {
+		switch (dir) {
+		case 0: return 2;
+		case 1: return 3;
+		case 2: return 1;
+		case 3: return 0;
+		}
+	}
+	else if (d == 'D') {
+		switch (dir) {
+		case 0: return 3;
+		case 1: return 2;
+		case 2: return 0;
+		case 3: return 1;
+		}
+	}
+}
+int move(POS head, POS tail, int dir, int s,int count,int time)
+{
+	while (s--) {
+		time++;
+		dir_log[time] = dir;
+		head.x += dx[dir]; head.y += dy[dir];	//이동해씀
+		if (arr[head.y][head.x] == 1)			//벽 또는 몸통
+			return -1;
+		else if (arr[head.y][head.x] != 2) {	//사과 안먹음 -> 꼬리 감소
+			arr[tail.y][tail.x] = 0;
+			tail.y += dy[dir_log[count]];	tail.x += dy[dir_log[count]];
+			count++;
+		}
+		arr[head.y][head.x] = 1;
+	}
+}
+
+int main()
+{
+	int res,count(0);
+	int time(0);
+	int temp_dir;
+	cin >> N >> K;
+	for (int i = 1; i < N - 1; i++)
+		for (int j = 1; j < N - 1; j++)
+			arr[i][j] = 0;
+
+	POS *apple= new POS[K];
+	POS tail;
+	POS head;
+	tail.x = 1;	tail.y = 1;
+	head.x = 1; head.y = 1;
+	for (int i = 0; i < K; i++) {
+		cin >> apple[i].x >> apple[i].y;
+		arr[apple[i].y][apple[i].x] = 2;
+	}
+
+
+	cin >> L;	//방향전환 횟수
+	COND *cond = new COND[L];
+	for (int i = 0; i < L; i++) {
+		cin >> cond[i].s >> cond[i].d;
+	}
+	//move(POS head, POS tail, int dir, int s,int count,int time)
+	move(head,tail,1,cond[0].s,count,time);	//최초
+	temp_dir = 1;
+	for (int i = 1; i < L; i++) {
+		res=move(head,tail, temp_dir=DIR(cond[i].d, temp_dir), cond[i].s - cond[i - 1].s,count,time);
+	}
+	if (res == -1)
+		cout << time << endl;
+	else {
+		while (1) {
+			time++;
+			head.x += dx[temp_dir]; head.y += dy[temp_dir];
+			if (arr[head.y][head.x] == 1)
+				break;
+		}
+		cout << time;
+	}
+
+	delete[] apple;
+	delete[] cond;
+
+
+	return 0;
+}
