@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include <iostream>
 using namespace std;
 int N;
@@ -9,15 +8,12 @@ void solve(int x, int sum)
 {
 	if (table[0][x] + x - 1 <= N)
 	{
-		//cout << "ex : " << sum << " ";
 		sum += table[1][x];
 		if (sum > ans)
 			ans = sum;
-		//cout << "af : " << sum << endl;
+			
 		for (int i = table[0][x] + x; i <= N; i++)
-		{
 			solve(i, sum);
-		}
 	}
 }
 
@@ -26,15 +22,11 @@ int main()
 	cin >> N;
 
 	for (int i = 1; i <= N; i++)
-	{
 		cin >> table[0][i] >> table[1][i];
-	}
-
+		
 	for (int i = 1; i <= N; i++)
-	{
 		solve(i,0);
-	}
-
+		
 	cout << ans;
 
 	return 0;
