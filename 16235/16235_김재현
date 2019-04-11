@@ -1,0 +1,102 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+
+using namespace std;
+
+int dr[8] = {-1,-1,-1,0,1,1,1,0};
+int dc[8] = {-1,0,1,1,1,0,-1,-1};
+
+int main()
+{
+	vector<int> f[11][11];
+	int N,M,K;
+	cin >> N >> M >> K;
+	int map[11][11];
+	int copy[11][11];
+
+	for (int i = 1; i <= N; i++)
+		for (int j = 1; j <= N; j++)
+			map[i][j] = 5;
+
+	for (int i = 1; i <= N; i++)
+		for (int j = 1; j <= N; j++)
+			cin >>copy[i][j];
+
+	int x, y, z;
+
+	for (int i = 0; i < M; i++)
+	{
+		cin >> x >> y >> z;
+		f[x][y].push_back(z);
+	}
+
+	while (K)
+	{
+		for (int i = 1; i <= N; i++)
+			for (int j = 1; j <= N; j++)
+			{
+				//봄
+				int temp = -1;
+				for (int k = 0; k < f[i][j].size(); k++)
+					if (map[i][j] < f[i][j][k])
+					{
+						temp = k;
+						break;
+					}
+					else
+						map[i][j] -= f[i][j][k];
+
+				if (temp != -1)
+					for (int k = 0; k < temp; k++)
+						f[i][j][k]++;
+				else
+					for (int k = 0; k < f[i][j].size(); k++)
+						f[i][j][k]++;
+
+				//여름
+
+				int size = f[i][j].size();
+
+				if (temp != -1)
+					for (int k = 0; k < size - temp; k++)
+					{
+						map[i][j] += f[i][j].back() / 2;
+						f[i][j].pop_back();
+					}
+			}
+
+		//가을
+		for (int i = 1; i <= N; i++)
+			for (int j = 1; j <= N; j++)
+				for(int k = 0; k< f[i][j].size();k++)
+					if(f[i][j][k]%5==0)
+						for (int l = 0; l < 8; l++)
+						{
+							int nr = i + dr[l];
+							int nc = j + dc[l];
+							if (nr >= 1 && nr <= N && nc >= 1 && nc <= N)
+								f[nr][nc].push_back(1);
+						}
+
+		//겨울
+		for (int i = 1; i <= N; i++)
+			for (int j = 1; j <= N; j++)
+				map[i][j] += copy[i][j];
+
+		for (int i = 1; i <= N; i++)
+			for (int j = 1; j <= N; j++)
+				sort(f[i][j].begin(), f[i][j].end());
+		K--;
+	}
+
+	int ans = 0;
+
+	for (int i = 1; i <= N; i++)
+		for (int j = 1; j <= N; j++)
+			ans += f[i][j].size();
+
+	std::cout << ans;
+
+	return 0;
+}
