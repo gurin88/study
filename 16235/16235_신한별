@@ -1,0 +1,143 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+/*
+(r,c) r은 위에서 떨어진 칸 수, c는 가장 왼쪽에서 떨어진 칸 수
+(y,x) x,y 는 1부터 시작!
+
+칸의 양분 조사 맨처음 양분 모든 칸에 5만큼 있음
+
+M개의 나무 심었다. 한 칸에 여러 개 나무 가능! 4개절을 보냄
+
+봄 : 나무 나이만큼 양분 먹고 나이+1 해당 칸의 양분만 먹음
+여러 나무 있으면 나이 어린 나무부터! //나이만큼 못먹으면 바로 죽음
+
+여름 : 봄에 죽은 나무 -> 양분( (int) 나무 나이/2 )
+
+가을 : 나무 번식 (나무 나이 5의 배수) 인접 8칸에 나이 1 나무 생성
+
+겨울 : 입력을 통해 양분 공급! 배열[r][c] 만큼
+
+K년 후에 살아있는 나무 개수?
+
+<입력>
+1. N M K
+2. N 배열 ㄱㄱ
+3. x, y, z : 심은 나무와 나이 M개 만큼
+*/
+
+
+struct tree {
+	int x;
+	int y;
+	int age;
+};
+int N, M, K;
+int x, y, z;
+int nue[11][11];	//영양 상태
+int tmp_n[11][11];	//가을에 추가될 영양값
+int plus_nue[11][11];		//겨울에 추가될 양분값
+int cnt_tree[11][11];		//나무 수
+
+vector<tree> v;	//나무! ->나이로 sorting 한다
+queue<tree> q; // 살아있는 나무 추가
+bool cmp(tree a, tree b)
+{
+	if (a.age <= b.age)
+		return false;
+	else
+		return true;
+}
+
+int main()
+{
+	int ans(0);
+	cin >> N >> M >> K;
+	for (int i = 0; i < N; i++) 
+		for (int j = 0; j < N; j++)		//겨울에 추가될 영양분
+			cin >> plus_nue[i][j];
+	
+	for (int i = 0; i < M; i++) {		//나무 위치, 나이 저장
+		cin >> y >> x >> z;
+		v.push_back({ x-1, y-1, z });
+	}
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			nue[i][j] = 5;
+			tmp_n[i][j] = 0;
+			cnt_tree[i][j] = 0;
+		}
+	}
+	for (int i = 0; i < v.size(); i++) {
+		cnt_tree[v[i].y][v[i].x] += 1;	//나무 수 카운트
+
+	}
+
+
+	while (K) {
+		//봄
+		sort(v.begin(), v.end(), cmp);	//어린나이로 sort
+
+		for (int i = 0; i < v.size(); i++) {
+			//나무 여러개 일 때 어린 나무부터 양분 먹기
+			if (nue[v[i].y][v[i].x] >= v[i].age) {	//어린나무부터 양분 먹기!
+				nue[v[i].y][v[i].x] -= v[i].age;	//영양 정보 뺏김
+				v[i].age+=1;
+				q.push(v[i]);	//살 나무만 큐에 저장
+			}
+			else {
+				cnt_tree[v[i].y][v[i].x]-=1;					//나무 뒈짐
+				tmp_n[v[i].y][v[i].x] += (int)(v[i].age / 2);	//해당 좌표에 여름에 추가될 영양분 모은다.
+			}
+		}
+
+		v.clear();	// 나무들 초기화
+
+		//여름
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++) {
+				nue[i][j] += tmp_n[i][j];
+				tmp_n[i][j] = 0;			//영양 주고 다시 초기화
+			}
+		}
+
+		//가을 : 나무 번식
+		while (!q.empty()) {
+			int nx = q.front().x;
+			int ny = q.front().y;
+			int nage = q.front().age;
+			q.pop();
+			v.push_back({ nx,ny,nage });
+			if (nage % 5 == 0) {	//5의 배수이면?? -> 나무 개수추가 / 나이는 1
+				for (int i = -1; i <= 1; i++) {
+					for (int j = -1; j <= 1; j++) {
+						int xx = nx + j;	int yy = ny + i;
+						if (xx >= 0 && xx < N && yy >= 0 && yy < N) {
+							if (xx == nx && yy == ny) {}
+							else {
+								cnt_tree[yy][xx]++;
+								v.push_back({ xx,yy,1 });	//나무 추가!
+							}
+						}
+					}
+				}
+			}
+		}
+		// 큐 다 비워따!!
+		//겨울
+		for (int i = 0; i < N; i++)
+			for (int j = 0; j < N; j++)
+				nue[i][j] += plus_nue[i][j];
+		K--;
+	}
+
+	for (int i = 0; i < N; i++)
+		for (int j = 0; j < N; j++)
+			ans += cnt_tree[i][j];
+
+	cout << ans;
+	return 0;
+}
