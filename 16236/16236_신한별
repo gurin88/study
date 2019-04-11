@@ -1,0 +1,119 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+struct fish {
+	int x;
+	int y;
+	int size;
+	int eat;
+	int time;
+};
+
+int N;
+int dy[] = { -1,0,1,0 };
+int dx[] = { 0,1,0,-1 };
+int arr[21][21];
+int copy_arr[21][21];
+int visit[21][21];
+
+queue <fish> povi;	//q
+vector <fish> poeat;	//v
+
+bool cmp(fish a, fish b) {
+	if (a.time <= b.time) {
+
+		if (a.time == b.time) {		//거리 같을 떄?
+			if (a.y <= b.y) {		//	-> 위에 있는거 먼저
+				if (a.y == b.y) {		//높이 같을 때?
+					if (a.x < b.x) {	//	-> 왼쪽 먼저
+						return true;
+					}
+					return false;
+				}
+				return true;
+			}
+			return false;
+		}
+		return true;
+	}
+	return false;
+}
+
+int main()
+{
+	int ans(0);
+	cin >> N;
+	fish exStat;	//상어 상태
+
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			cin >> arr[i][j];
+			if (arr[i][j] == 9) {
+				arr[i][j] = 0;
+				exStat = { j,i,2,0,0 };
+			}
+		}
+	}
+
+	while (1) {
+		poeat.clear();	//물고기 먹은 경우 
+
+		for (int i = 0; i < N; i++)
+			for (int j = 0; j < N; j++)
+				visit[i][j] = 0;
+
+		visit[exStat.y][exStat.x] = 1;	//방문!
+		povi.push(exStat);
+
+		while (!povi.empty()) {
+
+			int x = povi.front().x;
+			int y = povi.front().y;
+			int size = povi.front().size;
+			int eat = povi.front().eat;
+			int time = povi.front().time;
+			povi.pop();
+
+
+			for (int i = 0; i < 4; i++) {
+				int nx = x + dx[i];
+				int ny = y + dy[i];
+				if (nx >= 0 && nx < N && ny >= 0 && ny < N) {
+					if (!visit[ny][nx]) {
+						if (arr[ny][nx] == 0 || arr[ny][nx] == size) {	//없거나 사이즈 같은 경우
+							visit[ny][nx] = 1;
+							povi.push({ nx,ny,size,eat,time + 1 });
+						}
+
+						else if (arr[ny][nx] < size) {	//잡아 먹음
+							visit[ny][nx] = 1;
+							poeat.push_back({ nx,ny,size,eat + 1,time + 1 });
+						}
+					}
+				}
+			}
+		}
+
+		if (poeat.size() == 0) break;	//먹을 거 없으면 종료!
+
+		sort(poeat.begin(), poeat.end(), cmp);	//먹을 수 있는 물고기 정렬
+
+		//먹을 만큼 먹으면 커짐
+		if (poeat[0].size == poeat[0].eat) {
+			poeat[0].size++;
+			poeat[0].eat = 0;
+		}
+		//먹은거 삭제
+		arr[poeat[0].y][poeat[0].x] = 0;
+		ans += poeat[0].time;	//이동시간 증가
+		exStat = { poeat[0].x,poeat[0].y,poeat[0].size, poeat[0].eat,0 };
+	}
+
+	cout << ans << endl;
+
+	return 0;
+}
