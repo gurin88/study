@@ -2,15 +2,15 @@
 
 using namespace std;
 
-int N, L, ans = 0;
-int map[100][100];
-
 int main(void) 
 {
+	int N, L, ans = 0;
+	int map[100][100];
 	cin >> N >> L;
 	for (int i = 0; i < N; i++) 
 		for (int j = 0; j < N; j++)
 			cin >> map[i][j];
+			
 	for (int i = 0; i < N; i++)
 	{
 		int k;
@@ -33,12 +33,8 @@ int main(void)
 		}
 		if (cnt >= 0)
 			ans++;
-	}
-
-	for (int i = 0; i < N; i++)
-	{
-		int k;
-		int cnt = 1;
+		
+		cnt = 1;
 		for (int j = 0; j < N - 1; j++)
 		{
 			k = map[j][i] - map[j + 1][i];
