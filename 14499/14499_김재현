@@ -1,0 +1,117 @@
+#include<iostream>
+
+using namespace std;
+
+int map[20][20];
+
+int main()
+{
+	int N, M, c, r, K, order;
+	int u = 0;
+	int d = 0;
+	int n = 0;
+	int e = 0;
+	int s = 0;
+	int w = 0;
+	cin >> N >> M >> r >> c >> K;
+	for (int i = 0; i < N; i++)
+		for (int j = 0; j < M; j++)
+			cin >> map[i][j];
+	for (int i = 0; i < K; i++)
+	{
+		bool flag = false;
+		cin >> order;
+		if (order == 1)
+		{
+			if (c + 1 < M)
+			{
+				int temp = e;
+				c++;
+				e = u;
+				u = w;
+				w = d;
+				if (map[r][c] == 0)
+				{
+					map[r][c] = temp;
+					d = temp;
+				}
+				else
+				{
+					d = map[r][c];
+					map[r][c] = 0;
+				}
+				flag = true;
+			}
+		}
+		else if (order == 2)
+		{
+			if (c - 1 >= 0)
+			{
+				int temp = w;
+				c--;
+				w = u;
+				u = e;
+				e = d;
+				if (map[r][c] == 0)
+				{
+					map[r][c] = temp;
+					d = temp;
+				}
+				else
+				{
+					d = map[r][c];
+					map[r][c] = 0;
+				}
+				flag = true;
+			}
+		}
+		else if (order == 3)
+		{
+			if (r - 1 >= 0)
+			{
+				int temp = n;
+				r--;
+				n = u;
+				u = s;
+				s = d;
+
+				if (map[r][c] == 0)
+				{
+					map[r][c] = temp;
+					d = temp;
+				}
+				else
+				{
+					d = map[r][c];
+					map[r][c] = 0;
+				}
+				flag = true;
+			}
+		}
+		else if (order == 4)
+		{
+			if (r + 1 < N)
+			{
+				int temp = s;
+				r++;
+				s = u;
+				u = n;
+				n = d;
+				if (map[r][c] == 0)
+				{
+					map[r][c] = temp;
+					d = temp;
+				}
+				else
+				{
+					d = map[r][c];
+					map[r][c] = 0;
+				}
+				flag = true;
+			}
+		}
+		if (flag)
+			cout << u << endl;
+	}
+	return 0;
+}
