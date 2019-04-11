@@ -1,0 +1,87 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+/*
+N x N에서 길은 가로 세로 총 2N개
+
+길을 지나가려면 길에 속한 모든 칸의 높이가 같아야 함
+or
+높이 1의 경사로를 놓는다.
+경사로 바닥 길이 : L //바닥이 맞닿아야함
+
+*/
+int N, L;
+int arr1[100][100];
+int arr2[100][100];
+
+bool is_ok(int arr[][100],int y, int x)
+{
+	int chk = arr[y][x + 1];
+	for (int i = x + 1; i < x + 1 + L; i++) {
+		if (arr[y][i] != chk)
+			return false;
+	}
+	return true;
+}
+
+int road(int arr[][100])
+{
+	int res(0);
+	for (int i = 0; i < N; i++) {
+		bool chk = true;
+		int ex_road = 1;
+
+		for (int j = 0; j < N - 1; j++) {
+			if (arr[i][j] == arr[i][j + 1])					// 1. 높이 같음
+				ex_road++;
+
+			else if (arr[i][j] == arr[i][j + 1] + 1) {		// 2. 왼쪽이 1 높음
+				if (is_ok(arr, i, j) == true) {
+					j = j + L - 1;
+					ex_road = 0;
+				}
+				else {
+					chk = false;
+					break;
+				}
+			}
+			else if (arr[i][j] + 1 == arr[i][j + 1]) {				// 3. 오른쪽이 1 높음
+				if (ex_road >= L)
+					ex_road = 1;
+
+				else {
+					chk = false;
+					break;
+				}
+			}
+
+			else if (abs(arr[i][j] - arr[i][j + 1]) > 1) {
+				chk = false;
+				break;
+			}
+		}
+
+		if (chk == true)
+			res++;
+	}
+	return res;
+}
+
+
+int main()
+{
+	cin >> N >> L;
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			cin >> arr1[i][j];
+			arr2[j][i] = arr1[i][j];
+		}
+	}
+
+	int row = road(arr1);
+	int col = road(arr2);
+
+	cout << row + col << endl;
+
+	return 0;
+}
