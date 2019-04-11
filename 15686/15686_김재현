@@ -1,0 +1,67 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+
+using namespace std;
+
+struct pos{
+	int r;
+	int c;
+};
+vector<pos> v;  //집
+vector<pos> v2; //치킨집
+
+bool chk[13];
+int N, M;
+int ans = 987654321;
+
+void dfs(int num, int cnt)
+{
+	if (cnt == v2.size())
+	{
+		int temp = 0;
+		for (int i = 0; i < v.size(); i++)
+		{
+			int dis = 987654321;
+			for (int j = 0; j < v2.size(); j++)
+				if (chk[j])
+					if (dis > abs(v[i].r - v2[j].r) + abs(v[i].c - v2[j].c))
+						dis = abs(v[i].r - v2[j].r) + abs(v[i].c - v2[j].c);
+			temp += dis;
+		}
+		if (ans > temp)
+			ans = temp;
+	}
+
+	if (num+1 <= v2.size())
+	{
+		chk[num] = true;
+		dfs(num + 1, cnt + 1);
+
+		chk[num] = false;
+		dfs(num + 1, cnt);
+	}
+	else
+		return;
+}
+
+
+int main()
+{
+	cin >> N >> M;
+	int map[50][50];
+	for (int i = 0; i < N; i++)
+		for (int j = 0; j < N; j++)
+		{
+			cin >> map[i][j];
+			if (map[i][j] == 1)
+				v.push_back({ i,j });
+			else if (map[i][j] == 2)
+				v2.push_back({ i,j});
+		}
+
+	dfs(0, 0);
+
+	cout << ans;
+	return 0;
+}
