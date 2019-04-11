@@ -1,0 +1,93 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+/*
+빈칸/치킨집/집
+x,y 1부터 시작
+치킨 거리 : 집에서 가장 가까운 치킨집 거리 |x1-x2| + | y1- y2|
+모든 집은 치킨 거리 가진다
+도시 치킨 거리 : 치킨거리들 합
+
+수익 낼 수 있는 치킨집 수 최대 : M
+
+치킨집 최대 M개 고르고 나머지 폐업
+어떻게 고르면 치킨 거리 가장 작게?
+
+입력 : N, M
+M<=치킨집 <13
+*/
+
+struct pos {
+	int x;
+	int y;
+};
+
+int N, M, ans(1000000);
+int arr[51][51];
+int copy_arr[51][51];
+bool chk[14];
+vector<pos> h;
+vector<pos> c;
+
+
+void dfs(int cur_num, int cur_cnt)	
+{
+	if (cur_num > c.size()) 
+		return;
+
+	// M개의 치킨집이 정해지면 종료
+	if (cur_cnt == M)
+	{
+		int cmp(0);
+
+		for (int i = 0; i < h.size(); i++)
+		{
+			int dist = 1000000;
+			for (int j = 0; j < c.size(); j++)
+			{
+				if (chk[j])	//치킨집 하면?
+				{
+					int hx = h[i].x;	int hy = h[i].y;
+					int cx = c[j].x;	int cy = c[j].y;
+					int d = abs(hx - cx) + abs(hy - cy);
+					dist = min(dist, d);
+				}
+			}
+			cmp += dist;
+		}
+
+		ans = min(ans, cmp);
+
+		return;
+	}
+
+	// 현재 치킨집을 사용할 경우
+	chk[cur_num] = true;
+	dfs(cur_num + 1, cur_cnt + 1);
+	// 사용하지 않는 경우
+	chk[cur_num] = false;
+	dfs(cur_num + 1, cur_cnt);
+}
+
+int main()
+{
+	cin >> N >> M;
+	for (int i = 0; i < N ; i++) {
+		for (int j =0; j < N; j++) {
+			cin >> arr[i][j];
+			if (arr[i][j] == 1)
+				h.push_back({ j,i });
+			else if (arr[i][j] == 2)
+				c.push_back({ j,i });
+		}
+	}
+	dfs(0, 0);
+
+	cout << ans << endl;
+
+	return 0;
+
+}
