@@ -1,0 +1,99 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+/*
+처음 주사위 모두 0
+주사위 굴렸을 때 바닥이 0이면 주사위 바닥 수가 복사된다.
+바닥 0이 아닌 경우 주사위 바닥으로 복사되고 바닥은 0이 됨
+
+주사위 놓인 곳 좌표 / 이동 명령 주어졌을 때 주사위 이동마다 상단에 쓰인 값은?
+바깥 이동 x
+
+입력 : 지도 크기 N, M, x y좌표, 명령어 수 K
+지도 초기화-> 북에서 남/ 서에서 동 주사위 놓은 칸은 항상 0
+마지막 줄 이동 순서 동1 서2 북3 남4
+*/
+int N, M,x,y,K;
+int dx[] = { 0, 1,-1,0,0 };
+int dy[] = { 0, 0 ,0,-1,1 };	//동 서 북 남 순 1~4
+int arr[21][21];
+int d[4][3] = { 0 };
+vector<int> go;
+struct pos {
+	int x;
+	int y;
+};
+//동1 서2 북3 남4
+int roll(int dir,int x, int y)
+{
+	int temp;
+	switch (dir) {
+	case 1: {
+		temp = d[1][2];
+		d[1][2] = d[3][1];
+		d[3][1] = d[1][0];
+		d[1][0] = d[1][1];
+	}break;
+
+	case 2: {
+		temp = d[1][0];
+		d[1][0] = d[3][1];
+		d[3][1] = d[1][2];
+		d[1][2] = d[1][1];
+		d[1][1] = arr[y][x];
+	}break;
+	case 3: {
+		temp = d[0][1];
+		d[0][1] = d[3][1];
+		d[3][1] = d[2][1];
+		d[2][1] = d[1][1];
+		d[1][1] = arr[y][x];
+	}break;
+	case 4: {
+		temp = d[2][1];
+		d[2][1] = d[3][1];
+		d[3][1] = d[0][1];
+		d[0][1] = d[1][1];
+		d[1][1] = arr[y][x];
+	}break;
+
+	}
+	if (arr[y][x] == 0) {
+		arr[y][x] = temp;
+		d[1][1] = temp;
+	}
+	else {
+		d[1][1] = arr[y][x];
+		arr[y][x] = 0;
+	}
+
+	return d[3][1];
+}
+int main()
+{
+	int p;
+	cin >> N >> M >> y >> x >> K;
+	pos dice = { x,y };
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < M; j++) {
+			cin >> arr[i][j];
+		}
+	}
+	for (int i = 0; i < K; i++) {
+		int tmp;
+		cin >> tmp;
+		go.push_back(tmp);
+	}
+	////////////////////////////초기화
+
+	for (int i = 0; i < K; i++) {
+		int dir = go[i];
+		if ((dice.x + dx[dir] >= 0) && (dice.x + dx[dir]) < M && (dice.y + dy[dir]) >= 0 && (dice.y + dy[dir]) < N) {
+			dice.x += dx[dir];	dice.y += dy[dir];
+			p = roll(dir, dice.x, dice.y);
+			cout << p << endl;
+		}
+	}
+
+	return 0;
+}
