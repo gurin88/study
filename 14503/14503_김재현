@@ -1,0 +1,63 @@
+#include<iostream>
+
+using namespace std;
+
+int map[50][50];
+int visited[50][50];
+int N, M;
+int r, c, d;
+
+int dr[4] = {-1,0,1,0};
+int dc[4] = {0,1,0,-1};
+void dfs(int r, int c, int d, int num)
+{
+	visited[r][c] = 1;
+	bool flag = false;
+	d = (d + 3) % 4;
+	int nr = r + dr[d];
+	int nc = c + dc[d];
+	for (int i = 0; i < 4; i++)
+	{
+		int nnr = r + dr[i];
+		int nnc = c + dc[i];
+		if (nnr >= 0 && nnr < N && nnc >= 0 && nnc < M && (map[nnr][nnc] == 0) && (visited[nnr][nnc] == 0))
+				flag = true;
+	}
+	if (nr >= 0 && nr < N && nc >= 0 && nc < M && flag == true)
+		if (map[nr][nc] == 0 && visited[nr][nc] == 0)
+			dfs(nr, nc, d, num + 1);
+		else if ((map[nr][nc] == 0 && visited[nr][nc] == 1)||map[nr][nc]==1)
+			dfs(r, c, d, num);
+	else
+	{
+		int nnr = r - dr[(d + 1) % 4];
+		int nnc = c - dc[(d + 1) % 4];
+		if (flag == false)
+			if (nnr < 0 || nnr >= N || nnc < 0 || nnc >= M || map[nnr][nnc] == 1)
+			{
+				cout << num;
+				return;
+      }
+			else if(map[nnr][nnc] == 0 && visited[nnr][nnc] == 0)
+				dfs(nnr, nnc, (d + 1) % 4, num + 1);
+			else if (map[nnr][nnc] == 0 && visited[nnr][nnc] == 1)
+				dfs(nnr, nnc, (d + 1) % 4, num);
+		}
+		else
+			dfs(r, c, d, num);
+	}
+}
+
+int main()
+{
+	cin >> N >> M;
+	cin >> r >> c >> d;
+	for (int i = 0; i < N; i++)
+		for (int j = 0; j < M; j++)
+		{
+			cin >> map[i][j];
+			visited[i][j] = 0;
+		}
+	dfs(r, c, d, 1);
+	return 0;
+}
