@@ -1,0 +1,98 @@
+#include <iostream>
+
+using namespace std;
+//(r,c) ->(y,x)
+/*
+로봇 청소기 :
+1. 현재 위치 청소
+2. 현재위치에서 현재방향을 기준으로 왼쪽방향부터 탐색 (좌회전)
+(1) 왼쪽방향 청소 공간 o-> 좌회전 1번
+(2) 왼쪽방향 청소 공간 x -> 좌회전 x 2 2번 진행
+(3) 네 방향 모두 청소 공간 x -> 현재 방향 유지 (한 칸 후진) 2번
+(4) 네 방향 모두 청소 공간 x && 뒤가 벽이면 stop
+*/
+int N, M;
+int dx[] = { 0,1,0,-1 };
+int dy[] = { -1,0,1,0 };	 //상 우 하 좌
+int arr[50][50];
+struct pos {
+	int x;
+	int y;
+	int d;
+};
+pos robot;
+
+bool is_full()
+{
+	int chk(0);
+	for (int i = 0; i < 4; i++) {
+		int nx = robot.x + dx[i];	int ny = robot.y + dy[i];
+		if (!(nx >= 0 && nx < M && ny >= 0 && ny < N))	//범위 밖
+			chk++;
+		else if (arr[ny][nx] == 1 || arr[ny][nx] == 2)
+			chk++;
+	
+	}
+	if (chk == 4) return true;
+	else {
+		return false;
+	}
+}
+
+
+int main()
+{
+	int x, y, d;
+
+	cin >> N >> M;
+	cin >> y >> x >> d;
+	robot = { x,y,d };
+
+	for (int i = 0; i < N; i++)
+		for (int j = 0; j < M; j++)
+			cin >> arr[i][j];
+	
+	while (1) {
+		if (arr[robot.y][robot.x] == 0)
+			arr[robot.y][robot.x] = 2;
+
+		int ld = 0;
+
+		if (robot.d == 0)
+			ld = 3;
+		else {
+			ld = robot.d - 1;
+		}
+
+		if ((robot.y + dy[ld] >= 0 && robot.y + dy[ld] < N && robot.x + dx[ld] >= 0 && robot.x + dx[ld] < M)) {
+			if (arr[robot.y + dy[ld]][robot.x + dx[ld]] == 0) {		//범위 안이고 왼쪽 청소 가능
+				robot.x += dx[ld];	robot.y += dy[ld];	robot.d = ld;
+			}
+			else if (arr[robot.y + dy[ld]][robot.x + dx[ld]] != 0) {	//왼쪽방향 청소 공간 x
+				if (is_full()) {	//네 방향 모두 청소되있거나 벽인 경우
+					if (arr[robot.y - dy[robot.d]][robot.x - dx[robot.d]] == 1 ||
+						!(robot.y + dy[ld] >= 0 && robot.y + dy[ld] < N &&	//범위 밖이거나 
+							robot.x + dx[ld] >= 0 && robot.x + dx[ld] < M))	// 뒤가 벽인 경우
+						break;
+
+					else {
+						robot.x -= dx[robot.d];	robot.y -= dy[robot.d];	//후진
+					}
+				}
+				else 
+					robot.d = ld;
+			}
+		}
+	}
+
+	int ans(0);
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < M; j++) {
+			if (arr[i][j] == 2)
+				ans++;
+		}
+	}
+	cout << ans << endl;
+
+	return 0;
+}
