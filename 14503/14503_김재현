@@ -1,13 +1,12 @@
 #include<iostream>
-
 using namespace std;
 
 int map[50][50];
 int visited[50][50] = {0};
 int N, M, r, c, d;;
-
 int dr[4] = {-1,0,1,0};
 int dc[4] = {0,1,0,-1};
+
 void dfs(int r, int c, int d, int num)
 {
 	visited[r][c] = 1;
@@ -32,10 +31,7 @@ void dfs(int r, int c, int d, int num)
 		int nnr = r - dr[(d + 1) % 4];
 		int nnc = c - dc[(d + 1) % 4];
 		if (nnr < 0 || nnr >= N || nnc < 0 || nnc >= M || map[nnr][nnc] == 1)
-		{
-			cout << num;
-			return;
-      		}
+			cout << num; return;
 		else if(map[nnr][nnc] == 0)
 			dfs(nnr, nnc, (d + 1) % 4, num + (visited[nnr][nnc]+1)%2);
 	}
@@ -46,8 +42,7 @@ void dfs(int r, int c, int d, int num)
 
 int main()
 {
-	cin >> N >> M;
-	cin >> r >> c >> d;
+	cin >> N >> M >> r >> c >> d;
 	for (int i = 0; i < N; i++)
 		for (int j = 0; j < M; j++)
 			cin >> map[i][j];
