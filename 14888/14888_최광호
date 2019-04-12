@@ -1,0 +1,73 @@
+#include <iostream>
+using namespace std;
+
+int N;                      // 수열 요소의 갯수
+int map[11] = { 0 };        // 수열
+int operator01[4] = { 0 };  // 각 연산자의 갯수
+long output01 = -1000000000;           // 출력할 최댓값
+long output02 = 1000000000;  // 출력할 최솟값
+int b[4] = { 0 };           // 현재 사용한 연산자 갯수
+
+// 현재 연산자 종류, 재귀횟수, 현재연산값
+void function01(int a, int num, long sum)
+{
+	if (a == 0)
+		sum += map[num];
+	else if (a == 1)
+		sum -= map[num];
+	else if (a == 2)
+		sum *= map[num];
+	else 
+	{
+		if (sum<0)
+		{
+			//cout << "연산전 : " << sum << " " << map[num] << "\n";
+			sum = 0 - sum;
+			sum = sum/map[num];
+			sum = 0 - sum;
+			//cout << "연산후 : " << sum << "\n";
+		}
+		else
+		{
+			//cout << "연산 전 : "<<sum << " " << map[num]  << "\n";
+			sum /= map[num];
+			//cout << "연산 후 : " << sum << "\n";
+		}
+	}		
+	// 연산자를 모두 쓰면 크기 비교 및 최신화
+	if (num == N - 1)
+	{		
+		//cout << "최댓값 : " << output01 << " 최솟값 : " << output02 << "\n";
+		if (sum>output01)
+			output01 = sum;
+		if (output02>sum)
+			output02 = sum;		
+	}
+	// 4가지 연산자에 대해 각각 재귀
+	for (int f = 0; f < 4 ; f++)
+		if ( b[f] + 1 <= operator01[f] )
+		{
+			b[f] += 1;
+			function01(f, num + 1, sum);
+			b[f] -= 1;
+		}	
+}
+
+int main()
+{
+	std::cin >> N;
+	for (int a = 0 ; a < N ; a++)
+		std::cin >> map[a];
+	for (int a = 0; a < 4; a++)
+		std::cin >> operator01[a];
+
+	for (int a = 0; a < 4; a++)
+		if (b[a] + 1 <= operator01[a])
+		{
+			b[a] += 1;
+			function01(a, 1, map[0]);
+			b[a] -= 1;
+		}		
+	
+	cout << output01 << endl << output02;
+}
