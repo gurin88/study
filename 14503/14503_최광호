@@ -1,0 +1,106 @@
+#include <iostream>
+using namespace std;
+
+int N, M;
+int x, y, d;            // 현재 좌표, 현재 좌표, 현재 방향(0: 북쪽, 1: 동쪽, 2: 남쪽, 3: 서쪽)
+int dir[4][2] = { {-1,0}, {0,1},{1,0},{0,-1} };  
+int map[50][50] = {0};  // 빈칸은 0, 벽은 1
+int visitmap[50][50] = { 0 }; // 청소 여부  0: 미실시, 1: 실시
+int output = 1;         // 청소하는 현재위치
+
+// 입력한 방향의 왼쪽 방향값 리턴
+int left_d()
+{
+	if (d == 0)
+		return 3;
+	else
+		return d - 1;	
+}
+// 입력한 방향의 반대 방향값 리턴
+int beh_d()
+{
+	if (d == 0)
+		return 2;
+	else if(d == 1)
+		return 3;
+	else 
+		return d - 2;
+}
+// 현재 위치의 왼쪽 자리 청소 여부 확인 함수
+bool check_d()
+{
+	int dd = 0; // 현재 왼쪽 방향값
+	dd = left_d();
+	// 청소를 했으면 false 리턴
+	if (visitmap[x + dir[dd][0]][y + dir[dd][1]] == 1)
+		return false;
+	else  // 안했으면 true 리턴
+		return true;
+}
+int main()
+{
+	cin >> N >> M;
+	cin >> x >> y >> d;
+	for (int a = 0; a < N; a++)
+		for (int b = 0; b < M; b++)
+		{
+			cin >> map[a][b];
+			if (map[a][b] == 1)
+				visitmap[a][b] = 1;
+		}
+	// 시작 위치 청소 실시
+	visitmap[x][y] = 1;
+
+	while (1)
+	{
+		int forcheck = 0;
+		// 4방향에 대해 확인
+		for (int a = 0 ; a < 4 ; a++)
+		{
+			
+			// 왼쪽 방향확인
+			int e = left_d();
+			if ( check_d() )       // 청소 여부가 없음
+			{
+				// 왼쪽으로 회전하고 
+				d = e;
+				// 이동 가능하면 1칸 전진해서 
+				if (0 <= x + dir[d][0] && x + dir[d][0] < N)
+					x += dir[d][0];
+				if (0 <= y + dir[d][1] && y + dir[d][1] < M)
+					y += dir[d][1];				
+				
+				// 청소
+				visitmap[x][y] = 1;
+				output++;
+				break;
+			}
+			else              // 청소가 되있는 경우
+			{
+				d = e;
+				forcheck += 1;
+				
+			}
+		}
+		if (forcheck == 4)
+		{
+			int f; // 반대 방향
+			f = beh_d();
+			// 2-3 모든 방향이 청소되있거나 벽인데 뒤가 벽이 아닌경우
+			if (map[x+dir[f][0]][y + dir[f][1]] == 0)
+			{
+				// 방향 유지하고 뒤로 한칸 이동
+				x += dir[f][0];
+				y += dir[f][1];
+				
+			}
+			else // 2-4 모든 방향이 청소되있거나 벽인데 뒤가 벽인 경우 
+			{
+				break;
+			}			
+		}
+	}
+
+
+	cout << output;
+}
